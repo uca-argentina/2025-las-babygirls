@@ -1,3 +1,4 @@
+
 Class {
 	#name : 'DieTest',
 	#superclass : 'TestCase',
