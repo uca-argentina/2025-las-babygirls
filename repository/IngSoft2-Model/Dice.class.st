@@ -12,13 +12,15 @@ Class {
 }
 
 { #category : 'initialization' }
-Dice >> initializeWithSides: aNumber [ 
-	aNumber < 2 ifTrue: [Error signal: 'The sides of the dice must be at least 2'].
-	sides := aNumber.
+Dice >> initializeWithSides: aNumber [
+
+	aNumber < 2 ifTrue: [
+		Error signal: 'The sides of the dice must be at least 2' ].
+	sides := aNumber
 ]
 
 { #category : 'behavior' }
 Dice >> roll [
-    ^ (1 to: sides) atRandom
 
+	^ (1 to: sides) atRandom
 ]

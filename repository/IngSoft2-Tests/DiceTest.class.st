@@ -7,13 +7,15 @@ Class {
 
 { #category : 'tests' }
 DiceTest >> testDummy [
-    | aDice errorMessage |
-    errorMessage := 'The sides of the dice must be at least 2'.
 
-    self
-        should: [ aDice := Dice new initializeWithSides: -1 ]
-        raise: Error
-        withExceptionDo: [ :error | self assert: error messageText = errorMessage ].
+	| aDice errorMessage |
+	errorMessage := 'The sides of the dice must be at least 2'.
+
+	self
+		should: [ aDice := Dice new initializeWithSides: -1 ]
+		raise: Error
+		withExceptionDo: [ :error |
+		self assert: error messageText = errorMessage ]
 ]
 
 { #category : 'tests' }
@@ -27,11 +29,13 @@ DiceTest >> testWhenADiceRollsTheValueIsCorrect [
 
 { #category : 'tests' }
 DiceTest >> testWhenDiceSidesNegativeThenFail [
-    | aDice errorMessage |
-    errorMessage := 'The sides of the dice must be at least 2'.
 
-    self
-        should: [ aDice := Dice new initializeWithSides: -1 ]
-        raise: Error
-        withExceptionDo: [ :error | self assert: error messageText = errorMessage ].
+	| aDice errorMessage |
+	errorMessage := 'The sides of the dice must be at least 2'.
+
+	self
+		should: [ aDice := Dice new initializeWithSides: -1 ]
+		raise: Error
+		withExceptionDo: [ :error |
+		self assert: error messageText = errorMessage ]
 ]

@@ -13,10 +13,15 @@ Class {
 
 { #category : 'accessing - arguments' }
 Board >> getNumberOfSquares [
-	^ numberOfSquares .
+
+	^ numberOfSquares
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: aNumbberOfSquares [ 
-	numberOfSquares := aNumbberOfSquares.
+Board >> initializeWith: aNumbberOfSquares [
+
+	aNumbberOfSquares < 5 ifTrue: [
+		Error signal: 'The board must have at least 5 Squares.' ].
+
+	numberOfSquares := aNumbberOfSquares
 ]
