@@ -5,6 +5,17 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+DiceTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [ :error |
+			self assert: (error messageText) equals:
+				errorMessage ]
+]
+
 { #category : 'tests' }
 DiceTest >> testDummy [
 
@@ -30,12 +41,10 @@ DiceTest >> testWhenADiceRollsTheValueIsCorrect [
 { #category : 'tests' }
 DiceTest >> testWhenDiceSidesNegativeThenFail [
 
-	| aDice errorMessage |
-	errorMessage := 'The sides of the dice must be at least 2'.
+	| aDice |
 
 	self
 		should: [ aDice := Dice new initializeWithSides: -1 ]
 		raise: Error
-		withExceptionDo: [ :error |
-		self assert: error messageText = errorMessage ]
+		withMessageText: 'The sides of the dice must be at least 2'.
 ]
