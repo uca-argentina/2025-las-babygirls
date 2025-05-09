@@ -16,11 +16,15 @@ DieTest >> testWhenADiceRollsTheValueIsCorrect [
 
 { #category : 'tests' }
 DieTest >> testWhenDiceSidesNegativeThenFail [
-    | aDice errorMessage |
-    errorMessage := 'The sides of the dice must be at least 2'.
 
-    self
-        should: [ aDice := Die withSides: -1 ]
-        raise: Error
-        withExceptionDo: [ :error | self assert: error messageText = errorMessage ].
+
+	| aDice errorMessage |
+	errorMessage := 'The sides of the dice must be at least 2'.
+
+	self
+		should: [ aDice := Die withSides: -1 ]
+		raise: Error
+		withExceptionDo: [ :error |
+		self assert: error messageText = errorMessage ]
+
 ]

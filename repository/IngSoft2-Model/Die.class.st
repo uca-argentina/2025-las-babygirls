@@ -13,18 +13,20 @@ Class {
 
 { #category : 'as yet unclassified' }
 Die class >> withSides: aSides [ 
-		aSides < 2 ifTrue: [Error signal: 'The sides of the dice must be at least 2'].
-	^ self new initializeWithSides: aSides.
+
+	aSides < 2 ifTrue: [
+	Error signal: 'The sides of the dice must be at least 2' ].
+	^self new initializeWithSides: aSides.
 ]
 
 { #category : 'initialization' }
-Die >> initializeWithSides: aNumber [ 
-	
-	sides := aNumber.
+Die >> initializeWithSides: aNumber [
+	sides := aNumber
+
 ]
 
 { #category : 'behavior' }
 Die >> roll [
-    ^ (1 to: sides) atRandom
 
+	^ (1 to: sides) atRandom
 ]
