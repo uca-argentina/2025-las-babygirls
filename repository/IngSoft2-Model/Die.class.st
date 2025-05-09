@@ -1,3 +1,4 @@
+
 "
 Dado con el que se jugará al juego.
 "
@@ -11,18 +12,18 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Die class >> withSides: aSides [ 
+{ #category : 'initialization' }
+Die class >> withSides: aNumber [
 
-	aSides < 2 ifTrue: [
-	Error signal: 'The sides of the dice must be at least 2' ].
-	^self new initializeWithSides: aSides.
+	aNumber < 2 ifTrue: [
+		Error signal: 'The sides of the dice must be at least 2' ].
+	^ self new initializzeWithSize: aNumber.
 ]
 
-{ #category : 'initialization' }
-Die >> initializeWithSides: aNumber [
-	sides := aNumber
+{ #category : 'initialize' }
+Die >> initializzeWithSize: aNumber [
 
+sides := aNumber.
 ]
 
 { #category : 'behavior' }
