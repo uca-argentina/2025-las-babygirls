@@ -17,6 +17,12 @@ Competitor >> initialize [
 	myPosition := 0
 ]
 
+{ #category : 'modifier state' }
+Competitor >> moveXSquaresAhead: aNuumberOfSquares [
+
+	myPosition := myPosition + aNuumberOfSquares
+]
+
 { #category : 'accessing - attributes' }
 Competitor >> showYourPosition [
 
