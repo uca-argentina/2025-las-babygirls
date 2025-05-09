@@ -2,7 +2,7 @@
 Dado con el que se jugará al juego.
 "
 Class {
-	#name : 'Dice',
+	#name : 'Die',
 	#superclass : 'Object',
 	#instVars : [
 		'sides'
@@ -12,15 +12,21 @@ Class {
 }
 
 { #category : 'initialization' }
-Dice >> initializeWithSides: aNumber [
+Die class >> withSides: aNumber [
 
 	aNumber < 2 ifTrue: [
 		Error signal: 'The sides of the dice must be at least 2' ].
-	sides := aNumber
+	^ self new initializzeWithSize: aNumber
+]
+
+{ #category : 'initialize' }
+Die >> initializzeWithSize: aNumber [
+
+sides := aNumber.
 ]
 
 { #category : 'behavior' }
-Dice >> roll [
+Die >> roll [
 
 	^ (1 to: sides) atRandom
 ]

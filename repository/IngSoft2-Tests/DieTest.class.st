@@ -1,12 +1,12 @@
 Class {
-	#name : 'DiceTest',
+	#name : 'DieTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'asserting' }
-DiceTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+DieTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
 
 	self
 		should: anErrorBlock
@@ -17,34 +17,33 @@ DiceTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-DiceTest >> testDummy [
+DieTest >> testDummy [
 
 	| aDice errorMessage |
 	errorMessage := 'The sides of the dice must be at least 2'.
 
 	self
-		should: [ aDice := Dice new initializeWithSides: -1 ]
+		should: [ aDice := Die withSides: -1 ]
 		raise: Error
-		withExceptionDo: [ :error |
-		self assert: error messageText = errorMessage ]
+		withMessageText: 'The sides of the dice must be at least 2'.
 ]
 
 { #category : 'tests' }
-DiceTest >> testWhenADiceRollsTheValueIsCorrect [
+DieTest >> testWhenADiceRollsTheValueIsCorrect [
 
-	| aDice aNumber |
+	| aDie aNumber |
 	aNumber := 6.
-	aDice := Dice new initializeWithSides: aNumber.
-	self assert: (aDice roll > 0 and: aDice roll < (aNumber + 1)).
+	aDie := Die withSides: aNumber.
+	self assert: (aDie roll > 0 and: aDie roll < (aNumber + 1)).
 ]
 
 { #category : 'tests' }
-DiceTest >> testWhenDiceSidesNegativeThenFail [
+DieTest >> testWhenDiceSidesNegativeThenFail [
 
-	| aDice |
+	| aDie |
 
 	self
-		should: [ aDice := Dice new initializeWithSides: -1 ]
+		should: [ aDie := Die withSides: -1 ]
 		raise: Error
 		withMessageText: 'The sides of the dice must be at least 2'.
 ]
