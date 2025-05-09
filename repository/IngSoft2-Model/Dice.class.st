@@ -13,6 +13,7 @@ Class {
 
 { #category : 'initialization' }
 Dice >> initializeWithSides: aNumber [ 
+	aNumber < 2 ifTrue: [Error signal: 'The sides of the dice must be at least 2'].
 	sides := aNumber.
 ]
 
