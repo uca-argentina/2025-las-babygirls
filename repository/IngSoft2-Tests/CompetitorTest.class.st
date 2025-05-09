@@ -9,11 +9,22 @@ Class {
 CompetitorTest >> testDummy [
 
 	| aCompetitor aNumber |
-	aNumber := 3.
+	aNumber := 7.
 	aCompetitor := Competitor new.
-	aCompetitor moveXSquaresAhead: aNumber.
+	aCompetitor setPosition: aNumber.
 
-	self assert: aCompetitor showYourPosition equals: 3
+	self assert: aCompetitor showYourPosition equals: 7
+]
+
+{ #category : 'tests' }
+CompetitorTest >> testWhenACompetitorItsMovedToASpecificSquareItChangesItsPosition [
+
+	| aCompetitor aNumber |
+	aNumber := 7.
+	aCompetitor := Competitor new.
+	aCompetitor setPosition: aNumber.
+
+	self assert: aCompetitor showYourPosition equals: 7
 ]
 
 { #category : 'tests' }

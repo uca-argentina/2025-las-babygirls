@@ -23,6 +23,12 @@ Competitor >> moveXSquaresAhead: aNuumberOfSquares [
 	myPosition := myPosition + aNuumberOfSquares
 ]
 
+{ #category : 'initialization' }
+Competitor >> setPosition: aSquare [
+
+	myPosition := aSquare
+]
+
 { #category : 'accessing - attributes' }
 Competitor >> showYourPosition [
 
