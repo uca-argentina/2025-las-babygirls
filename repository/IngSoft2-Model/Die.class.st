@@ -22,6 +22,7 @@ Die class >> withSides: aSides [
 { #category : 'initialization' }
 Die >> initializeWithSides: aNumber [
 	sides := aNumber
+
 ]
 
 { #category : 'behavior' }
