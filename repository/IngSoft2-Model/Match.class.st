@@ -26,8 +26,14 @@ Match >> addDie: aNumberOfSquares [
 ]
 
 { #category : 'behavior' }
-Match >> checkIfWins: aPlayer [ 
-	(theBoard wins: (aPlayer showYourPosition) ) ifTrue: [ theWinner := aPlayer ]
+Match >> checkIfWins: aPlayer [
+
+	| thereIsAWinner |
+	thereIsAWinner := false.
+	(theBoard wins: aPlayer showYourPosition) ifTrue: [
+		theWinner := aPlayer.
+		thereIsAWinner := true ].
+	^thereIsAWinner.
 ]
 
 { #category : 'getter' }
@@ -75,7 +81,7 @@ Match >> playTurn: aPlayer [
 		| aNumber |
 		aNumber := self rollTheDice.
 		aPlayer moveXSquaresAhead: aNumber.
-		self checkIfWins: aPlayer
+		^self checkIfWins: aPlayer
 		
 ]
 
