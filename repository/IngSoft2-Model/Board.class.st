@@ -25,3 +25,12 @@ Board >> initializeWith: aNumbberOfSquares [
 
 	numberOfSquares := aNumbberOfSquares
 ]
+
+{ #category : 'behavior' }
+Board >> wins: aSquare [
+
+	| mesagge |
+	mesagge := false.
+	((aSquare = numberOfSquares) or: (aSquare > numberOfSquares)) ifTrue: [ mesagge := true ].
+	^ mesagge
+]

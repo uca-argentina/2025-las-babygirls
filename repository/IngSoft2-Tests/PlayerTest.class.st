@@ -1,12 +1,12 @@
 Class {
-	#name : 'CompetitorTest',
+	#name : 'PlayerTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-CompetitorTest >> testDummy [
+PlayerTest >> testDummy [
 
 	| aCompetitor aNumber |
 	aNumber := 7.
@@ -17,7 +17,7 @@ CompetitorTest >> testDummy [
 ]
 
 { #category : 'tests' }
-CompetitorTest >> testWhenACompetitorItsMovedToASpecificSquareItChangesItsPosition [
+PlayerTest >> testWhenAPlayerItsMovedToASpecificSquareItChangesItsPosition [
 
 	| aCompetitor aNumber |
 	aNumber := 7.
@@ -28,7 +28,7 @@ CompetitorTest >> testWhenACompetitorItsMovedToASpecificSquareItChangesItsPositi
 ]
 
 { #category : 'tests' }
-CompetitorTest >> testWhenCompetitorAdvancesChangesItsPosition [
+PlayerTest >> testWhenPlayerAdvancesChangesItsPosition [
 
 	| aCompetitor aNumber |
 	aNumber := 3.
@@ -39,7 +39,7 @@ CompetitorTest >> testWhenCompetitorAdvancesChangesItsPosition [
 ]
 
 { #category : 'tests' }
-CompetitorTest >> testWhenCompetitorCreatedItPositionIs0 [
+PlayerTest >> testWhenPlayerCreatedItPositionIs0 [
 
 	| aCompetitor |
 	aCompetitor := Player new.
