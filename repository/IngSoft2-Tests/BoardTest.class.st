@@ -1,4 +1,3 @@
-
 Class {
 	#name : 'BoardTest',
 	#superclass : 'TestCase',

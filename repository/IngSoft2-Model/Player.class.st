@@ -2,7 +2,7 @@
 Represents a player
 "
 Class {
-	#name : 'Competitor',
+	#name : 'Player',
 	#superclass : 'Object',
 	#instVars : [
 		'myPosition'
@@ -12,25 +12,25 @@ Class {
 }
 
 { #category : 'initialization' }
-Competitor >> initialize [
+Player >> initialize [
 
 	myPosition := 0
 ]
 
 { #category : 'modifier state' }
-Competitor >> moveXSquaresAhead: aNuumberOfSquares [
+Player >> moveXSquaresAhead: aNuumberOfSquares [
 
 	myPosition := myPosition + aNuumberOfSquares
 ]
 
 { #category : 'initialization' }
-Competitor >> setPosition: aSquare [
+Player >> setPosition: aSquare [
 
 	myPosition := aSquare
 ]
 
 { #category : 'accessing - attributes' }
-Competitor >> showYourPosition [
+Player >> showYourPosition [
 
 	^ myPosition
 ]
