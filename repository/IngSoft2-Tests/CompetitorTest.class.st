@@ -10,7 +10,7 @@ CompetitorTest >> testDummy [
 
 	| aCompetitor aNumber |
 	aNumber := 7.
-	aCompetitor := Competitor new.
+	aCompetitor := Player new.
 	aCompetitor setPosition: aNumber.
 
 	self assert: aCompetitor showYourPosition equals: 7
@@ -21,7 +21,7 @@ CompetitorTest >> testWhenACompetitorItsMovedToASpecificSquareItChangesItsPositi
 
 	| aCompetitor aNumber |
 	aNumber := 7.
-	aCompetitor := Competitor new.
+	aCompetitor := Player new.
 	aCompetitor setPosition: aNumber.
 
 	self assert: aCompetitor showYourPosition equals: 7
@@ -32,7 +32,7 @@ CompetitorTest >> testWhenCompetitorAdvancesChangesItsPosition [
 
 	| aCompetitor aNumber |
 	aNumber := 3.
-	aCompetitor := Competitor new.
+	aCompetitor := Player new.
 	aCompetitor moveXSquaresAhead: aNumber.
 
 	self assert: aCompetitor showYourPosition equals: 3
@@ -42,7 +42,7 @@ CompetitorTest >> testWhenCompetitorAdvancesChangesItsPosition [
 CompetitorTest >> testWhenCompetitorCreatedItPositionIs0 [
 
 	| aCompetitor |
-	aCompetitor := Competitor new.
+	aCompetitor := Player new.
 
 	self assert: aCompetitor showYourPosition equals: 0
 ]

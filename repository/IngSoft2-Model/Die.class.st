@@ -1,4 +1,3 @@
-
 "
 Dado con el que se jugará al juego.
 "
