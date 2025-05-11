@@ -18,6 +18,7 @@ Class {
 { #category : 'initialization' }
 Match class >> with: aNumberOfPlayers and: aNumberofSquares andWormhole: aWormhole [
 
+	(aNumberofSquares < aWormhole final or: aNumberofSquares < aWormhole inicio) ifTrue:[Error signal: 'The wormhole have to be inside of the board size'.].
 ^self new initializeWith: aNumberOfPlayers and: aNumberofSquares  andWormhole: aWormhole.
 ]
 
@@ -82,8 +83,11 @@ Match >> playRound [
 Match >> playTurn: aPlayer [ 
 		| aNumber |
 		aNumber := self rollTheDice.
-		(aPlayer showYourPosition = wormhole inicio) ifTrue: [ aPlayer setPosition: wormhole final ]
-		ifFalse:[aPlayer moveXSquaresAhead: aNumber].
+		(aPlayer showYourPosition = wormhole inicio) 
+		ifTrue: [ aPlayer setPosition: wormhole final ]
+		ifFalse:[ (aPlayer showYourPosition = wormhole final)
+			 	ifTrue: [ aPlayer setPosition: wormhole inicio] 
+				ifFalse:[ aPlayer moveXSquaresAhead: aNumber]].
 		
 		^self checkIfWins: aPlayer
 		
