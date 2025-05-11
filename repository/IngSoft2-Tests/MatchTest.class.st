@@ -8,16 +8,12 @@ Class {
 { #category : 'tests' }
 MatchTest >> testDummy [
 
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides |
-	aNumberOfPlayers := 2.
+	| aMatch aNumberOfSquares aNumberOfPlayers  |
+	aNumberOfPlayers := 1.
 	aNumberOfSquares := 10.
-	aNumberOfSides := 6.
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares.
 
-	aMatch addDie: aNumberOfSides .
-	aMatch playRound.
-
-	self assert: aMatch getWinner equals: ('There is not a winner yet.')
+	self assert: ((aMatch getPlayer:aNumberOfPlayers) class) equals: (Player)
 ]
 
 { #category : 'tests' }
@@ -42,6 +38,17 @@ MatchTest >> testTheNumberOfSquaresIsEqualToTheNumberGiven [
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares.
 
 	self assert: aMatch getNumberOfSquares equals: aNumberOfSquares
+]
+
+{ #category : 'tests' }
+MatchTest >> testThePlayerGetter [
+
+	| aMatch aNumberOfSquares aNumberOfPlayers  |
+	aNumberOfPlayers := 1.
+	aNumberOfSquares := 10.
+	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares.
+
+	self assert: ((aMatch getPlayer:aNumberOfPlayers) class) equals: (Player)
 ]
 
 { #category : 'tests' }

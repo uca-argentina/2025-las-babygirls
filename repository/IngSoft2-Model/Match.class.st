@@ -65,11 +65,9 @@ Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares [
 { #category : 'behavior' }
 Match >> playRound [
 
-    players do: [:aPlayer |
-        self playTurn: aPlayer.
-        (self checkIfWins: aPlayer) ifTrue: [ ^self ]  "detiene el bucle"
-    ].
-
+	players do: [ :aPlayer |
+		self playTurn: aPlayer.
+		(self checkIfWins: aPlayer) ifTrue: [ ^ self ] ]
 ]
 
 { #category : 'behavior' }
