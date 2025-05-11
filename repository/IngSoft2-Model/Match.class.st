@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'players',
 		'theBoard',
-		'theDice'
+		'theDice',
+		'theWinner'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -24,22 +25,60 @@ Match >> addDie: aNumberOfSquares [
 	theDice add: (Die withSides: aNumberOfSquares).
 ]
 
+{ #category : 'behavior' }
+Match >> checkIfWins: aPlayer [ 
+	(theBoard wins: (aPlayer showYourPosition) ) ifTrue: [ theWinner := aPlayer ]
+]
+
 { #category : 'getter' }
 Match >> getNumberOfPlayers [
 	^players size. 
 ]
 
-{ #category : 'accessing - arguments' }
+{ #category : 'getter' }
 Match >> getNumberOfSquares [
 	^theBoard getNumberOfSquares.
 ]
 
+{ #category : 'getter' }
+Match >> getPlayer: aNumber [
+
+	^ players at: aNumber
+]
+
+{ #category : 'getter' }
+Match >> getWinner [
+
+	^ theWinner
+]
+
 { #category : 'initialization' }
 Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares [
+
+	theWinner:= 'There is not a winner yet.'.
 	theDice := OrderedCollection new.
 	players := OrderedCollection new.
 	1 to: aNumberOfPlayers do: [ :i | players add: Player new ].
 	theBoard := Board new initializeWith: aNumberofSquares
+]
+
+{ #category : 'behavior' }
+Match >> playRound [
+
+    players do: [:aPlayer |
+        self playTurn: aPlayer.
+        (self checkIfWins: aPlayer) ifTrue: [ ^self ]  "detiene el bucle"
+    ].
+
+]
+
+{ #category : 'behavior' }
+Match >> playTurn: aPlayer [ 
+		| aNumber |
+		aNumber := self rollTheDice.
+		aPlayer moveXSquaresAhead: aNumber.
+		self checkIfWins: aPlayer
+		
 ]
 
 { #category : 'behavior' }
