@@ -1,3 +1,4 @@
+
 Class {
 	#name : 'BoardTest',
 	#superclass : 'TestCase',
@@ -5,7 +6,7 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'asserting' }
+{ #category : 'tests' }
 BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
 
 	self
