@@ -1,4 +1,3 @@
-
 "
 In charge of knowing how the game evolves.
 "
@@ -9,18 +8,16 @@ Class {
 		'players',
 		'theBoard',
 		'theDice',
-		'theWinner',
-		'wormhole'
+		'theWinner'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'initialization' }
-Match class >> with: aNumberOfPlayers and: aNumberofSquares andWormhole: aWormhole [
+Match class >> with: aNumberOfPlayers and: aNumberofSquares [
 
-	(aNumberofSquares < aWormhole final or: aNumberofSquares < aWormhole inicio) ifTrue:[Error signal: 'The wormhole have to be inside of the board size'.].
-^self new initializeWith: aNumberOfPlayers and: aNumberofSquares  andWormhole: aWormhole.
+^self new initializeWith: aNumberOfPlayers and: aNumberofSquares 
 ]
 
 { #category : 'adding' }
@@ -62,12 +59,11 @@ Match >> getWinner [
 ]
 
 { #category : 'initialization' }
-Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares andWormhole: aWormhole [
+Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares [
 
 	theWinner:= 'There is not a winner yet.'.
 	theDice := OrderedCollection new.
 	players := OrderedCollection new.
-	wormhole := aWormhole.
 	1 to: aNumberOfPlayers do: [ :i | players add: Player new ].
 	theBoard := Board new initializeWith: aNumberofSquares
 ]
@@ -84,12 +80,7 @@ Match >> playRound [
 Match >> playTurn: aPlayer [ 
 		| aNumber |
 		aNumber := self rollTheDice.
-		(aPlayer showYourPosition = wormhole inicio) 
-		ifTrue: [ aPlayer setPosition: wormhole final ]
-		ifFalse:[ (aPlayer showYourPosition = wormhole final)
-			 	ifTrue: [ aPlayer setPosition: wormhole inicio] 
-				ifFalse:[ aPlayer moveXSquaresAhead: aNumber]].
-		
+		aPlayer moveXSquaresAhead: aNumber.
 		^self checkIfWins: aPlayer
 		
 ]
