@@ -15,9 +15,9 @@ Class {
 }
 
 { #category : 'initialization' }
-Match class >> with: aNumberOfPlayers and: aNumberofSquares [
+Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
 
-^self new initializeWith: aNumberOfPlayers and: aNumberofSquares 
+^self new initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice.
 ]
 
 { #category : 'adding' }
@@ -59,10 +59,10 @@ Match >> getWinner [
 ]
 
 { #category : 'initialization' }
-Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares [
+Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice [
 
-	theWinner:= 'There is not a winner yet.'.
-	theDice := OrderedCollection new.
+	theWinner:= false.
+	theDice := dice.
 	players := OrderedCollection new.
 	1 to: aNumberOfPlayers do: [ :i | players add: Player new ].
 	theBoard := Board new initializeWith: aNumberofSquares
