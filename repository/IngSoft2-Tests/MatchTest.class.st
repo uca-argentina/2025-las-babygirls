@@ -53,7 +53,7 @@ MatchTest >> testTheNumberOfSquaresIsEqualToTheNumberGiven [
 	
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
 
-	self assert: aMatch getNumberOfSquares equals: aNumberOfSquares
+	self assert: aMatch numberOfSquares equals: aNumberOfSquares
 ]
 
 { #category : 'tests' }
@@ -123,7 +123,7 @@ MatchTest >> testWhenNobodyHasWonItShowsNoWinner [
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
 	aMatch playRound.
 
-	self assert: aMatch getWinner equals: (false)
+	self assert: aMatch winner equals: (false)
 ]
 
 { #category : 'tests' }
@@ -141,5 +141,5 @@ MatchTest >> testWhenPlayer1WinsItReturnPlayer1 [
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
 	aMatch playRound.
 
-	self assert: aMatch getWinner equals: (aMatch getPlayer: 1)
+	self assert: aMatch winner equals: (aMatch getPlayer: 1)
 ]

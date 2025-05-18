@@ -18,7 +18,7 @@ Player >> initialize [
 ]
 
 { #category : 'modifier state' }
-Player >> moveXSquaresAhead: aNuumberOfSquares [
+Player >> moveAhead: aNuumberOfSquares [
 
 	myPosition := myPosition + aNuumberOfSquares
 ]

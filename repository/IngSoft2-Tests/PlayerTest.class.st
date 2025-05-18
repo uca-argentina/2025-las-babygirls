@@ -33,7 +33,7 @@ PlayerTest >> testWhenPlayerAdvancesChangesItsPosition [
 	| aCompetitor aNumber |
 	aNumber := 3.
 	aCompetitor := Player new.
-	aCompetitor moveXSquaresAhead: aNumber.
+	aCompetitor moveAhead: aNumber.
 
 	self assert: aCompetitor showYourPosition equals: 3
 ]
