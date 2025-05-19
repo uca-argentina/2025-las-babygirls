@@ -8,21 +8,27 @@ Class {
 		'players',
 		'theBoard',
 		'theDice',
-		'theWinner'
+		'theWinner',
+		'nextTurn'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'initialization' }
-Match class >> with: aNumberOfPlayers and: aNumberofSquares [
+Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
 
-^self new initializeWith: aNumberOfPlayers and: aNumberofSquares 
+^self new initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice.
 ]
 
-{ #category : 'adding' }
-Match >> addDie: aNumberOfSquares [ 
-	theDice add: (Die withSides: aNumberOfSquares).
+{ #category : 'behavior' }
+Match >> changeNextTurnPlayer [
+
+| nextPlayer index size |
+index := players indexOf: nextTurn .
+size := players size.
+nextPlayer := players at: (index = size ifTrue: [1] ifFalse: [index + 1]).
+
 ]
 
 { #category : 'behavior' }
@@ -36,53 +42,50 @@ Match >> checkIfWins: aPlayer [
 	^thereIsAWinner.
 ]
 
-{ #category : 'getter' }
+{ #category : 'test methods' }
 Match >> getNumberOfPlayers [
 	^players size. 
 ]
 
-{ #category : 'getter' }
-Match >> getNumberOfSquares [
-	^theBoard getNumberOfSquares.
-]
-
-{ #category : 'getter' }
+{ #category : 'test methods' }
 Match >> getPlayer: aNumber [
 
 	^ players at: aNumber
 ]
 
-{ #category : 'getter' }
-Match >> getWinner [
-
-	^ theWinner
-]
-
 { #category : 'initialization' }
-Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares [
+Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice [
 
-	theWinner:= 'There is not a winner yet.'.
-	theDice := OrderedCollection new.
+	theWinner:= false.
+	theDice := dice.
 	players := OrderedCollection new.
 	1 to: aNumberOfPlayers do: [ :i | players add: Player new ].
-	theBoard := Board new initializeWith: aNumberofSquares
+	theBoard := Board new initializeWith: aNumberofSquares.
+	nextTurn := players first.
+]
+
+{ #category : 'test methods' }
+Match >> numberOfSquares [
+	^theBoard numberOfSquares.
 ]
 
 { #category : 'behavior' }
 Match >> playRound [
 
 	players do: [ :aPlayer |
-		self playTurn: aPlayer.
-		(self checkIfWins: aPlayer) ifTrue: [ ^ self ] ]
+		(self winner = aPlayer) ifFalse: [ self playTurn: aPlayer ] ]
 ]
 
 { #category : 'behavior' }
-Match >> playTurn: aPlayer [ 
-		| aNumber |
-		aNumber := self rollTheDice.
-		aPlayer moveXSquaresAhead: aNumber.
-		^self checkIfWins: aPlayer
-		
+Match >> playTurn: aPlayer [
+
+	| aNumber |
+	aPlayer == nextTurn ifFalse: [ ^ self ].
+	aNumber := self rollTheDice.
+	aPlayer moveAhead: aNumber.
+	self changeNextTurnPlayer.
+
+	^ self checkIfWins: aPlayer
 ]
 
 { #category : 'behavior' }
@@ -92,4 +95,10 @@ Match >> rollTheDice [
 	total := 0.
 	theDice do: [ :die | total := total + die roll ].
 	^total
+]
+
+{ #category : 'getter' }
+Match >> winner [
+
+	^ theWinner
 ]

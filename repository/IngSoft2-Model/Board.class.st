@@ -11,12 +11,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'accessing - arguments' }
-Board >> getNumberOfSquares [
-
-	^ numberOfSquares
-]
-
 { #category : 'initialization' }
 Board >> initializeWith: aNumbberOfSquares [
 
@@ -24,6 +18,12 @@ Board >> initializeWith: aNumbberOfSquares [
 		Error signal: 'The board must have at least 5 Squares.' ].
 
 	numberOfSquares := aNumbberOfSquares
+]
+
+{ #category : 'accessing - arguments' }
+Board >> numberOfSquares [
+
+	^ numberOfSquares
 ]
 
 { #category : 'behavior' }

@@ -33,8 +33,8 @@ DieTest >> testWhenADiceRollsTheValueIsCorrect [
 
 	| aDie aNumber |
 	aNumber := 6.
-	aDie := Die withSides: aNumber.
-	self assert: (aDie roll > 0 and: aDie roll < (aNumber + 1)).
+	aDie := MockedDie withSides: aNumber.
+	self assert: (aDie roll) equals: 6.
 ]
 
 { #category : 'tests' }
