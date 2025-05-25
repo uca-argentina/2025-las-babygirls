@@ -9,7 +9,8 @@ Class {
 		'theBoard',
 		'theDice',
 		'theWinner',
-		'nextTurn'
+		'nextTurn',
+		'playersPosition'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -36,7 +37,7 @@ Match >> checkIfWins: aPlayer [
 
 	| thereIsAWinner |
 	thereIsAWinner := false.
-	(theBoard wins: aPlayer showYourPosition) ifTrue: [
+	(theBoard wins: (playersPosition at: aPlayer)) ifTrue: [
 		theWinner := aPlayer.
 		thereIsAWinner := true ].
 	^thereIsAWinner.
@@ -53,15 +54,28 @@ Match >> getPlayer: aNumber [
 	^ players at: aNumber
 ]
 
+{ #category : 'test methods' }
+Match >> getPlayerPosition: aNumber [
+
+	^ playersPosition at: (players at: aNumber)
+]
+
 { #category : 'initialization' }
 Match >> initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice [
 
-	theWinner:= false.
+	theWinner := false.
 	theDice := dice.
+
+	playersPosition := Dictionary new.
 	players := OrderedCollection new.
-	1 to: aNumberOfPlayers do: [ :i | players add: Player new ].
+	1 to: aNumberOfPlayers do: [ :i |
+		| key |
+		key := ('player' , i asString) asSymbol.
+		playersPosition at: key put: 0.
+		players add: key ].
+
 	theBoard := Board new initializeWith: aNumberofSquares.
-	nextTurn := players first.
+	nextTurn := players first
 ]
 
 { #category : 'test methods' }
@@ -79,10 +93,15 @@ Match >> playRound [
 { #category : 'behavior' }
 Match >> playTurn: aPlayer [
 
-	| aNumber |
+	| aNumber currentPosition newPosition |
+	
 	aPlayer == nextTurn ifFalse: [ ^ self ].
 	aNumber := self rollTheDice.
-	aPlayer moveAhead: aNumber.
+	
+	currentPosition := playersPosition at: aPlayer.
+	newPosition := currentPosition + aNumber.
+	playersPosition at: aPlayer put: newPosition.
+	
 	self changeNextTurnPlayer.
 
 	^ self checkIfWins: aPlayer
