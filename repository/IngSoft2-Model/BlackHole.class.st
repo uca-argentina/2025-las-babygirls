@@ -16,3 +16,8 @@ Class {
 BlackHole >> applyEffect: aPlayer [
     ^ -4
 ]
+
+{ #category : 'initialization' }
+BlackHole >> initialize [ 
+	^self
+]
