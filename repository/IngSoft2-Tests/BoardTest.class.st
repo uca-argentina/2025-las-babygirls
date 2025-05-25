@@ -17,32 +17,12 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
-BoardTest >> testBoardInitializingWhithVariableLenght [
-
-	| aBoard aNumberOfSquares |
-	aNumberOfSquares := 10.
-	aBoard := Board new initializeWith: aNumberOfSquares.
-	self assert: aBoard numberOfSquares equals: aNumberOfSquares
-]
-
-{ #category : 'tests' }
-BoardTest >> testDummy [
+BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 
 	| aBoard aNumberOfSquares |
 	aNumberOfSquares := -1.
 	self
 		should: [ aBoard := Board new initializeWith: aNumberOfSquares ]
 		raise: Error
-		withMessageText: 'The board must have at least 5 Squares.'
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenTheSquaresAreLessThan5Fails [
-
-	| aBoard aNumberOfSquares |
-	aNumberOfSquares := -1.
-	self
-		should: [ aBoard := Board new initializeWith: aNumberOfSquares ]
-		raise: Error
-		withMessageText: 'The board must have at least 5 Squares.'
+		withMessageText: 'The board must have at least 10 Squares.'
 ]

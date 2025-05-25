@@ -14,8 +14,8 @@ Class {
 { #category : 'initialization' }
 Board >> initializeWith: aNumbberOfSquares [
 
-	aNumbberOfSquares < 5 ifTrue: [
-		Error signal: 'The board must have at least 5 Squares.' ].
+	aNumbberOfSquares < 10 ifTrue: [
+		Error signal: 'The board must have at least 10 Squares.' ].
 
 	numberOfSquares := aNumbberOfSquares
 ]

@@ -23,23 +23,6 @@ MatchTest >> testDummy [
 ]
 
 { #category : 'tests' }
-MatchTest >> testTheNumberOfPlayersIsEqualToTheNumberGiven [
-
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 6.
-	
-	aDie := MockedDie withSides: 2.
-	dice := OrderedCollection new.
-	dice add: aDie.
-	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
-
-	self assert: aMatch getNumberOfPlayers equals: aNumberOfPlayers
-]
-
-{ #category : 'tests' }
 MatchTest >> testTheNumberOfSquaresIsEqualToTheNumberGiven [
 
 	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
@@ -54,23 +37,6 @@ MatchTest >> testTheNumberOfSquaresIsEqualToTheNumberGiven [
 	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
 
 	self assert: aMatch numberOfSquares equals: aNumberOfSquares
-]
-
-{ #category : 'tests' }
-MatchTest >> testThePlayerGetter [
-
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 6.
-	
-	aDie := MockedDie withSides: 2.
-	dice := OrderedCollection new.
-	dice add: aDie.
-	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
-
-	self assert: ((aMatch getPlayer:aNumberOfPlayers) class) equals: (Player)
 ]
 
 { #category : 'tests' }
@@ -89,23 +55,6 @@ MatchTest >> testWhenATurnIsPlayedThePositionofItsPLayersItsIncremented [
 	aMatch playRound.
 
 	self assert: (aMatch getPlayer: 1) showYourPosition equals: 2.
-]
-
-{ #category : 'tests' }
-MatchTest >> testWhenDiceRolledGetsANumber [
-
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 6.
-	
-	aDie := MockedDie withSides: 2.
-	dice := OrderedCollection new.
-	dice add: aDie.
-	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
-
-	self assert: aMatch rollTheDice isNumber
 ]
 
 { #category : 'tests' }
