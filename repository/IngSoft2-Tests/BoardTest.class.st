@@ -17,6 +17,41 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
+BoardTest >> testBoardHasCorrectSize [
+    | board |
+    board := Board new initializeWith: 50.
+    self assert: (board squares) size equals: 50
+]
+
+{ #category : 'tests' }
+BoardTest >> testDistributionFor50Squares [
+    | board counts |
+    board := Board new initializeWith: 50.
+    counts := Dictionary new.
+    counts at: #Cell put: (board squares count: [ :s | s class = Cell]).
+    counts at: #BlackHole put: (board squares count: [ :s | s class = BlackHole]).
+    counts at: #HyperSpaceJump put: (board squares count: [ :s | s class = HyperSpaceJump]).
+    counts at: #MoonWalk put: (board squares count: [ :s | s class = MoonWalk]).
+    counts at: #HyperJump put: (board squares count: [ :s | s class = HyperJump]).
+    counts at: #AtomicBomb put: (board squares count: [ :s | s class = AtomicBomb]).
+
+    self assert: (counts at: #Cell) equals: 20.
+    self assert: (counts at: #BlackHole) equals: 10.
+    self assert: (counts at: #HyperSpaceJump) equals: 10.
+    self assert: (counts at: #MoonWalk) equals:  5.
+    self assert: (counts at: #HyperJump) equals:  4.
+    self assert: (counts at: #AtomicBomb) equals:  1.
+]
+
+{ #category : 'tests' }
+BoardTest >> testRemainderGoesToNoEffectForNonDivisible [
+    | board expectedNoEffect |
+    board := Board new initializeWith: 53.
+    expectedNoEffect := ((53 * 40) // 100)+ (53 - (((53*40)//100) + ((53*20)//100) + ((53*20)//100) + ((53*10)//100) + ((53*8)//100) + ((53*2)//100))).
+    self assert: (board squares count: [ :s | s class = Cell ]) equals: expectedNoEffect.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 
 	| aBoard aNumberOfSquares |
