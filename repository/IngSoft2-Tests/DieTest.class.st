@@ -17,18 +17,6 @@ DieTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
-DieTest >> testDummy [
-
-	| aDice errorMessage |
-	errorMessage := 'The sides of the dice must be at least 2'.
-
-	self
-		should: [ aDice := Die withSides: -1 ]
-		raise: Error
-		withMessageText: 'The sides of the dice must be at least 2'.
-]
-
-{ #category : 'tests' }
 DieTest >> testWhenADiceRollsTheValueIsCorrect [
 
 	| aDie aNumber |

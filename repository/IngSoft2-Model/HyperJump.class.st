@@ -1,23 +1,19 @@
-"
-Una casilla que retrocede un jugador 4 casilleros.
-"
 Class {
-	#name : 'BlackHole',
+	#name : 'HyperJump',
 	#superclass : 'Cell',
 	#instVars : [
-		'oneEnd',
-		'otherEnd'
+		'distance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'behavior' }
-BlackHole >> applyEffect: aPlayer [
-    ^ -4
+HyperJump >> applyEffect: aPlayer [
+    ^ 0
 ]
 
 { #category : 'intialization' }
-BlackHole >> initialize [ 
+HyperJump >> initialize [ 
 	^self
 ]
