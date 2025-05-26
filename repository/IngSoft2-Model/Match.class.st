@@ -10,11 +10,18 @@ Class {
 		'theDice',
 		'theWinner',
 		'nextTurn',
-		'playersPosition'
+		'playersPosition',
+		'aWinner'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'initialization' }
+Match class >> mockedWith: aNumberOfPlayers and: dice [
+
+^self new initializeMockedWith: aNumberOfPlayers and: dice.
+]
 
 { #category : 'initialization' }
 Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
@@ -24,16 +31,16 @@ Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
 
 { #category : 'behavior' }
 Match >> applyCellEffectFor: aPlayer at: aPosition [
-    | offset |
+    "| offset |
 
-    offset := (theBoard squares at: aPosition) applyEffect: aPlayer .
+    offset := aPosition applyEffect: aPlayer .
     offset isNumber
         ifTrue: [ offset = 0
             ifFalse: [ 
                 playersPosition 
                     at: aPlayer 
                     put: (aPosition + offset) 
-            ]].
+            ]]."
 ]
 
 { #category : 'behavior' }
@@ -51,36 +58,19 @@ Match >> changeNextTurnPlayer [
 { #category : 'behavior' }
 Match >> checkIfWins: aPlayer [
 
-	| thereIsAWinner |
-	thereIsAWinner := false.
-	(theBoard wins: (playersPosition at: aPlayer)) ifTrue: [
+	(theBoard wins: (aPlayer turns)) ifTrue: [
 		theWinner := aPlayer.
-		thereIsAWinner := true ].
-	^thereIsAWinner.
-]
-
-{ #category : 'test methods' }
-Match >> getNumberOfPlayers [
-	^players size. 
-]
-
-{ #category : 'test methods' }
-Match >> getPlayer: aNumber [
-
-	^ players at: aNumber
-]
-
-{ #category : 'test methods' }
-Match >> getPlayerPosition: aNumber [
-
-	^ playersPosition at: (players at: aNumber)
+		aWinner := true ].
+	^aWinner.
 ]
 
 { #category : 'initialization' }
-Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
+Match >> initializeMockedWith: aNumberOfPlayers and: dice [
 
     theWinner := false.
+    aWinner := false.
     theDice   := dice.
+    theBoard := MockedBoard new initialize.
 
     playersPosition := Dictionary new.
     players         := OrderedCollection new.
@@ -88,10 +78,32 @@ Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
     1 to: aNumberOfPlayers do: [:i |
         | player |
         player := Player new initialize.
-        playersPosition at: player put: 0.
+        playersPosition at: player put: theBoard firstCell.
         players add: player
     ].
+
+    nextTurn := players first.
+^ self
+]
+
+{ #category : 'initialization' }
+Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
+
+    theWinner := false.
+    aWinner := false.
+    theDice   := dice.
     theBoard := Board new initializeWith: aNumberOfSquares.
+
+    playersPosition := Dictionary new.
+    players         := OrderedCollection new.
+
+    1 to: aNumberOfPlayers do: [:i |
+        | player |
+        player := Player new initialize.
+        playersPosition at: player put: theBoard firstCell.
+        players add: player
+    ].
+
     nextTurn := players first.
 ^ self
 ]
@@ -100,7 +112,7 @@ Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
 Match >> playRound [
 
 	players do: [ :aPlayer |
-		(self winner = aPlayer) ifFalse: [ self playTurn: aPlayer ] ]
+		(aWinner) ifFalse: [ self playTurn: aPlayer ] ]
 ]
 
 { #category : 'behavior' }
@@ -110,13 +122,25 @@ Match >> playTurn: aPlayer [
 
     diceRoll := self rollTheDice.
     currentPos := playersPosition at: aPlayer.
-    newPos := currentPos + diceRoll.
+	 newPos := theBoard goAhead: diceRoll with: aPlayer in: currentPos.
     playersPosition at: aPlayer put: newPos.
 
     self applyCellEffectFor: aPlayer at: newPos.
 
     self changeNextTurnPlayer.
     ^ self checkIfWins: aPlayer
+]
+
+{ #category : 'test methods' }
+Match >> player: aNumber [
+
+	^ players at: aNumber
+]
+
+{ #category : 'test methods' }
+Match >> playerPosition: aNumber [
+
+	^ playersPosition at: (players at: aNumber)
 ]
 
 { #category : 'behavior' }

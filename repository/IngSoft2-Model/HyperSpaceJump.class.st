@@ -20,7 +20,8 @@ HyperSpaceJump >> applyEffect: aPlayer [
 
 { #category : 'initialization' }
 HyperSpaceJump >> initialize [
+   super initialize.
    distance := 4.
-	shields := -1 .
-   ^self
+   shields := -1.
+
 ]
