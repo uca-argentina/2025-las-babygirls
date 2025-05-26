@@ -143,6 +143,24 @@ Match >> playerPosition: aNumber [
 	^ playersPosition at: (players at: aNumber)
 ]
 
+{ #category : 'test methods' }
+Match >> playerTurn: aNumber [ 
+	^(players at: aNumber) turns
+]
+
+{ #category : 'behavior' }
+Match >> podium [
+	| orderedPlayers |
+
+	orderedPlayers := players sort: [ :a :b |
+		a turns > b turns
+	].
+
+	^ (orderedPlayers first: (orderedPlayers size min: 3)) asArray
+
+
+]
+
 { #category : 'behavior' }
 Match >> rollTheDice [
 
