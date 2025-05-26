@@ -26,16 +26,15 @@ MatchTest >> testCheckIfPlayerDoATurnDoesntWin [
 { #category : 'tests' }
 MatchTest >> testCheckIfWins [
 
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
 	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 30.
+	aNumberOfSides := 60.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection new.
 	dice add: aDie.
 	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
+	aMatch := Match mockedWith: aNumberOfPlayers and: dice.
 	aMatch playRound.
 
 	self assert: aMatch winner equals: (aMatch player: 1)

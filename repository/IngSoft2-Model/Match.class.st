@@ -18,6 +18,12 @@ Class {
 }
 
 { #category : 'initialization' }
+Match class >> mockedWith: aNumberOfPlayers and: dice [
+
+^self new initializeMockedWith: aNumberOfPlayers and: dice.
+]
+
+{ #category : 'initialization' }
 Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
 
 ^self new initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice.
@@ -56,6 +62,28 @@ Match >> checkIfWins: aPlayer [
 		theWinner := aPlayer.
 		aWinner := true ].
 	^aWinner.
+]
+
+{ #category : 'initialization' }
+Match >> initializeMockedWith: aNumberOfPlayers and: dice [
+
+    theWinner := false.
+    aWinner := false.
+    theDice   := dice.
+    theBoard := MockedBoard new initialize.
+
+    playersPosition := Dictionary new.
+    players         := OrderedCollection new.
+
+    1 to: aNumberOfPlayers do: [:i |
+        | player |
+        player := Player new initialize.
+        playersPosition at: player put: theBoard firstCell.
+        players add: player
+    ].
+
+    nextTurn := players first.
+^ self
 ]
 
 { #category : 'initialization' }
