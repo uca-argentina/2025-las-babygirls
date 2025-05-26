@@ -84,7 +84,7 @@ Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
 Match >> playRound [
 
 	players do: [ :aPlayer |
-		(self winner = aPlayer) ifFalse: [ self playTurn: aPlayer ] ]
+		(aWinner) ifFalse: [ self playTurn: aPlayer ] ]
 ]
 
 { #category : 'behavior' }
