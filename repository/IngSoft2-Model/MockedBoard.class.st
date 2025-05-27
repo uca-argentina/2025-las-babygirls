@@ -15,59 +15,29 @@ Class {
 }
 
 { #category : 'initialization' }
-MockedBoard >> initialize [
+MockedBoard >> initializeWith: players [
+
 	| typeCounts parsecList parsecIndex squares |
-
 	typeCounts := {
-		Cell -> 4.
-		BlackHole -> 2.
-		HyperSpaceJump -> 2.
-		MoonWalk -> 2.
-		HyperJump -> 2.
-		AtomicBomb -> 2.
-	} asDictionary.
+		              (Cell -> 4).
+		              (BlackHole -> 2).
+		              (HyperSpaceJump -> 2).
+		              (MoonWalk -> 2).
+		              (HyperJump -> 2).
+		              (AtomicBomb -> 2) } asDictionary.
 
-	parsecList := #(20 15 10 5).
+	parsecList := #( 20 15 10 5 ).
 	parsecIndex := 1.
 
 	squares := OrderedCollection new.
 
 	typeCounts keysAndValuesDo: [ :type :count |
-		count timesRepeat: [
-			squares add: (type new initialize)
-		].
-	].
+		count timesRepeat: [ squares add: type new initialize ] ].
 
 	boardSize := squares size.
 	boardSquares := squares.
+	playersPosition := Dictionary new.
 
-]
-
-{ #category : 'initialization' }
-MockedBoard >> initializeWith: aNumber [
-	| typeCounts parsecList parsecIndex squares |
-
-	typeCounts := {
-		Cell -> 4.
-		BlackHole -> 2.
-		HyperSpaceJump -> 2.
-		MoonWalk -> 2.
-		HyperJump -> 2.
-		AtomicBomb -> 2.
-	} asDictionary.
-
-	parsecList := #(20 15 10 5).
-	parsecIndex := 1.
-
-	squares := OrderedCollection new.
-
-	typeCounts keysAndValuesDo: [ :type :count |
-		count timesRepeat: [
-			squares add: (type new initialize)
-		].
-	].
-
-	boardSize := squares size.
-	boardSquares := squares.
-
+	players do: [ :player |
+		playersPosition at: player put: boardSquares first ]
 ]
