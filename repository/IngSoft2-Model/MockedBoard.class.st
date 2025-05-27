@@ -71,3 +71,4 @@ MockedBoard >> initializeWith: aNumber [
 	boardSquares := squares.
 
 ]
+
