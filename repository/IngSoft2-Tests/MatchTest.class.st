@@ -41,7 +41,6 @@ MatchTest >> testCheckIfWins [
 ]
 
 { #category : 'tests' }
-
 MatchTest >> testPlayerTurn [
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
 
