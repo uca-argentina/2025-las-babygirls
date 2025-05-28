@@ -18,15 +18,25 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 
 { #category : 'tests' }
 BoardTest >> testBoardHasCorrectSize [
-    | board |
-    board := Board new initializeWith: 50.
+    | board  players player |
+	
+	player := Player new.
+	players := OrderedCollection new.
+	players add: player.
+	
+    board := Board new initializeWith: 50 and: players.
     self assert: (board squares) size equals: 50
 ]
 
 { #category : 'tests' }
 BoardTest >> testDistributionFor50Squares [
-    | board counts |
-    board := Board new initializeWith: 50.
+    | board counts  players player |
+	
+	player := Player new.
+	players := OrderedCollection new.
+	players add: player.
+	
+    board := Board new initializeWith: 50 and: players .
     counts := Dictionary new.
     counts at: #Cell put: (board squares count: [ :s | s class = Cell]).
     counts at: #BlackHole put: (board squares count: [ :s | s class = BlackHole]).
@@ -45,8 +55,13 @@ BoardTest >> testDistributionFor50Squares [
 
 { #category : 'tests' }
 BoardTest >> testRemainderGoesToNoEffectForNonDivisible [
-    | board expectedNoEffect |
-    board := Board new initializeWith: 53.
+    | board expectedNoEffect players player |
+	
+	player := Player new.
+	players := OrderedCollection new.
+	players add: player.
+	
+    board := Board new initializeWith: 53 and: players .
     expectedNoEffect := ((53 * 40) // 100)+ (53 - (((53*40)//100) + ((53*20)//100) + ((53*20)//100) + ((53*10)//100) + ((53*8)//100) + ((53*2)//100))).
     self assert: (board squares count: [ :s | s class = Cell ]) equals: expectedNoEffect.
 ]
@@ -54,10 +69,14 @@ BoardTest >> testRemainderGoesToNoEffectForNonDivisible [
 { #category : 'tests' }
 BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 
-	| aBoard aNumberOfSquares |
+	| aBoard aNumberOfSquares players player |
+	
+	player := Player new.
+	players := OrderedCollection new.
+	players add: player.
 	aNumberOfSquares := -1.
 	self
-		should: [ aBoard := Board new initializeWith: aNumberOfSquares ]
+		should: [ aBoard := Board new initializeWith: aNumberOfSquares and: players ]
 		raise: Error
 		withMessageText: 'The board must have at least 10 Squares.'
 ]
