@@ -43,6 +43,12 @@ Match >> applyCellEffectFor: aPlayer at: aPosition [
             ]]."
 ]
 
+{ #category : 'initialization' }
+Match >> board [
+
+	^ theBoard 
+]
+
 { #category : 'behavior' }
 Match >> changeNextTurnPlayer [
     | index size |
@@ -117,6 +123,29 @@ Match >> playTurn: aPlayer [
 
     self changeNextTurnPlayer.
     ^ self checkIfWins: aPlayer
+]
+
+{ #category : 'behavior' }
+Match >> playTurnMocked: aPlayer [
+    | diceRoll |
+
+    diceRoll := self rollTheDice.
+	theBoard playTurnWith: aPlayer and: diceRoll.
+
+    self changeNextTurnPlayer.
+    ^ self checkIfWins: aPlayer
+]
+
+{ #category : 'test methods' }
+Match >> player: aNumber [
+
+	^ players at: aNumber
+]
+
+{ #category : 'test methods' }
+Match >> playerPosition: aNumber [
+
+	^ playersPosition at: (players at: aNumber)
 ]
 
 { #category : 'test methods' }

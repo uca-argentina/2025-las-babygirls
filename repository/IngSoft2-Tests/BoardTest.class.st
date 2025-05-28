@@ -38,14 +38,14 @@ BoardTest >> testDistributionFor50Squares [
 	
     board := Board new initializeWith: 50 and: players .
     counts := Dictionary new.
-    counts at: #Cell put: (board squares count: [ :s | s class = Cell]).
+    counts at: #Normal put: (board squares count: [ :s | s class = Normal]).
     counts at: #BlackHole put: (board squares count: [ :s | s class = BlackHole]).
     counts at: #HyperSpaceJump put: (board squares count: [ :s | s class = HyperSpaceJump]).
     counts at: #MoonWalk put: (board squares count: [ :s | s class = MoonWalk]).
     counts at: #HyperJump put: (board squares count: [ :s | s class = HyperJump]).
     counts at: #AtomicBomb put: (board squares count: [ :s | s class = AtomicBomb]).
 
-    self assert: (counts at: #Cell) equals: 20.
+    self assert: (counts at: #Normal) equals: 20.
     self assert: (counts at: #BlackHole) equals: 10.
     self assert: (counts at: #HyperSpaceJump) equals: 10.
     self assert: (counts at: #MoonWalk) equals:  5.
@@ -63,7 +63,7 @@ BoardTest >> testRemainderGoesToNoEffectForNonDivisible [
 	
     board := Board new initializeWith: 53 and: players .
     expectedNoEffect := ((53 * 40) // 100)+ (53 - (((53*40)//100) + ((53*20)//100) + ((53*20)//100) + ((53*10)//100) + ((53*8)//100) + ((53*2)//100))).
-    self assert: (board squares count: [ :s | s class = Cell ]) equals: expectedNoEffect.
+    self assert: (board squares count: [ :s | s class = Normal ]) equals: expectedNoEffect.
 ]
 
 { #category : 'tests' }

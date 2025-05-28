@@ -12,16 +12,26 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'behavior' }
-HyperSpaceJump >> applyEffect: aPlayer [
+{ #category : 'initialization' }
+HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
+   | currentIndex newIndex newCell |
 	aPlayer editShield: shields.
-	^ distance.
+	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
+	newIndex := currentIndex + distance.
+		[ newIndex > aBoard squares size ] whileTrue: [
+		aPlayer incrementTurn.
+		newIndex := newIndex - aBoard squares size ].
+
+	
+	newCell:=  aBoard squares at: newIndex.
+	aBoard playersPosition at: aPlayer put: newCell.
 ]
 
 { #category : 'initialization' }
 HyperSpaceJump >> initialize [
-   super initialize.
-   distance := 4.
+ 	distance := 4.
    shields := -1.
+   ^ self.
+
 
 ]

@@ -9,12 +9,12 @@ Class {
 }
 
 { #category : 'behavior' }
-Cell >> applyEffect: aPlayer [
-	^ 0 .
+Cell >> applyEffectFor: aPlayer with: aBoard [
+	self subclassResponsibility.
+
 ]
 
 { #category : 'initialization' }
 Cell >> initialize [
-    super initialize.
-    ^ self.
+    self subclassResponsibility.
 ]
