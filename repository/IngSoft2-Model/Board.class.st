@@ -14,29 +14,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'accessing - arguments' }
-Board >> firstCell [
-
-^boardSquares first.
-]
-
-{ #category : 'behavior' }
-Board >> goAhead: aNumber with: aPlayer in: aCell [
-
-	| indexOfSquare newIndex newCell |
-	indexOfSquare := boardSquares indexOf: aCell.
-
-	newIndex := indexOfSquare + aNumber.
-	
-	[ newIndex > boardSquares size ] whileTrue: [
-		aPlayer incrementTurn.
-		newIndex := newIndex - boardSquares size ].
-
-
-	newCell := boardSquares at: newIndex.
-	^ newCell
-]
-
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfSquares and: players [
 
@@ -110,6 +87,6 @@ Board >> squares [
 
 { #category : 'behavior' }
 Board >> wins: turns [
-    ^ (turns = 3)
-        or: [ turns > 3 ].
+
+	^ turns = 3 or: [ turns > 3 ]
 ]

@@ -120,18 +120,6 @@ Match >> playTurn: aPlayer [
 ]
 
 { #category : 'test methods' }
-Match >> player: aNumber [
-
-	^ players at: aNumber
-]
-
-{ #category : 'test methods' }
-Match >> playerPosition: aNumber [
-
-	^ playersPosition at: (players at: aNumber)
-]
-
-{ #category : 'test methods' }
 Match >> playerTurn: aNumber [ 
 	^(players at: aNumber) turns
 ]

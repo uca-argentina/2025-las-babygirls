@@ -37,7 +37,7 @@ MatchTest >> testCheckIfWins [
 	aMatch := Match mockedWith: aNumberOfPlayers and: dice.
 	aMatch playRound.
 
-	self assert: aMatch winner equals: (aMatch player: 1)
+	self assert: aMatch winner equals: (aMatch podium at: 1)
 ]
 
 { #category : 'tests' }
