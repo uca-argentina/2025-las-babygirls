@@ -99,7 +99,7 @@ Board >> numberOfSquares [
 { #category : 'behavior' }
 Board >> playTurnWith: aPlayer and: diceRoll [
 
-	| currentIndex newIndex newCell ocupantes |
+	| currentIndex newIndex newCell ocupantes|
 	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
 	newIndex := currentIndex + (diceRoll).
 
@@ -108,22 +108,29 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 		newIndex := newIndex - boardSquares size ].
 
 	newCell := boardSquares at: newIndex.
+	
 	ocupantes := playersPosition keys select: [ :jugador |
     (playersPosition at: jugador) = newCell
     and: [ jugador ~= aPlayer ] ].
 
-	
-	ocupantes isEmpty
-	 ifTrue: [
-        playersPosition at: aPlayer put: newCell.
-        newCell applyEffectFor: aPlayer with: self
-    ]
-    ifFalse: [
-        
-        self iniciarBatallaEntre: aPlayer y: (ocupantes first)
-    ].
+	((ocupantes isNotEmpty) and: (newCell class = Normal))
+
+
+    ifTrue: [
+        self iniciarBatallaEntre: aPlayer y: (ocupantes first).
+			 ^self   		]
+				
+		 ifFalse: [
+        			playersPosition at: aPlayer put: newCell.
+        			newCell applyEffectFor: aPlayer with: self.
+					
+				]
 
 	
+
+
+
+
 
 ]
 

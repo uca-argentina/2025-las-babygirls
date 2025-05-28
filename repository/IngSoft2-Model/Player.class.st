@@ -15,20 +15,21 @@ Class {
 { #category : 'initialization' }
 Player >> batallarCon: otroJugador usando: dado1 and: dado2 en: board [
 
-	| tiradaSelf tiradaOtro perdedor |
+	| tiradaSelf tiradaOtro  |
 	tiradaSelf := dado1 roll.
 	tiradaOtro := dado2 roll.
 	
-	[tiradaSelf = tiradaOtro] whileTrue:
+	"[tiradaSelf = tiradaOtro] whileTrue:
 	[ tiradaSelf := dado1 roll.
-	tiradaOtro := dado2 roll. ].
+	tiradaOtro := dado2 roll. ]."
 	
-	(tiradaSelf > tiradaOtro) ifTrue: 
-	[ perdedor := otroJugador ]
-	ifFalse: [ perdedor := self ].
+	(tiradaSelf > tiradaOtro) 
+	ifTrue: 
+	[ self editShield: -1 .
+		board sendToStart: self. ]
+	ifFalse: [ otroJugador editShield: -1 .
+		board sendToStart: otroJugador. ].
 		
-	perdedor editShield: -1 .
-		board sendToStart: perdedor.
 	
 ]
 
