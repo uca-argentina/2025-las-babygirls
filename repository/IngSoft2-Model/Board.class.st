@@ -1,3 +1,4 @@
+
 "
 Where the game is played. 
 "
@@ -159,3 +160,4 @@ Board >> wins: turns [
     ^ (turns = 3)
         or: [ turns > 3 ].
 ]
+
