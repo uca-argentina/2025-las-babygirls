@@ -12,12 +12,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'behavior' }
-HyperSpaceJump >> applyEffect: aPlayer [
-	aPlayer editShield: shields.
-	^ distance.
-]
-
 { #category : 'initialization' }
 HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
    | currentIndex newIndex newCell |

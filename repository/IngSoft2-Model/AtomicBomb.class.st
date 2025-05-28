@@ -9,11 +9,6 @@ Class {
 }
 
 { #category : 'behavior' }
-AtomicBomb >> applyEffect: aPlayer [
-    ^ 0
-]
-
-{ #category : 'behavior' }
 AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
 	    | newCell |
 		

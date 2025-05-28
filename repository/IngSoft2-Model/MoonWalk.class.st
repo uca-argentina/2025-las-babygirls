@@ -10,11 +10,6 @@ Class {
 }
 
 { #category : 'behavior' }
-MoonWalk >> applyEffect: aPlayer [
-    ^ 0
-]
-
-{ #category : 'behavior' }
 MoonWalk >> applyEffectFor: aPlayer with: aBoard [
 
     aBoard playersPosition keysDo: [ :otherPlayer |
@@ -33,13 +28,7 @@ MoonWalk >> applyEffectFor: aPlayer with: aBoard [
 
 { #category : 'initialization' }
 MoonWalk >> initialize [
-	^self
-]
-
-{ #category : 'initialization' }
-MoonWalk >> initialize: aDistance [
-	distance:= aDistance.
-	^self
+	^self.
 ]
 
 { #category : 'initialization' }

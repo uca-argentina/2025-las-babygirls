@@ -9,11 +9,6 @@ Class {
 }
 
 { #category : 'behavior' }
-HyperJump >> applyEffect: aPlayer [
-    ^ 0
-]
-
-{ #category : 'behavior' }
 HyperJump >> applyEffectFor: aPlayer with: aBoard [
   "  | currentIndex newIndex newCell |
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
