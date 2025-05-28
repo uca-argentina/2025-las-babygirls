@@ -25,6 +25,7 @@ HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
 	
 	newCell:=  aBoard squares at: newIndex.
 	aBoard playersPosition at: aPlayer put: newCell.
+	super fightIn: aBoard with: aPlayer in: newCell
 ]
 
 { #category : 'initialization' }

@@ -21,9 +21,12 @@ MoonWalk >> applyEffectFor: aPlayer with: aBoard [
 				otherPlayer decrementTurn.
 				newIndex := newIndex + aBoard squares size ].
        newCell := aBoard squares at: newIndex.
-       aBoard playersPosition at: otherPlayer put: newCell
-        ]].
+       aBoard playersPosition at: otherPlayer put: newCell.
 
+		
+        ]
+].
+	super fightIn: aBoard with: aPlayer in: self.		
 ]
 
 { #category : 'initialization' }

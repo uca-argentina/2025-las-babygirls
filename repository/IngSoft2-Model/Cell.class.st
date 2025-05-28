@@ -14,6 +14,22 @@ Cell >> applyEffectFor: aPlayer with: aBoard [
 
 ]
 
+{ #category : 'behavior' }
+Cell >> fightIn: aBoard with: aPlayer in: newCell [
+
+	| ocupantes |
+	ocupantes := aBoard playersPosition keys select: [ :jugador |
+    (aBoard playersPosition at: jugador) = newCell
+    and: [ jugador ~= aPlayer ] ].
+    			
+	(ocupantes isNotEmpty) 
+    ifTrue: [ 
+       aBoard iniciarBatallaEntre: aPlayer y: (ocupantes first).
+			 		]
+				
+
+]
+
 { #category : 'initialization' }
 Cell >> initialize [
     self subclassResponsibility.
