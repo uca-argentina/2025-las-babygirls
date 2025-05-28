@@ -1,4 +1,3 @@
-
 "
 In charge of knowing how the game evolves.
 "
@@ -181,4 +180,3 @@ Match >> winner [
 
 	^ theWinner
 ]
-
