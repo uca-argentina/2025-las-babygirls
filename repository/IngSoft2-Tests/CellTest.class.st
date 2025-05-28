@@ -6,11 +6,11 @@ Class {
 }
 
 { #category : 'tests' }
-CellTest >> testPlayerFallsIntoBlackHoleAndReturnsToStart [
+CellTest >> testPlayerFallsIntoBlackHoleAndReturnsFourCells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=6.
+	aNumberOfSides :=5.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
@@ -26,11 +26,11 @@ CellTest >> testPlayerFallsIntoBlackHoleAndReturnsToStart [
 ]
 
 { #category : 'tests' }
-CellTest >> testPlayerFallsIntoHyperSpaceJump [
+CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=7.
+	aNumberOfSides :=6.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
@@ -41,6 +41,46 @@ CellTest >> testPlayerFallsIntoHyperSpaceJump [
 
 	
 	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 11.
+	
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=6.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playRound.
+
+	
+	self assert:(aMatch player:1) shield equals: 2.
+	
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=2.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playRound.
+
+	
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 3.
 	
  
 ]

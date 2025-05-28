@@ -13,11 +13,6 @@ Class {
 }
 
 { #category : 'behavior' }
-BlackHole >> applyEffect: aPlayer [
-    ^ -4
-]
-
-{ #category : 'behavior' }
 BlackHole >> applyEffectFor: aPlayer with: aBoard [
    | currentIndex newIndex newCell |
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).

@@ -61,7 +61,7 @@ Board >> initializeWith: aNumberOfSquares and: players [
 
 	squares := OrderedCollection new.
 
-	numNoEffect timesRepeat: [ squares add: Cell new initialize ].
+	numNoEffect timesRepeat: [ squares add: Normal new initialize ].
 	numBlackHole timesRepeat: [ squares add: BlackHole new initialize ].
 	numHyperSpaceJump timesRepeat: [
 		squares add: HyperSpaceJump new initialize ].
@@ -91,7 +91,7 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 
 	| currentIndex newIndex newCell |
 	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
-	newIndex := currentIndex + (diceRoll-1).
+	newIndex := currentIndex + (diceRoll).
 
 	[ newIndex > boardSquares size ] whileTrue: [
 		aPlayer incrementTurn.
