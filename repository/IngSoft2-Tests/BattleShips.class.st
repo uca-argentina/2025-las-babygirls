@@ -8,7 +8,7 @@ Class {
 { #category : 'tests' }
 BattleShips >> testBanana [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie player1Position player2Position |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie player2Position |
 	aNumberOfPlayers := 2.
 	aNumberOfSides :=2.
 	
