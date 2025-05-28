@@ -19,16 +19,18 @@ Player >> batallarCon: otroJugador usando: dado1 and: dado2 en: board [
 	tiradaSelf := dado1 roll.
 	tiradaOtro := dado2 roll.
 	
-	"[tiradaSelf = tiradaOtro] whileTrue:
+	[tiradaSelf = tiradaOtro] whileTrue:
 	[ tiradaSelf := dado1 roll.
-	tiradaOtro := dado2 roll. ]."
+	tiradaOtro := dado2 roll. ].
 	
 	(tiradaSelf > tiradaOtro) 
-	ifTrue: 
+	ifFalse: 
 	[ self editShield: -1 .
 		board sendToStart: self. ]
-	ifFalse: [ otroJugador editShield: -1 .
-		board sendToStart: otroJugador. ].
+	ifTrue: [ 
+		otroJugador editShield: -1 .
+		board sendToStart: otroJugador.
+	 ].
 		
 	
 ]

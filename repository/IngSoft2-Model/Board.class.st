@@ -113,15 +113,20 @@ Board >> playTurnWith: aPlayer and: diceRoll [
     (playersPosition at: jugador) = newCell
     and: [ jugador ~= aPlayer ] ].
 
+	playersPosition at: aPlayer put: newCell.
+        			
+
 	((ocupantes isNotEmpty) and: (newCell class = Normal))
 
 
     ifTrue: [
-        self iniciarBatallaEntre: aPlayer y: (ocupantes first).
-			 ^self   		]
+		
+      	
+       self iniciarBatallaEntre: aPlayer y: (ocupantes first).
+			 		]
 				
 		 ifFalse: [
-        			playersPosition at: aPlayer put: newCell.
+        			
         			newCell applyEffectFor: aPlayer with: self.
 					
 				]
