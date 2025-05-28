@@ -6,6 +6,49 @@ Class {
 }
 
 { #category : 'tests' }
+CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=13.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playTurn: (aMatch player:1).
+
+	
+	self assert: (aMatch player:1) shield equals: 2.
+	self assert: (aMatch player:2) shield equals: 2.
+	
+	
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=13.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playTurn: (aMatch player:1).
+
+	
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 1.
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) equals: 1.
+	
+ 
+]
+
+{ #category : 'tests' }
 CellTest >> testPlayerFallsIntoBlackHoleAndReturnsFourCells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |

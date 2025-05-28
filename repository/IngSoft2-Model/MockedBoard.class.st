@@ -50,7 +50,7 @@ MockedBoard >> initializeWith: players [
     count := pair second.
     count timesRepeat: [ squares add:
 	(type = MoonWalk 
-	ifTrue: [ type new initializeWith: -4  ]  
+	ifTrue: [ type new initializeWith: 4  ]  
 	ifFalse: [type new initialize ]
 )].
 ].

@@ -44,6 +44,6 @@ MoonWalk >> initialize: aDistance [
 
 { #category : 'initialization' }
 MoonWalk >> initializeWith: aDistance [
-	distance:= aDistance.
+	distance:= aDistance negated.
 	^self
 ]
