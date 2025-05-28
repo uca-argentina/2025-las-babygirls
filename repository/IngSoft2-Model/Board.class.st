@@ -1,3 +1,4 @@
+
 "
 Where the game is played. 
 "
@@ -13,6 +14,39 @@ Class {
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'accessing - arguments' }
+Board >> firstCell [
+
+^boardSquares first.
+]
+
+{ #category : 'behavior' }
+Board >> goAhead: aNumber with: aPlayer in: aCell [
+
+	| indexOfSquare newIndex newCell |
+	indexOfSquare := boardSquares indexOf: aCell.
+
+	newIndex := indexOfSquare + aNumber.
+	
+	[ newIndex > boardSquares size ] whileTrue: [
+		aPlayer incrementTurn.
+		newIndex := newIndex - boardSquares size ].
+
+
+	newCell := boardSquares at: newIndex.
+	^ newCell
+]
+
+{ #category : 'test methods' }
+Board >> iniciarBatallaEntre: player1 y: player2 [
+	| dado1 dado2 |
+	dado1:= Die withSides: 6.
+	dado2:= Die withSides: 6.
+	(player1) batallarCon: (player2) usando:dado1 and: dado2 en: self.
+	
+	
+]
 
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfSquares and: players [
@@ -38,11 +72,11 @@ Board >> initializeWith: aNumberOfSquares and: players [
 
 	squares := OrderedCollection new.
 
-	numNoEffect timesRepeat: [ squares add: Cell new initialize ].
+	numNoEffect timesRepeat: [ squares add: Normal new initialize ].
 	numBlackHole timesRepeat: [ squares add: BlackHole new initialize ].
 	numHyperSpaceJump timesRepeat: [
 		squares add: HyperSpaceJump new initialize ].
-	numMoonWalk timesRepeat: [ squares add: MoonWalk new initialize ].
+	numMoonWalk timesRepeat: [ squares add: (MoonWalk new initializeWith: (1 to: squares size) atRandom )].
 	numAtomicBomb timesRepeat: [ squares add: AtomicBomb new initialize ].
 	numHyperJump timesRepeat: [ squares add: HyperJump new initialize ].
 
@@ -66,18 +100,54 @@ Board >> numberOfSquares [
 { #category : 'behavior' }
 Board >> playTurnWith: aPlayer and: diceRoll [
 
-	| currentIndex newIndex newCell |
+	| currentIndex newIndex newCell ocupantes|
 	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
-	newIndex := currentIndex + diceRoll.
+	newIndex := currentIndex + (diceRoll).
 
 	[ newIndex > boardSquares size ] whileTrue: [
 		aPlayer incrementTurn.
 		newIndex := newIndex - boardSquares size ].
 
 	newCell := boardSquares at: newIndex.
-	playersPosition at: aPlayer put: newCell.
 	
-	"self applyCellEffectFor: aPlayer at: newCell."
+	ocupantes := playersPosition keys select: [ :jugador |
+    (playersPosition at: jugador) = newCell
+    and: [ jugador ~= aPlayer ] ].
+
+	playersPosition at: aPlayer put: newCell.
+        			
+
+	((ocupantes isNotEmpty) and: (newCell class = Normal))
+
+
+    ifTrue: [
+		
+      	
+       self iniciarBatallaEntre: aPlayer y: (ocupantes first).
+			 		]
+				
+		 ifFalse: [
+        			
+        			newCell applyEffectFor: aPlayer with: self.
+					
+				]
+
+	
+
+
+
+
+
+]
+
+{ #category : 'test methods' }
+Board >> playersPosition [ 
+	^ playersPosition .
+]
+
+{ #category : 'behavior' }
+Board >> sendToStart: aPlayer [
+	playersPosition at: aPlayer put: boardSquares first.
 ]
 
 { #category : 'test methods' }
@@ -87,6 +157,7 @@ Board >> squares [
 
 { #category : 'behavior' }
 Board >> wins: turns [
-
-	^ turns = 3 or: [ turns > 3 ]
+    ^ (turns = 3)
+        or: [ turns > 3 ].
 ]
+

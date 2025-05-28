@@ -18,21 +18,42 @@ Class {
 MockedBoard >> initializeWith: players [
 
 	| typeCounts parsecList parsecIndex squares |
-	typeCounts := {
-		              (Cell -> 4).
+"	typeCounts := {
+		              (Normal -> 4).
 		              (BlackHole -> 2).
 		              (HyperSpaceJump -> 2).
 		              (MoonWalk -> 2).
 		              (HyperJump -> 2).
-		              (AtomicBomb -> 2) } asDictionary.
+		              (AtomicBomb -> 2) } asDictionary."
 
 	parsecList := #( 20 15 10 5 ).
 	parsecIndex := 1.
+	
+	typeCounts := {
+    { Normal . 4 }.
+    { BlackHole . 2 }.
+    { HyperSpaceJump . 2 }.
+    { MoonWalk . 2 }.
+    { HyperJump . 2 }.
+    { AtomicBomb . 2 }
+}.
+
 
 	squares := OrderedCollection new.
 
-	typeCounts keysAndValuesDo: [ :type :count |
-		count timesRepeat: [ squares add: type new initialize ] ].
+	"typeCounts keysAndValuesDo: [ :type :count |
+		count timesRepeat: [ squares add: type new initialize ] ]."
+	
+	typeCounts do: [ :pair |
+    | type count |
+    type := pair first.
+    count := pair second.
+    count timesRepeat: [ squares add:
+	(type = MoonWalk 
+	ifTrue: [ type new initializeWith: 4  ]  
+	ifFalse: [type new initialize ]
+)].
+].
 
 	boardSize := squares size.
 	boardSquares := squares.

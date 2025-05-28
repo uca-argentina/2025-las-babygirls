@@ -6,18 +6,29 @@ Class {
 	#superclass : 'Cell',
 	#instVars : [
 		'oneEnd',
-		'otherEnd'
+		'otherEnd',
+		'distance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'behavior' }
-BlackHole >> applyEffect: aPlayer [
-    ^ -4
+BlackHole >> applyEffectFor: aPlayer with: aBoard [
+   | currentIndex newIndex newCell |
+	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
+	newIndex := currentIndex + distance.
+		[ newIndex < 1 ] whileTrue: [
+		aPlayer decrementTurn.
+		newIndex := newIndex + aBoard squares size ].
+
+	
+	newCell:=  aBoard squares at: newIndex.
+	aBoard playersPosition at: aPlayer put: newCell.
 ]
 
 { #category : 'intialization' }
 BlackHole >> initialize [ 
-	^self
+	distance:= -4.
+	^self.
 ]
