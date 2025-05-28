@@ -1,4 +1,3 @@
-
 "
 Where the game is played. 
 "
@@ -51,7 +50,7 @@ Board >> iniciarBatallaEntre: player1 y: player2 [
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfSquares and: players [
 
-	| numNoEffect numBlackHole numHyperSpaceJump numMoonWalk numHyperJump numAtomicBomb remainder parsecList parsecIndex squares |
+	| numNoEffect numBlackHole numHyperSpaceJump numMoonWalk numHyperJump numAtomicBomb remainder squares |
 	aNumberOfSquares < 10 ifTrue: [
 		Error signal: 'The board must have at least 10 Squares.' ].
 
@@ -67,8 +66,8 @@ Board >> initializeWith: aNumberOfSquares and: players [
 		              + numMoonWalk + numHyperJump + numAtomicBomb).
 	numNoEffect := numNoEffect + remainder.
 
-	parsecList := #( 20 15 10 5 ).
-	parsecIndex := 1.
+	
+	
 
 	squares := OrderedCollection new.
 
@@ -120,16 +119,12 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 	((ocupantes isNotEmpty) and: (newCell class = Normal))
 
 
-    ifTrue: [
-		
-      	
+    ifTrue: [ 
        self iniciarBatallaEntre: aPlayer y: (ocupantes first).
 			 		]
 				
 		 ifFalse: [
-        			
         			newCell applyEffectFor: aPlayer with: self.
-					
 				]
 
 	
@@ -160,4 +155,3 @@ Board >> wins: turns [
     ^ (turns = 3)
         or: [ turns > 3 ].
 ]
-

@@ -6,6 +6,31 @@ Class {
 }
 
 { #category : 'tests' }
+CellTest >> testApplyEffectForIncrementsIndex [
+
+    | board player hjCell initialIdx |
+    board := MockedBoard new initializeWith:
+                 (OrderedCollection with: Player new initialize).
+    player := board playersPosition keys first.
+    board playersPosition at: player put: (board squares at: 11).
+    hjCell := board squares at: 11.
+    initialIdx := hjCell instVarAt: 3.
+    hjCell applyEffectFor: player with: board.
+    self assert: (hjCell instVarAt: 3) equals: initialIdx + 1
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testIncrementIndexWrapsAfterFourSteps [
+    | hj |
+    hj := HyperJump new initialize.
+
+    4 timesRepeat: [ hj incrementIndex ].
+    self assert: (hj instVarAt: 3) equals: 1.
+ 
+]
+
+{ #category : 'tests' }
 CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
@@ -52,7 +77,7 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 CellTest >> testPlayerFallsIntoBlackHoleAndReturnsFourCells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=5.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -72,7 +97,7 @@ CellTest >> testPlayerFallsIntoBlackHoleAndReturnsFourCells [
 CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=6.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -92,7 +117,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=6.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -120,10 +145,10 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 	
 	
 	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurn: (aMatch player:1).
+	aMatch playRound.
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) equals: 11.
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 10.
 	
  
 ]
@@ -132,7 +157,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=9.
 	
 	aDie := MockedDie withSides: aNumberOfSides.

@@ -1,4 +1,3 @@
-
 Class {
 	#name : 'MatchTest',
 	#superclass : 'TestCase',
