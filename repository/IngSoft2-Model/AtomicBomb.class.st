@@ -10,12 +10,11 @@ Class {
 
 { #category : 'behavior' }
 AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
-	    | newCell |
+	    
 		
 		aBoard playersPosition keysDo: [ :player |
 		player editShield: shields.
-		newCell := aBoard squares at: 1.
-       aBoard playersPosition at: player put: newCell
+		aBoard sendToStart: player 
         ].
 
 ]

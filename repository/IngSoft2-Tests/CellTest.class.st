@@ -160,7 +160,7 @@ CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 	
 	
 	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playRound.
+	aMatch playTurn: (aMatch player:1).
 
 	
 	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 3.

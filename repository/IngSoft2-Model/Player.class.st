@@ -12,6 +12,26 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'initialization' }
+Player >> batallarCon: otroJugador usando: dado1 and: dado2 en: board [
+
+	| tiradaSelf tiradaOtro perdedor |
+	tiradaSelf := dado1 roll.
+	tiradaOtro := dado2 roll.
+	
+	[tiradaSelf = tiradaOtro] whileTrue:
+	[ tiradaSelf := dado1 roll.
+	tiradaOtro := dado2 roll. ].
+	
+	(tiradaSelf > tiradaOtro) ifTrue: 
+	[ perdedor := otroJugador ]
+	ifFalse: [ perdedor := self ].
+		
+	perdedor editShield: -1 .
+		board sendToStart: perdedor.
+	
+]
+
 { #category : 'behavior' }
 Player >> decrementTurn [
 
@@ -33,6 +53,15 @@ turns := turns +1.
 Player >> initialize [
 	shields := 3 .
 	turns := 0.
+]
+
+{ #category : 'behavior' }
+Player >> loseShield [
+	shields - 1.
+	shields <= 0 ifTrue: [ 
+		turns := 2.
+		shields := 0].
+
 ]
 
 { #category : 'accessing' }

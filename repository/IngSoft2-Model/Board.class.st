@@ -37,6 +37,16 @@ Board >> goAhead: aNumber with: aPlayer in: aCell [
 	^ newCell
 ]
 
+{ #category : 'test methods' }
+Board >> iniciarBatallaEntre: player1 y: player2 [
+	| dado1 dado2 |
+	dado1:= Die withSides: 6.
+	dado2:= Die withSides: 6.
+	(player1) batallarCon: (player2) usando:dado1 and: dado2 en: self.
+	
+	
+]
+
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfSquares and: players [
 
@@ -89,7 +99,7 @@ Board >> numberOfSquares [
 { #category : 'behavior' }
 Board >> playTurnWith: aPlayer and: diceRoll [
 
-	| currentIndex newIndex newCell |
+	| currentIndex newIndex newCell ocupantes |
 	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
 	newIndex := currentIndex + (diceRoll).
 
@@ -98,15 +108,33 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 		newIndex := newIndex - boardSquares size ].
 
 	newCell := boardSquares at: newIndex.
-	playersPosition at: aPlayer put: newCell.
-	Transcript show: newCell class name; cr.
+	ocupantes := playersPosition keys select: [ :jugador |
+    (playersPosition at: jugador) = newCell
+    and: [ jugador ~= aPlayer ] ].
+
 	
-	newCell applyEffectFor: aPlayer with: self.
+	ocupantes isEmpty
+	 ifTrue: [
+        playersPosition at: aPlayer put: newCell.
+        newCell applyEffectFor: aPlayer with: self
+    ]
+    ifFalse: [
+        
+        self iniciarBatallaEntre: aPlayer y: (ocupantes first)
+    ].
+
+	
+
 ]
 
 { #category : 'test methods' }
 Board >> playersPosition [ 
 	^ playersPosition .
+]
+
+{ #category : 'behavior' }
+Board >> sendToStart: aPlayer [
+	playersPosition at: aPlayer put: boardSquares first.
 ]
 
 { #category : 'test methods' }
