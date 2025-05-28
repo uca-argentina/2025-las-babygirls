@@ -66,6 +66,46 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 ]
 
 { #category : 'tests' }
+CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=9.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playTurn: (aMatch player:1).
+
+	
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) equals: 11.
+	
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=9.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	aMatch playTurn: (aMatch player:1).
+
+	
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 10.
+	
+ 
+]
+
+{ #category : 'tests' }
 CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |

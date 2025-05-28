@@ -65,7 +65,7 @@ Board >> initializeWith: aNumberOfSquares and: players [
 	numBlackHole timesRepeat: [ squares add: BlackHole new initialize ].
 	numHyperSpaceJump timesRepeat: [
 		squares add: HyperSpaceJump new initialize ].
-	numMoonWalk timesRepeat: [ squares add: MoonWalk new initialize ].
+	numMoonWalk timesRepeat: [ squares add: (MoonWalk new initializeWith: (1 to: squares size) atRandom ) ].
 	numAtomicBomb timesRepeat: [ squares add: AtomicBomb new initialize ].
 	numHyperJump timesRepeat: [ squares add: HyperJump new initialize ].
 

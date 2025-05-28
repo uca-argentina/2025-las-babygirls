@@ -21,9 +21,9 @@ HyperSpaceJump >> applyEffect: aPlayer [
 { #category : 'initialization' }
 HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
    | currentIndex newIndex newCell |
-	aPlayer editShield: -1.
+	aPlayer editShield: shields.
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
-	newIndex := currentIndex + 4.
+	newIndex := currentIndex + distance.
 		[ newIndex > aBoard squares size ] whileTrue: [
 		aPlayer incrementTurn.
 		newIndex := newIndex - aBoard squares size ].

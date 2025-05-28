@@ -48,9 +48,12 @@ MockedBoard >> initializeWith: players [
     | type count |
     type := pair first.
     count := pair second.
-    count timesRepeat: [ squares add: type new initialize ].
+    count timesRepeat: [ squares add:
+	(type = MoonWalk 
+	ifTrue: [ type new initializeWith: -4  ]  
+	ifFalse: [type new initialize ]
+)].
 ].
-
 
 	boardSize := squares size.
 	boardSquares := squares.
