@@ -43,6 +43,12 @@ Match >> applyCellEffectFor: aPlayer at: aPosition [
             ]]."
 ]
 
+{ #category : 'initialization' }
+Match >> board [
+
+	^ theBoard 
+]
+
 { #category : 'behavior' }
 Match >> changeNextTurnPlayer [
     | index size |

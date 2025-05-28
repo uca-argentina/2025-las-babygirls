@@ -13,6 +13,12 @@ Class {
 }
 
 { #category : 'behavior' }
+Player >> decrementTurn [
+
+turns := turns - 1.
+]
+
+{ #category : 'behavior' }
 Player >> editShield: value [
 	shields := shields + value
 ]

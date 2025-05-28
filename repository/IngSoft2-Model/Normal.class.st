@@ -1,24 +1,21 @@
 Class {
-	#name : 'HyperJump',
+	#name : 'Normal',
 	#superclass : 'Cell',
-	#instVars : [
-		'distance'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'behavior' }
-HyperJump >> applyEffect: aPlayer [
+Normal >> applyEffect: aPlayer [
     ^ 0
 ]
 
 { #category : 'behavior' }
-HyperJump >> applyEffectFor: aPlayer with: aBoard [
-  "  | currentIndex newIndex newCell |
+Normal >> applyEffectFor: aPlayer with: aBoard [
+"	| currentIndex newIndex newCell |
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
 	newIndex := currentIndex - 4.
-		[ newIndex < 1] whileTrue: [
+		[ newIndex <1 ] whileTrue: [
 		aPlayer decrementTurn.
 		newIndex := newIndex + aBoard squares size ].
 
@@ -27,7 +24,7 @@ HyperJump >> applyEffectFor: aPlayer with: aBoard [
 	aBoard playersPosition at: aPlayer put: newCell."
 ]
 
-{ #category : 'intialization' }
-HyperJump >> initialize [ 
+{ #category : 'initialization' }
+Normal >> initialize [ 
 	^self
 ]

@@ -91,7 +91,7 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 
 	| currentIndex newIndex newCell |
 	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
-	newIndex := currentIndex + diceRoll.
+	newIndex := currentIndex + (diceRoll-1).
 
 	[ newIndex > boardSquares size ] whileTrue: [
 		aPlayer incrementTurn.
@@ -99,8 +99,14 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 
 	newCell := boardSquares at: newIndex.
 	playersPosition at: aPlayer put: newCell.
+	Transcript show: newCell class name; cr.
 	
-	"self applyCellEffectFor: aPlayer at: newCell."
+	newCell applyEffectFor: aPlayer with: self.
+]
+
+{ #category : 'test methods' }
+Board >> playersPosition [ 
+	^ playersPosition .
 ]
 
 { #category : 'test methods' }

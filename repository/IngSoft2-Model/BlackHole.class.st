@@ -17,7 +17,21 @@ BlackHole >> applyEffect: aPlayer [
     ^ -4
 ]
 
+{ #category : 'behavior' }
+BlackHole >> applyEffectFor: aPlayer with: aBoard [
+   | currentIndex newIndex newCell |
+	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
+	newIndex := currentIndex - 4.
+		[ newIndex < 1 ] whileTrue: [
+		aPlayer decrementTurn.
+		newIndex := newIndex + aBoard squares size ].
+
+	
+	newCell:=  aBoard squares at: newIndex.
+	aBoard playersPosition at: aPlayer put: newCell.
+]
+
 { #category : 'intialization' }
 BlackHole >> initialize [ 
-	^self
+	^self.
 ]
