@@ -6,65 +6,78 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'shields',
-		'turns'
+		'laps',
+		'turnsToLose'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
-Player >> batallarCon: otroJugador usando: dado1 and: dado2 en: board [
+{ #category : 'behavior' }
+Player >> battleWith: otherPlayer using: die and: die2 in: board [
 
 	| tiradaSelf tiradaOtro  |
-	tiradaSelf := dado1 roll.
-	tiradaOtro := dado2 roll.
+	tiradaSelf := die roll.
+	tiradaOtro := die2 roll.
 	
 	[tiradaSelf = tiradaOtro] whileTrue:
-	[ tiradaSelf := dado1 roll.
-	tiradaOtro := dado2 roll. ].
+	[ tiradaSelf := die roll.
+	tiradaOtro := die2 roll. ].
 	
 	(tiradaSelf > tiradaOtro) 
 	ifFalse: 
-	[ self editShield: -1 .
+	[ self loseShield.
 		board sendToStart: self. ]
 	ifTrue: [ 
-		otroJugador editShield: -1 .
-		board sendToStart: otroJugador.
+		otherPlayer loseShield.
+		board sendToStart: otherPlayer.
 	 ].
 		
 	
 ]
 
 { #category : 'behavior' }
-Player >> decrementTurn [
+Player >> decrementLap [
 
-turns := turns - 1.
+laps := laps - 1.
+]
+
+{ #category : 'behavior' }
+Player >> decrementTurnToLose [
+turnsToLose := turnsToLose -1.
 ]
 
 { #category : 'behavior' }
 Player >> editShield: value [
-	shields := shields + value
+	shields := value
 ]
 
 { #category : 'behavior' }
-Player >> incrementTurn [
+Player >> incrementLap [
 
-turns := turns +1.
+laps := laps +1.
 ]
 
 { #category : 'initialization' }
 Player >> initialize [
 	shields := 3 .
-	turns := 0.
+	laps := 0.
+	turnsToLose := 0.
+	
+]
+
+{ #category : 'accessing' }
+Player >> laps [
+	^ laps
 ]
 
 { #category : 'behavior' }
 Player >> loseShield [
-	shields - 1.
-	shields <= 0 ifTrue: [ 
-		turns := 2.
-		shields := 0].
 
+	shields := shields - 1.
+	shields <= 0 ifFalse: [ ^ self ].
+	turnsToLose := 2.
+	shields := 3
 ]
 
 { #category : 'accessing' }
@@ -73,6 +86,7 @@ Player >> shield [
 ]
 
 { #category : 'accessing' }
-Player >> turns [
-	^ turns
+Player >> turnsToLose [
+
+	^ turnsToLose
 ]

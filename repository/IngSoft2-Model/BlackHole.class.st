@@ -19,20 +19,19 @@ BlackHole >> applyEffectFor: aPlayer with: aBoard [
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
 	newIndex := currentIndex + distance.
 		[ newIndex < 1 ] whileTrue: [
-		aPlayer decrementTurn.
+		aPlayer decrementLap.
 		newIndex := newIndex + aBoard squares size ].
 
 	
 	newCell:=  aBoard squares at: newIndex.
 	aBoard playersPosition at: aPlayer put: newCell.
 	
-	super fightIn: aBoard with: aPlayer in: newCell
+	self fightIn: aBoard with: aPlayer in: newCell
 				
 				
 ]
 
-{ #category : 'intialization' }
+{ #category : 'initialization' }
 BlackHole >> initialize [ 
 	distance:= -4.
-	^self.
 ]
