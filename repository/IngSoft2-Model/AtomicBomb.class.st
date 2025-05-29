@@ -23,6 +23,5 @@ AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
 
 { #category : 'initialization' }
 AtomicBomb >> initialize [ 
-	shields := -1.
-	^self
+
 ]
