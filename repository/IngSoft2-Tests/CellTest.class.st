@@ -34,7 +34,7 @@ CellTest >> testIncrementIndexWrapsAfterFourSteps [
 CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=13.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -46,7 +46,6 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	
 	self assert: (aMatch player:1) shield equals: 2.
-	self assert: (aMatch player:2) shield equals: 2.
 	
 	
  

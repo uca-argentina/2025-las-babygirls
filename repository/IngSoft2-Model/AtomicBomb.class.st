@@ -1,9 +1,11 @@
+"
+Vuelve a todos al primer casillero. 
+La cantidad de vueltas que dio cada nave se mantiene. 
+Resta 1 escudo a todas las naves 
+"
 Class {
 	#name : 'AtomicBomb',
 	#superclass : 'Cell',
-	#instVars : [
-		'shields'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -13,7 +15,7 @@ AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
 	    
 		
 		aBoard playersPosition keysDo: [ :player |
-		player editShield: shields.
+		player loseShield.
 		aBoard sendToStart: player 
         ].
 

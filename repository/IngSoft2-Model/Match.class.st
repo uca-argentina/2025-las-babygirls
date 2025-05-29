@@ -29,20 +29,6 @@ Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
 ^self new initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice.
 ]
 
-{ #category : 'revision(creo q se quita)' }
-Match >> applyCellEffectFor: aPlayer at: aPosition [
-    "| offset |
-
-    offset := aPosition applyEffect: aPlayer .
-    offset isNumber
-        ifTrue: [ offset = 0
-            ifFalse: [ 
-                playersPosition 
-                    at: aPlayer 
-                    put: (aPosition + offset) 
-            ]]."
-]
-
 { #category : 'initialization' }
 Match >> board [
 
@@ -64,7 +50,7 @@ Match >> changeNextTurnPlayer [
 { #category : 'behavior' }
 Match >> checkIfWins: aPlayer [
 
-	(theBoard wins: (aPlayer turns)) ifTrue: [
+	(theBoard wins: (aPlayer laps)) ifTrue: [
 		theWinner := aPlayer.
 		aWinner := true ].
 	^aWinner.
@@ -122,7 +108,7 @@ Match >> playTurn: aPlayer [
 	theBoard playTurnWith: aPlayer and: diceRoll.
 
     self changeNextTurnPlayer.
-    ^ self checkIfWins: aPlayer
+    self checkIfWins: aPlayer.
 ]
 
 { #category : 'behavior' }
@@ -133,7 +119,7 @@ Match >> playTurnMocked: aPlayer [
 	theBoard playTurnWith: aPlayer and: diceRoll.
 
     self changeNextTurnPlayer.
-    ^ self checkIfWins: aPlayer
+    self checkIfWins: aPlayer.
 ]
 
 { #category : 'test methods' }
@@ -150,7 +136,7 @@ Match >> playerPosition: aNumber [
 
 { #category : 'test methods' }
 Match >> playerTurn: aNumber [ 
-	^(players at: aNumber) turns
+	^(players at: aNumber) laps
 ]
 
 { #category : 'behavior' }
@@ -158,7 +144,7 @@ Match >> podium [
 	| orderedPlayers |
 
 	orderedPlayers := players sort: [ :a :b |
-		a turns > b turns
+		a laps > b laps
 	].
 
 	^ (orderedPlayers first: (orderedPlayers size min: 3)) asArray

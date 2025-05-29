@@ -16,49 +16,41 @@ Class {
 
 { #category : 'initialization' }
 MockedBoard >> initializeWith: players [
+    | typeCounts squares |
 
-	| typeCounts parsecList parsecIndex squares |
-"	typeCounts := {
-		              (Normal -> 4).
-		              (BlackHole -> 2).
-		              (HyperSpaceJump -> 2).
-		              (MoonWalk -> 2).
-		              (HyperJump -> 2).
-		              (AtomicBomb -> 2) } asDictionary."
+    "Definir los tipos de casillas y cuántas de cada una"
+    typeCounts := {
+        { Normal . 4 }.
+        { BlackHole . 2 }.
+        { HyperSpaceJump . 2 }.
+        { MoonWalk . 2 }.
+        { HyperJump . 2 }.
+        { AtomicBomb . 2 }
+    }.
 
-	parsecList := #( 20 15 10 5 ).
-	parsecIndex := 1.
-	
-	typeCounts := {
-    { Normal . 4 }.
-    { BlackHole . 2 }.
-    { HyperSpaceJump . 2 }.
-    { MoonWalk . 2 }.
-    { HyperJump . 2 }.
-    { AtomicBomb . 2 }
-}.
+    squares := OrderedCollection new.
 
+    typeCounts do: [:pair |
+        | type count |
+        type := pair first.
+        count := pair second.
+        count timesRepeat: [
+            squares add: (
+                type = MoonWalk
+                    ifTrue: [ type new initializeWith: 3 ]
+                    ifFalse: [ type new initialize ]
+            )
+        ].
+    ].
 
-	squares := OrderedCollection new.
+    "Asignar casillas al tablero"
+    boardSize := squares size.
+    boardSquares := squares.
 
-	"typeCounts keysAndValuesDo: [ :type :count |
-		count timesRepeat: [ squares add: type new initialize ] ]."
-	
-	typeCounts do: [ :pair |
-    | type count |
-    type := pair first.
-    count := pair second.
-    count timesRepeat: [ squares add:
-	(type = MoonWalk 
-	ifTrue: [ type new initializeWith: 3  ]  
-	ifFalse: [type new initialize ]
-)].
-].
+    "Inicializar posiciones de los jugadores"
+    playersPosition := Dictionary new.
+    players do: [:player |
+        playersPosition at: player put: boardSquares first
+    ].
 
-	boardSize := squares size.
-	boardSquares := squares.
-	playersPosition := Dictionary new.
-
-	players do: [ :player |
-		playersPosition at: player put: boardSquares first ]
 ]
