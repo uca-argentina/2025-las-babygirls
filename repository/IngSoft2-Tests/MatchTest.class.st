@@ -8,17 +8,18 @@ Class {
 { #category : 'tests' }
 MatchTest >> testCheckIfPlayerDoATurnDoesntWin [
 
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 20.
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=1400.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
-	dice := OrderedCollection new.
-	dice add: aDie.
+	dice := OrderedCollection with: aDie.
 	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
-	aMatch playRound.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 
 	self assert: aMatch winner equals: false
 ]
@@ -26,76 +27,80 @@ MatchTest >> testCheckIfPlayerDoATurnDoesntWin [
 { #category : 'tests' }
 MatchTest >> testCheckIfWins [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSides := 60.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=999400.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
-	dice := OrderedCollection new.
-	dice add: aDie.
+	dice := OrderedCollection with: aDie.
 	
-	aMatch := Match mockedWith: aNumberOfPlayers and: dice.
-	aMatch playRound.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 
 	self assert: aMatch winner equals: (aMatch player: 1)
 ]
 
 { #category : 'tests' }
 MatchTest >> testPlayerTurn [
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
 
-	aNumberOfPlayers := 7.
-	aNumberOfSides := 60.
-
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=399.
+	aNumberOfSquares := 1000.
+	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 
-	aMatch := Match mockedWith: aNumberOfPlayers and: dice.
-	aMatch playRound.
 
-
-	self assert:( aMatch playerTurn: 1) equals: 4.
+	self assert:( aMatch playerTurn: 1) equals: 0.
 
 
 ]
 
 { #category : 'tests' }
 MatchTest >> testPodium [
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie podiumArray |
 
-	aNumberOfPlayers := 7.
-	aNumberOfSides := 60.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares podiumArray |
+	aNumberOfPlayers := 3.
+	aNumberOfSides := 3400.
+	aNumberOfSquares := 1000.
 
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 
-	aMatch := Match mockedWith: aNumberOfPlayers and: dice.
+	builder := Builder
+		           with: aNumberOfSquares
+		           players: aNumberOfPlayers
+		           dice: dice.
+	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
 	podiumArray := aMatch podium.
 
 	self assert: podiumArray size equals: 3.
 
-	podiumArray do: [ :each |
-		self assert: (each isKindOf: Player)
-	].
-
+	podiumArray do: [ :each | self assert: (each isKindOf: Player) ]
 ]
 
 { #category : 'tests' }
 MatchTest >> testWhenNobodyHasWonItShowsNoWinner [
 
-	| aMatch aNumberOfSquares aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSquares := 10.
-	aNumberOfSides := 6.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=399.
+	aNumberOfSquares := 1000.
 	
-	aDie := MockedDie withSides: 2.
-	dice := OrderedCollection new.
-	dice add: aDie.
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
 	
-	aMatch := Match with: aNumberOfPlayers and: aNumberOfSquares and: dice.
-	aMatch playRound.
-
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 	self assert: aMatch winner equals: (false)
 ]

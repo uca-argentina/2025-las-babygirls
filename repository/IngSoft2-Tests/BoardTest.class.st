@@ -18,65 +18,98 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 
 { #category : 'tests' }
 BoardTest >> testBoardHasCorrectSize [
-    | board  players player |
+    | board numberOfPlayers numberOfSquares builder aDie |
 	
-	player := Player new.
-	players := OrderedCollection new.
-	players add: player.
+	numberOfSquares := 50.
+	numberOfPlayers := 3.
+	aDie := MockedDie withSides: 6.
 	
-    board := Board new initializeWith: 50 and: players.
+    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+	board := builder buildNormalBoard.
     self assert: (board squares) size equals: 50
 ]
 
 { #category : 'tests' }
-BoardTest >> testDistributionFor50Squares [
-    | board counts  players player |
-	
-	player := Player new.
-	players := OrderedCollection new.
-	players add: player.
-	
-    board := Board new initializeWith: 50 and: players .
-    counts := Dictionary new.
-    counts at: #Normal put: (board squares count: [ :s | s class = Normal]).
-    counts at: #BlackHole put: (board squares count: [ :s | s class = BlackHole]).
-    counts at: #HyperSpaceJump put: (board squares count: [ :s | s class = HyperSpaceJump]).
-    counts at: #MoonWalk put: (board squares count: [ :s | s class = MoonWalk]).
-    counts at: #HyperJump put: (board squares count: [ :s | s class = HyperJump]).
-    counts at: #AtomicBomb put: (board squares count: [ :s | s class = AtomicBomb]).
+BoardTest >> testDistributionFor10000Squares [
 
-    self assert: (counts at: #Normal) equals: 20.
-    self assert: (counts at: #BlackHole) equals: 10.
-    self assert: (counts at: #HyperSpaceJump) equals: 10.
-    self assert: (counts at: #MoonWalk) equals:  5.
-    self assert: (counts at: #HyperJump) equals:  4.
-    self assert: (counts at: #AtomicBomb) equals:  1.
-]
+	| board counts numberOfSquares expectedRanges builder aDie numberOfPlayers |
+	numberOfSquares := 10000.
+	numberOfPlayers := 1.
+	aDie := MockedDie withSides: 6.
 
-{ #category : 'tests' }
-BoardTest >> testRemainderGoesToNoEffectForNonDivisible [
-    | board expectedNoEffect players player |
-	
-	player := Player new.
-	players := OrderedCollection new.
-	players add: player.
-	
-    board := Board new initializeWith: 53 and: players .
-    expectedNoEffect := ((53 * 40) // 100)+ (53 - (((53*40)//100) + ((53*20)//100) + ((53*20)//100) + ((53*10)//100) + ((53*8)//100) + ((53*2)//100))).
-    self assert: (board squares count: [ :s | s class = Normal ]) equals: expectedNoEffect.
+	builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+	board := builder buildNormalBoard.
+
+	"Toma los valores reales de cada tipo"
+	counts := Dictionary new.
+	counts
+		at: #Normal
+		put: (board squares count: [ :s | s class = Normal ]).
+	counts
+		at: #BlackHole
+		put: (board squares count: [ :s | s class = BlackHole ]).
+	counts
+		at: #HyperSpaceJump
+		put: (board squares count: [ :s | s class = HyperSpaceJump ]).
+	counts
+		at: #MoonWalk
+		put: (board squares count: [ :s | s class = MoonWalk ]).
+	counts
+		at: #HyperJump
+		put: (board squares count: [ :s | s class = HyperJump ]).
+	counts
+		at: #AtomicBomb
+		put: (board squares count: [ :s | s class = AtomicBomb ]).
+
+
+	"Ahora pone un error del 10% para el valor esperado de cada tipo de celda"
+	expectedRanges := Dictionary new.
+	expectedRanges at: #Normal put: {
+			(numberOfSquares * 0.40 * 0.90).
+			(numberOfSquares * 0.40 * 1.10) }.
+	expectedRanges at: #BlackHole put: {
+			(numberOfSquares * 0.20 * 0.90).
+			(numberOfSquares * 0.20 * 1.10) }.
+	expectedRanges at: #HyperSpaceJump put: {
+			(numberOfSquares * 0.20 * 0.90).
+			(numberOfSquares * 0.20 * 1.10) }.
+	expectedRanges at: #MoonWalk put: {
+			(numberOfSquares * 0.10 * 0.90).
+			(numberOfSquares * 0.10 * 1.10) }.
+	expectedRanges at: #HyperJump put: {
+			(numberOfSquares * 0.08 * 0.90).
+			(numberOfSquares * 0.08 * 1.10) }.
+	expectedRanges at: #AtomicBomb put: {
+			(numberOfSquares * 0.02 * 0.90).
+			(numberOfSquares * 0.02 * 1.10) }.
+
+	expectedRanges keysAndValuesDo: [ :effect :range |
+		| count message lower upper |
+		count := counts at: effect.
+		lower := range first.
+		upper := range second.
+		message := 'Count for ' , effect printString , ' was '
+		           , count printString , ', expected between '
+		           , lower printString , ' and ' , upper printString.
+		self
+			assert: (count between: lower asInteger and: upper asInteger)
+			description: message ]
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 
-	| aBoard aNumberOfSquares players player |
+	| aBoard aNumberOfSquares numberOfPlayers numberOfSquares builder aDie |
 	
-	player := Player new.
-	players := OrderedCollection new.
-	players add: player.
+	numberOfSquares := 3.
+	numberOfPlayers := 3.
 	aNumberOfSquares := -1.
+	aDie := MockedDie withSides: 6.
+	
+    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+	 
 	self
-		should: [ aBoard := Board new initializeWith: aNumberOfSquares and: players ]
+		should: [aBoard := builder buildNormalBoard ]
 		raise: Error
-		withMessageText: 'The board must have at least 10 Squares.'
+		withMessageText: 'The board must have at least 10 squares.'
 ]
