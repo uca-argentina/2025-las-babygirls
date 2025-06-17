@@ -99,12 +99,6 @@ Match >> player: aNumber [
 ]
 
 { #category : 'test methods' }
-Match >> playerPosition: aNumber [
-
-	^ playersPosition at: (players at: aNumber)
-]
-
-{ #category : 'test methods' }
 Match >> playerTurn: aNumber [ 
 	^(players at: aNumber) laps
 ]

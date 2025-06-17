@@ -20,8 +20,3 @@ AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
         ].
 
 ]
-
-{ #category : 'initialization' }
-AtomicBomb >> initialize [ 
-
-]

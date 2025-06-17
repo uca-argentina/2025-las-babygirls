@@ -29,8 +29,3 @@ Cell >> fightIn: aBoard with: aPlayer in: newCell [
 				
 
 ]
-
-{ #category : 'initialization' }
-Cell >> initialize [
-    self subclassResponsibility.
-]

@@ -35,11 +35,6 @@ MoonWalk >> applyEffectFor: aPlayer with: aBoard [
 ]
 
 { #category : 'initialization' }
-MoonWalk >> initialize [
-
-]
-
-{ #category : 'initialization' }
 MoonWalk >> initializeWith: aDistance [
 	distance:= aDistance negated.
 ]
