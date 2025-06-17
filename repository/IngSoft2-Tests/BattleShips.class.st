@@ -42,8 +42,8 @@ BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserReturnToTheFir
 	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
-	player1Position := (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))).
-	player2Position := (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))).
+	player1Position := aMatch positionOfPlayer: 1.
+	player2Position := aMatch positionOfPlayer: 2.
 	result := ((player1Position = 1) and: (player2Position = 400)) or: ((player1Position = 400) and: (player2Position = 1)).
 	
 	self assert: (result).
@@ -72,13 +72,13 @@ BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 	aMatch playRound.
 
 	playerShield := (aMatch player: 1) shield.
-	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	playerTurnsToLose := (aMatch player: 1) remainingSkippedTurns.
 
 	self assert: (playerShield = 3 and: playerTurnsToLose = 2).
 
-	aMatch playTurnMocked: (aMatch player: 1).
+	aMatch playRound .
 	playerShield := (aMatch player: 1) shield.
-	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	playerTurnsToLose := (aMatch player: 1) remainingSkippedTurns.
 
 	self assert: (playerShield = 3 and: playerTurnsToLose = 1)
 ]

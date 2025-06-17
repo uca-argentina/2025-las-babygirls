@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'shields',
 		'laps',
-		'turnsToLose'
+		'remainingSkippedTurns'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -44,7 +44,7 @@ laps := laps - 1.
 
 { #category : 'behavior' }
 Player >> decrementTurnToLose [
-turnsToLose := turnsToLose -1.
+remainingSkippedTurns := remainingSkippedTurns -1.
 ]
 
 { #category : 'behavior' }
@@ -62,7 +62,7 @@ laps := laps +1.
 Player >> initialize [
 	shields := 3 .
 	laps := 0.
-	turnsToLose := 0.
+	remainingSkippedTurns := 0.
 	
 ]
 
@@ -76,17 +76,17 @@ Player >> loseShield [
 
 	shields := shields - 1.
 	shields <= 0 ifFalse: [ ^ self ].
-	turnsToLose := 2.
+	remainingSkippedTurns := 2.
 	shields := 3
+]
+
+{ #category : 'accessing' }
+Player >> remainingSkippedTurns [
+
+	^ remainingSkippedTurns
 ]
 
 { #category : 'accessing' }
 Player >> shield [
 	^shields.
-]
-
-{ #category : 'accessing' }
-Player >> turnsToLose [
-
-	^ turnsToLose
 ]

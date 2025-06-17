@@ -16,7 +16,7 @@ Class {
 HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
    | currentIndex newIndex newCell |
 	aPlayer loseShield .
-	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
+	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
 	newIndex := currentIndex + distance.
 		[ newIndex > aBoard squares size ] whileTrue: [
 		aPlayer incrementLap.
@@ -24,7 +24,7 @@ HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
 
 	
 	newCell:=  aBoard squares at: newIndex.
-	aBoard playersPosition at: aPlayer put: newCell.
+	aBoard playersPositions at: aPlayer put: newCell.
 	self fightIn: aBoard with: aPlayer in: newCell
 ]
 

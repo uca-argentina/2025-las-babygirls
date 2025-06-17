@@ -16,11 +16,11 @@ Die class >> withSides: aNumber [
 
 	aNumber < 2 ifTrue: [
 		Error signal: 'The sides of the dice must be at least 2' ].
-	^ self new initializzeWithSize: aNumber.
+	^ self new initializeWithSize: aNumber.
 ]
 
 { #category : 'initialize' }
-Die >> initializzeWithSize: aNumber [
+Die >> initializeWithSize: aNumber [
 
 sides := aNumber.
 ]

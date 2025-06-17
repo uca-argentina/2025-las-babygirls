@@ -81,27 +81,10 @@ Match >> playTurn: aPlayer [
     self checkIfWins: aPlayer.
 ]
 
-{ #category : 'behavior' }
-Match >> playTurnMocked: aPlayer [
-    | diceRoll |
-
-    diceRoll := self rollTheDice.
-	theBoard playTurnWith: aPlayer and: diceRoll.
-
-    self changeNextTurnPlayer.
-    self checkIfWins: aPlayer.
-]
-
 { #category : 'test methods' }
 Match >> player: aNumber [
 
 	^ players at: aNumber
-]
-
-{ #category : 'test methods' }
-Match >> playerPosition: aNumber [
-
-	^ playersPosition at: (players at: aNumber)
 ]
 
 { #category : 'test methods' }
@@ -119,6 +102,14 @@ Match >> podium [
 
 	^ (orderedPlayers first: (orderedPlayers size min: 3)) asArray
 
+
+]
+
+{ #category : 'test methods' }
+Match >> positionOfPlayer: aNumber [
+    | player |
+    player := players at: aNumber.
+    ^ theBoard positionOfPlayer: player.
 
 ]
 

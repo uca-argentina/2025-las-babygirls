@@ -12,8 +12,3 @@ Class {
 Normal >> applyEffectFor: aPlayer with: aBoard [
 
 ]
-
-{ #category : 'initialization' }
-Normal >> initialize [ 
-
-]
