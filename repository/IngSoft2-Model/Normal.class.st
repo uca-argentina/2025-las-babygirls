@@ -1,3 +1,6 @@
+"
+Casilla donde se puede combatir
+"
 Class {
 	#name : 'Normal',
 	#superclass : 'Cell',
@@ -7,10 +10,10 @@ Class {
 
 { #category : 'behavior' }
 Normal >> applyEffectFor: aPlayer with: aBoard [
-	^self
+
 ]
 
 { #category : 'initialization' }
 Normal >> initialize [ 
-	^self
+
 ]

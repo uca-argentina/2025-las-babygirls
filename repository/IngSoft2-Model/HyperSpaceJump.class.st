@@ -1,38 +1,36 @@
 "
-Avanza Al jugador para adelante y le quita un escudo.
+Avanza la nave 4 casilleros. 
+Pierde 1 escudo 
 "
 Class {
 	#name : 'HyperSpaceJump',
 	#superclass : 'Cell',
 	#instVars : [
-		'distance',
-		'shields'
+		'distance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'behavior' }
 HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
    | currentIndex newIndex newCell |
-	aPlayer editShield: shields.
+	aPlayer loseShield .
 	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
 	newIndex := currentIndex + distance.
 		[ newIndex > aBoard squares size ] whileTrue: [
-		aPlayer incrementTurn.
+		aPlayer incrementLap.
 		newIndex := newIndex - aBoard squares size ].
 
 	
 	newCell:=  aBoard squares at: newIndex.
 	aBoard playersPosition at: aPlayer put: newCell.
-	super fightIn: aBoard with: aPlayer in: newCell
+	self fightIn: aBoard with: aPlayer in: newCell
 ]
 
 { #category : 'initialization' }
 HyperSpaceJump >> initialize [
  	distance := 4.
-   shields := -1.
-   ^ self.
 
 
 ]

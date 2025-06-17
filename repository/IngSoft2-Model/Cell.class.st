@@ -24,7 +24,7 @@ Cell >> fightIn: aBoard with: aPlayer in: newCell [
     			
 	(ocupantes isNotEmpty) 
     ifTrue: [ 
-       aBoard iniciarBatallaEntre: aPlayer y: (ocupantes first).
+       aBoard battleBetween: aPlayer and: (ocupantes first).
 			 		]
 				
 

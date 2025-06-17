@@ -50,18 +50,45 @@ BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserReturnToTheFir
 ]
 
 { #category : 'tests' }
-BattleShips >> testWhenPlayerInBlackHoleIsSentToACellWithOtherPlayerThenTheyBattleAndAPlayerLoseOneShield [
+BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie  escudos1 escudos2 |
-	aNumberOfPlayers := 2.
-	aNumberOfSides :=2.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie playerShield playerTurnsToLose |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=12.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
 	
 	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurnMocked: (aMatch player:1).
+	aMatch playTurnMocked: (aMatch player: 1).
+	aMatch playTurnMocked: (aMatch player: 1).
+	aMatch playTurnMocked: (aMatch player: 1).
+	playerShield := (aMatch player: 1) shield.
+	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	
+	self assert: ((playerShield = 3) and: (playerTurnsToLose = 2)).
+	
+	aMatch playTurnMocked: (aMatch player: 1).
+	playerShield := (aMatch player: 1) shield.
+	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	
+	self assert: ((playerShield = 3) and: (playerTurnsToLose = 1)).
+	
+]
+
+{ #category : 'tests' }
+BattleShips >> testWhenPlayerInBlackHoleIsSentToACellWithOtherPlayerThenTheyBattleAndAPlayerLoseOneShield [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie  escudos1 escudos2 |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=4.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	
+	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
 	aMatch playTurnMocked: (aMatch player:1).
 	
 	

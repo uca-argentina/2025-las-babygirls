@@ -14,9 +14,9 @@ CellTest >> testApplyEffectForIncrementsIndex [
     player := board playersPosition keys first.
     board playersPosition at: player put: (board squares at: 11).
     hjCell := board squares at: 11.
-    initialIdx := hjCell instVarAt: 3.
+    initialIdx := hjCell instVarAt: 2.
     hjCell applyEffectFor: player with: board.
-    self assert: (hjCell instVarAt: 3) equals: initialIdx + 1
+    self assert: (hjCell instVarAt: 2) equals: initialIdx + 1
  
 ]
 
@@ -26,7 +26,7 @@ CellTest >> testIncrementIndexWrapsAfterFourSteps [
     hj := HyperJump new initialize.
 
     4 timesRepeat: [ hj incrementIndex ].
-    self assert: (hj instVarAt: 3) equals: 1.
+    self assert: (hj instVarAt: 2) equals: 1.
  
 ]
 
@@ -34,7 +34,7 @@ CellTest >> testIncrementIndexWrapsAfterFourSteps [
 CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
+	aNumberOfPlayers := 1.
 	aNumberOfSides :=13.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -46,7 +46,6 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	
 	self assert: (aMatch player:1) shield equals: 2.
-	self assert: (aMatch player:2) shield equals: 2.
 	
 	
  

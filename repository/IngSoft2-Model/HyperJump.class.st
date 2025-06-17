@@ -1,8 +1,15 @@
+"
+Avanza la nave M ‘parsecs’ hacia adelante. 
+El efecto asigna parsecs de una lista de valores cada vez que una nave 
+arriba a ese casillero, siempre de mayor a menor. Una vez que se dan todas 
+las opciones de la lista de valores, se resetean. 
+Ahora el tablero tiene una longitud total medida en parsecs; cada casillero 
+tiene distribuida la distancia total de forma equitativa. 
+"
 Class {
 	#name : 'HyperJump',
 	#superclass : 'Cell',
 	#instVars : [
-		'distance',
 		'parsecPerCell',
 		'index',
 		'parsecCollection'
@@ -19,13 +26,13 @@ HyperJump >> applyEffectFor: aPlayer with: aBoard [
     newIndex := currentIndex + (parsecPerCell *(parsecCollection at:index )).
     self incrementIndex.
         [ newIndex > aBoard squares size ] whileTrue: [
-        aPlayer incrementTurn.
+        aPlayer incrementLap.
         newIndex := newIndex - aBoard squares size ].
 
 
     newCell:=  aBoard squares at: newIndex.
     aBoard playersPosition at: aPlayer put: newCell.
-    super fightIn: aBoard with: aPlayer in: newCell.
+    self fightIn: aBoard with: aPlayer in: newCell.
 
 ]
 
