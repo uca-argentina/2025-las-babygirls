@@ -18,15 +18,9 @@ Class {
 }
 
 { #category : 'initialization' }
-Match class >> mockedWith: aNumberOfPlayers and: dice [
+Match class >> withPlayers: somePlayers board: aBoard dice: aDice [
 
-^self new initializeMockedWith: aNumberOfPlayers and: dice.
-]
-
-{ #category : 'initialization' }
-Match class >> with: aNumberOfPlayers and: aNumberofSquares and: dice [
-
-^self new initializeWith: aNumberOfPlayers and: aNumberofSquares and: dice.
+^self new initializeWithPlayers: somePlayers board: aBoard dice: aDice.
 ]
 
 { #category : 'initialization' }
@@ -57,39 +51,15 @@ Match >> checkIfWins: aPlayer [
 ]
 
 { #category : 'initialization' }
-Match >> initializeMockedWith: aNumberOfPlayers and: dice [
+Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
+    theWinner := false.
+    aWinner := false.
+    theDice := aDice.
+    players := somePlayers.
+    theBoard := aBoard.
+    nextTurn := players first.
+    ^ self
 
-	theWinner := false.
-	aWinner := false.
-	theDice := dice.
-	players := OrderedCollection new.
-
-	1 to: aNumberOfPlayers do: [ :i |
-		| player |
-		player := Player new initialize.
-		players add: player ].
-	theBoard := MockedBoard new initializeWith: players.
-
-	nextTurn := players first.
-	^ self
-]
-
-{ #category : 'initialization' }
-Match >> initializeWith: aNumberOfPlayers and: aNumberOfSquares and: dice [
-
-	theWinner := false.
-	aWinner := false.
-	theDice := dice.
-
-	players := OrderedCollection new.
-
-	1 to: aNumberOfPlayers do: [ :i |
-		| player |
-		player := Player new initialize.
-		players add: player ].
-	theBoard := Board new initializeWith: aNumberOfSquares and: players.
-	nextTurn := players first.
-	^ self
 ]
 
 { #category : 'behavior' }

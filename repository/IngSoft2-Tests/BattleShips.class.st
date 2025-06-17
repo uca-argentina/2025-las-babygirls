@@ -7,17 +7,18 @@ Class {
 
 { #category : 'tests' }
 BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserLoseOneShield [
-
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie escudos1 escudos2 |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares escudos1 escudos2 |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=2.
+	aNumberOfSides :=399.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playRound.
 	escudos1 := (aMatch player: 1) shield.
 	escudos2 := (aMatch player: 2) shield.
 	
@@ -30,68 +31,72 @@ BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserLoseOneShield 
 { #category : 'tests' }
 BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserReturnToTheFirstCell [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie player1Position player2Position |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player1Position player2Position result |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=2.
+	aNumberOfSides :=399.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playRound.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 	player1Position := (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))).
 	player2Position := (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))).
+	result := ((player1Position = 1) and: (player2Position = 400)) or: ((player1Position = 400) and: (player2Position = 1)).
 	
-	self assert: (
-		((player1Position = 1) and: (player2Position = 3)) or: ((player1Position = 3) and: (player2Position = 1)) 
-	  ).
+	self assert: (result).
 	
 ]
 
 { #category : 'tests' }
 BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie playerShield playerTurnsToLose |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares playerShield playerTurnsToLose |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=12.
-	
+	aNumberOfSides := 789.
+	aNumberOfSquares := 1000.
+
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
+
+	builder := Builder
+		           with: aNumberOfSquares
+		           players: aNumberOfPlayers
+		           dice: dice.
+	aMatch := builder createMockedMatch.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurnMocked: (aMatch player: 1).
-	aMatch playTurnMocked: (aMatch player: 1).
+	aMatch playRound.
+	aMatch playRound.
+	aMatch playRound.
+
+	playerShield := (aMatch player: 1) shield.
+	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+
+	self assert: (playerShield = 3 and: playerTurnsToLose = 2).
+
 	aMatch playTurnMocked: (aMatch player: 1).
 	playerShield := (aMatch player: 1) shield.
 	playerTurnsToLose := (aMatch player: 1) turnsToLose.
-	
-	self assert: ((playerShield = 3) and: (playerTurnsToLose = 2)).
-	
-	aMatch playTurnMocked: (aMatch player: 1).
-	playerShield := (aMatch player: 1) shield.
-	playerTurnsToLose := (aMatch player: 1) turnsToLose.
-	
-	self assert: ((playerShield = 3) and: (playerTurnsToLose = 1)).
-	
+
+	self assert: (playerShield = 3 and: playerTurnsToLose = 1)
 ]
 
 { #category : 'tests' }
 BattleShips >> testWhenPlayerInBlackHoleIsSentToACellWithOtherPlayerThenTheyBattleAndAPlayerLoseOneShield [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie  escudos1 escudos2 |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares escudos1 escudos2 |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=4.
+	aNumberOfSides :=899.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurnMocked: (aMatch player:1).
-	
-	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 	
 	escudos1 := (aMatch player: 1) shield.
 	escudos2 := (aMatch player: 2) shield.

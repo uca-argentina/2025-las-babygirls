@@ -1,5 +1,15 @@
 "
 Where the game is played. 
+Celdas ESPERADAS para un mocked board de 1000 celdas:
+| Tipo de celda      | Cantidad | Rango de índices (1-based) |
+| ------------------ | -------- | -------------------------- |
+| **HyperJump**      | 80       | 1 – 80                     |
+| **MoonWalk**       | 100      | 81 – 180                   |
+| **Normal**         | 400      | 181 – 580                  |
+| **HyperSpaceJump** | 200      | 581 – 780                  |
+| **AtomicBomb**     | 20       | 781 – 800                  |
+| **BlackHole**      | 200      | 801 – 1000                 |
+
 "
 Class {
 	#name : 'Board',
@@ -8,7 +18,8 @@ Class {
 		'numberOfSquares',
 		'boardSize',
 		'boardSquares',
-		'playersPosition'
+		'playersPosition',
+		'turnsToWin'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -31,48 +42,11 @@ Board >> firstCell [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: aNumberOfSquares and: players [
-
-	| numNoEffect numBlackHole numHyperSpaceJump numMoonWalk numHyperJump numAtomicBomb remainder squares |
-	aNumberOfSquares < 10 ifTrue: [
-		Error signal: 'The board must have at least 10 Squares.' ].
-
-	numNoEffect := aNumberOfSquares * 40 // 100.
-	numBlackHole := aNumberOfSquares * 20 // 100.
-	numHyperSpaceJump := aNumberOfSquares * 20 // 100.
-	numMoonWalk := aNumberOfSquares * 10 // 100.
-	numHyperJump := aNumberOfSquares * 8 // 100.
-	numAtomicBomb := aNumberOfSquares * 2 // 100.
-	remainder := aNumberOfSquares
-	             -
-		             (numNoEffect + numBlackHole + numHyperSpaceJump
-		              + numMoonWalk + numHyperJump + numAtomicBomb).
-	numNoEffect := numNoEffect + remainder.
-
-
-
-
-	squares := OrderedCollection new.
-
-	numNoEffect timesRepeat: [ squares add: Normal new initialize ].
-	numBlackHole timesRepeat: [ squares add: BlackHole new initialize ].
-	numHyperSpaceJump timesRepeat: [
-		squares add: HyperSpaceJump new initialize ].
-	numMoonWalk timesRepeat: [
-		squares add:
-			(MoonWalk new initializeWith: (1 to: squares size) atRandom) ].
-	numAtomicBomb timesRepeat: [ squares add: AtomicBomb new initialize ].
-	numHyperJump timesRepeat: [ squares add: HyperJump new initialize ].
-
-	squares := squares asArray shuffle asOrderedCollection.
-
-
-	boardSize := aNumberOfSquares.
-	boardSquares := squares.
-	playersPosition := Dictionary new.
-
-	players do: [ :player |
-		playersPosition at: player put: boardSquares first ]
+Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSize [
+    boardSquares := aSquareCollection.
+    playersPosition := aPlayerDict.
+    boardSize := aSize.
+	 turnsToWin := 3.
 ]
 
 { #category : 'accessing - arguments' }
@@ -127,6 +101,6 @@ Board >> squares [
 
 { #category : 'behavior' }
 Board >> wins: turns [
-    ^ (turns = 3)
-        or: [ turns > 3 ].
+    ^ (turns = turnsToWin )
+        or: [ turns > turnsToWin ].
 ]

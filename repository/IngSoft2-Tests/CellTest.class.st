@@ -6,21 +6,6 @@ Class {
 }
 
 { #category : 'tests' }
-CellTest >> testApplyEffectForIncrementsIndex [
-
-    | board player hjCell initialIdx |
-    board := MockedBoard new initializeWith:
-                 (OrderedCollection with: Player new initialize).
-    player := board playersPosition keys first.
-    board playersPosition at: player put: (board squares at: 11).
-    hjCell := board squares at: 11.
-    initialIdx := hjCell instVarAt: 2.
-    hjCell applyEffectFor: player with: board.
-    self assert: (hjCell instVarAt: 2) equals: initialIdx + 1
- 
-]
-
-{ #category : 'tests' }
 CellTest >> testIncrementIndexWrapsAfterFourSteps [
     | hj |
     hj := HyperJump new initialize.
@@ -33,18 +18,18 @@ CellTest >> testIncrementIndexWrapsAfterFourSteps [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=13.
+	aNumberOfSides :=789.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurn: (aMatch player:1).
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 
-	
 	self assert: (aMatch player:1) shield equals: 2.
 	
 	
@@ -54,16 +39,17 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=13.
+	aNumberOfSides :=789.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playTurn: (aMatch player:1).
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
 
 	
 	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 1.
@@ -73,41 +59,22 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 ]
 
 { #category : 'tests' }
-CellTest >> testPlayerFallsIntoBlackHoleAndReturnsFourCells [
-
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 1.
-	aNumberOfSides :=5.
-	
-	aDie := MockedDie withSides: aNumberOfSides.
-	dice := OrderedCollection with: aDie.
-	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playRound.
-
-	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 2.
-	
- 
-]
-
-{ #category : 'tests' }
 CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=6.
+	aNumberOfSides :=729.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 11.
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 734.
 	
  
 ]
@@ -115,15 +82,17 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=6.
+	aNumberOfSides :=729.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
 	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
 	
@@ -135,19 +104,21 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=9.
+	aNumberOfSides :=109.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
 	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
-	aMatch playRound.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playTurn: (aMatch player: 1).
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 10.
+	self assert: ((aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) between: 990 and:1000).
 	
  
 ]
@@ -155,19 +126,21 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=9.
+	aNumberOfSides :=109.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+		
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 10.
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 110.
 	
  
 ]
@@ -175,19 +148,20 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 { #category : 'tests' }
 CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 
-	| aMatch aNumberOfPlayers aNumberOfSides dice aDie |
-	aNumberOfPlayers := 2.
-	aNumberOfSides :=2.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=130.
+	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	
-	aMatch := Match mockedWith: aNumberOfPlayers  and: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 3.
+	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player: 1))) equals: 131.
 	
  
 ]
