@@ -72,13 +72,13 @@ BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 	aMatch playRound.
 
 	playerShield := (aMatch player: 1) shield.
-	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	playerTurnsToLose := (aMatch player: 1) remainingSkippedTurns.
 
 	self assert: (playerShield = 3 and: playerTurnsToLose = 2).
 
 	aMatch playTurnMocked: (aMatch player: 1).
 	playerShield := (aMatch player: 1) shield.
-	playerTurnsToLose := (aMatch player: 1) turnsToLose.
+	playerTurnsToLose := (aMatch player: 1) remainingSkippedTurns.
 
 	self assert: (playerShield = 3 and: playerTurnsToLose = 1)
 ]

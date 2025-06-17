@@ -59,7 +59,7 @@ Board >> numberOfSquares [
 Board >> playTurnWith: aPlayer and: diceRoll [
 
 	| currentIndex newIndex newCell ocupantes |
-	aPlayer turnsToLose > 0 ifTrue: [
+	aPlayer remainingSkippedTurns > 0 ifTrue: [
 		aPlayer editShield: 3.
 		aPlayer decrementTurnToLose.
 		^ self ].
