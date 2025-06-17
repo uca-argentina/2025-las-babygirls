@@ -16,10 +16,9 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfSquares',
-		'boardSize',
 		'boardSquares',
-		'playersPosition',
-		'turnsToWin'
+		'turnsToWin',
+		'playersPositions'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -63,7 +62,7 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 		aPlayer editShield: 3.
 		aPlayer decrementTurnToLose.
 		^ self ].
-	currentIndex := boardSquares indexOf: (playersPosition at: aPlayer).
+	currentIndex := boardSquares indexOf: (playersPositions at: aPlayer).
 	newIndex := currentIndex + diceRoll.
 
 	[ newIndex > boardSquares size ] whileTrue: [
@@ -72,11 +71,11 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 
 	newCell := boardSquares at: newIndex.
 
-	ocupantes := playersPosition keys select: [ :jugador |
-		             (playersPosition at: jugador) = newCell and: [
+	ocupantes := playersPositions keys select: [ :jugador |
+		             (playersPositions at: jugador) = newCell and: [
 			             jugador ~= aPlayer ] ].
 
-	playersPosition at: aPlayer put: newCell.
+	playersPositions at: aPlayer put: newCell.
 
 
 	(ocupantes isNotEmpty and: newCell class = Normal)
@@ -85,13 +84,20 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 ]
 
 { #category : 'test methods' }
-Board >> playersPosition [ 
-	^ playersPosition .
+Board >> playersPositions [ 
+	^ playersPositions .
+]
+
+{ #category : 'test methods' }
+Board >> positionOfPlayer: aPlayer [
+	| result | 
+ 	result := (self squares indexOf: ((self playersPositions) at: aPlayer)).
+	^result 
 ]
 
 { #category : 'behavior' }
 Board >> sendToStart: aPlayer [
-	playersPosition at: aPlayer put: boardSquares first.
+	playersPositions at: aPlayer put: boardSquares first.
 ]
 
 { #category : 'test methods' }

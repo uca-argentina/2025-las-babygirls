@@ -116,6 +116,14 @@ Match >> podium [
 
 ]
 
+{ #category : 'test methods' }
+Match >> positionOfPlayer: aNumber [
+    | player |
+    player := players at: aNumber.
+    ^ theBoard positionOfPlayer: player.
+
+]
+
 { #category : 'behavior' }
 Match >> rollTheDice [
 

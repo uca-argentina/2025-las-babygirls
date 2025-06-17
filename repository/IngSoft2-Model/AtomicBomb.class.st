@@ -14,7 +14,7 @@ Class {
 AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
 	    
 		
-		aBoard playersPosition keysDo: [ :player |
+		aBoard playersPositions keysDo: [ :player |
 		player loseShield.
 		aBoard sendToStart: player 
         ].
