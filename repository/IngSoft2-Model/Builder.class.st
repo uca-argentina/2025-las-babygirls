@@ -14,6 +14,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'initialization' }
+Builder class >> with: aNumberOfSquares players: aNumberOfPlayers dice: aDice [
+    ^ self new
+        initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDice
+
+]
+
 { #category : 'behavior' }
 Builder >> assignPlayersToFirstSquare: squares [
     | playerPositions |
