@@ -43,8 +43,7 @@ Board >> firstCell [
 { #category : 'initialization' }
 Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSize [
     boardSquares := aSquareCollection.
-    playersPosition := aPlayerDict.
-    boardSize := aSize.
+    playersPositions := aPlayerDict.
 	 turnsToWin := 3.
 ]
 
