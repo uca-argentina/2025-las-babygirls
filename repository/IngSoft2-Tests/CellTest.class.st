@@ -52,8 +52,29 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 	aMatch playRound .
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 1.
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) equals: 1.
+	self assert: (aMatch positionOfPlayer: 1) equals: 1.
+	self assert: (aMatch positionOfPlayer: 2) equals: 1.
+	
+ 
+]
+
+{ #category : 'tests' }
+CellTest >> testPlayerFallsIntoHyperJumpItPositionIncrements [
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares firstPosition result |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=2.
+	aNumberOfSquares := 1000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	firstPosition := aMatch positionOfPlayer: 1.
+	aMatch playTurn: (aMatch player:1).
+	result := firstPosition < (aMatch positionOfPlayer: 1).
+		
+	self assert: result.
 	
  
 ]
@@ -74,7 +95,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 	aMatch playRound.
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 734.
+	self assert: (aMatch positionOfPlayer: 1) equals: 734.
 	
  
 ]
@@ -118,7 +139,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 	aMatch playTurn: (aMatch player: 1).
 
 	
-	self assert: ((aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:2))) between: 990 and:1000).
+	self assert: ((aMatch positionOfPlayer: 2) between: 990 and:1000).
 	
  
 ]
@@ -140,7 +161,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 	aMatch playTurn: (aMatch player:1).
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player:1))) equals: 110.
+	self assert: (aMatch positionOfPlayer: 1) equals: 110.
 	
  
 ]
@@ -161,7 +182,7 @@ CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 	aMatch playTurn: (aMatch player:1).
 
 	
-	self assert: (aMatch board squares indexOf: (aMatch board playersPosition at: (aMatch player: 1))) equals: 131.
+	self assert: (aMatch positionOfPlayer: 1) equals: 131.
 	
  
 ]

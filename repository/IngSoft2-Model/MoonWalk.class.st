@@ -17,26 +17,21 @@ Class {
 { #category : 'behavior' }
 MoonWalk >> applyEffectFor: aPlayer with: aBoard [
 
-    aBoard playersPosition keysDo: [ :otherPlayer |
+    aBoard playersPositions keysDo: [ :otherPlayer |
     otherPlayer = aPlayer ifFalse: [
     	| currentIndex newIndex newCell |
-    	currentIndex := aBoard squares indexOf: (aBoard playersPosition at: otherPlayer).
+    	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: otherPlayer).
 		newIndex := currentIndex + distance.
 				[newIndex < 1 ] whileTrue: [
 				otherPlayer decrementLap.
 				newIndex := newIndex + aBoard squares size ].
        newCell := aBoard squares at: newIndex.
-       aBoard playersPosition at: otherPlayer put: newCell.
+       aBoard playersPositions at: otherPlayer put: newCell.
 
 		
         ]
 ].
 	self fightIn: aBoard with: aPlayer in: self.		
-]
-
-{ #category : 'initialization' }
-MoonWalk >> initialize [
-
 ]
 
 { #category : 'initialization' }

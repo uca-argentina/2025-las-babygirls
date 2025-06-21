@@ -22,7 +22,7 @@ Class {
 HyperJump >> applyEffectFor: aPlayer with: aBoard [
  
    | currentIndex newIndex newCell |
-    currentIndex := aBoard squares indexOf: (aBoard playersPosition at: aPlayer).
+    currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
     newIndex := currentIndex + (parsecPerCell *(parsecCollection at:index )).
     self incrementIndex.
         [ newIndex > aBoard squares size ] whileTrue: [
@@ -31,7 +31,7 @@ HyperJump >> applyEffectFor: aPlayer with: aBoard [
 
 
     newCell:=  aBoard squares at: newIndex.
-    aBoard playersPosition at: aPlayer put: newCell.
+    aBoard playersPositions at: aPlayer put: newCell.
     self fightIn: aBoard with: aPlayer in: newCell.
 
 ]
