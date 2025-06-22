@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : 'behavior' }
-AtomicBomb >> applyEffectFor: aPlayer with: aBoard [
+AtomicBomb >> applyEffectTo: aPlayer on: aBoard [
 	    
 		
 		aBoard playersPositions keysDo: [ :player |

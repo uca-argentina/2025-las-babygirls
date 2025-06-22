@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'behavior' }
-HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
+HyperSpaceJump >> applyEffectTo: aPlayer on: aBoard [
    | currentIndex newIndex newCell |
 	aPlayer loseShield .
 	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).

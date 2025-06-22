@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : 'behavior' }
-MoonWalk >> applyEffectFor: aPlayer with: aBoard [
+MoonWalk >> applyEffectTo: aPlayer on: aBoard [
 
     aBoard playersPositions keysDo: [ :otherPlayer |
     otherPlayer = aPlayer ifFalse: [

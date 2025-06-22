@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : 'behavior' }
-BlackHole >> applyEffectFor: aPlayer with: aBoard [
+BlackHole >> applyEffectTo: aPlayer on: aBoard [
    | currentIndex newIndex newCell |
 	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
 	newIndex := currentIndex + distance.

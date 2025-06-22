@@ -9,6 +9,6 @@ Class {
 }
 
 { #category : 'behavior' }
-Normal >> applyEffectFor: aPlayer with: aBoard [
+Normal >> applyEffectTo: aPlayer on: aBoard [
 
 ]

@@ -25,13 +25,47 @@ Class {
 }
 
 { #category : 'behavior' }
-Board >> battleBetween: player1 and: player2 [
-	| dado1 dado2 |
-	dado1:= Die withSides: 6.
-	dado2:= Die withSides: 6.
-	(player1) battleWith: (player2) using:dado1 and: dado2 in: self.
+Board >> applyLossConsequencesTo: aPlayer [
+    aPlayer loseShield.
+    self sendToStart: aPlayer.
+
 	
 	
+]
+
+{ #category : 'behavior' }
+Board >> battleBetween: playersCollection [
+    | currentCombatants diceRolls winners die maxRoll |
+
+    currentCombatants := playersCollection asOrderedCollection.
+    die := Die withSides: 100.
+
+    [ currentCombatants size > 1 ] whileTrue: [
+        "Todos tiran los dados"
+        diceRolls := Dictionary new.
+        currentCombatants do: [:player |
+            diceRolls at: player put: (die roll)
+        ].
+
+        "Determinar el valor más alto de tirada"
+        maxRoll := diceRolls values inject: 0 into: [:max :each | max max: each ].
+
+        "Filtrar ganadores (puede haber más de uno)"
+        winners := diceRolls keys select: [:player |
+            (diceRolls at: player) = maxRoll
+        ].
+
+        "Penalizar a los que no ganaron"
+        (currentCombatants reject: [:player | winners includes: player]) do: [:loser |
+            self applyLossConsequencesTo: loser.
+        ].
+
+        "Actualizar combatientes solo con los ganadores"
+        currentCombatants := winners asOrderedCollection.
+    ].
+
+    ^ currentCombatants first
+
 ]
 
 { #category : 'accessing - arguments' }
@@ -47,6 +81,23 @@ Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSi
 	 turnsToWin := 3.
 ]
 
+{ #category : 'behavior' }
+Board >> move: aPlayer toRelativePosition: aNumberOfSteps [
+    | currentIndex newIndex newCell |
+    
+    currentIndex := boardSquares indexOf: (playersPositions at: aPlayer).
+    newIndex := currentIndex + aNumberOfSteps.
+
+    [ newIndex > boardSquares size ] whileTrue: [
+        aPlayer incrementLap.
+        newIndex := newIndex - boardSquares size
+    ].
+
+    newCell := boardSquares at: newIndex.
+    playersPositions at: aPlayer put: newCell.
+
+]
+
 { #category : 'accessing - arguments' }
 Board >> numberOfSquares [
 
@@ -56,30 +107,31 @@ Board >> numberOfSquares [
 { #category : 'behavior' }
 Board >> playTurnWith: aPlayer and: diceRoll [
 
-	| currentIndex newIndex newCell ocupantes |
-	aPlayer remainingSkippedTurns > 0 ifTrue: [
-		aPlayer editShield: 3.
-		aPlayer decrementTurnToLose.
+	| newCell playersInCell |
+	aPlayer isSkippingTurn ifTrue: [
+		aPlayer recoverShields.
+		aPlayer decrementSkippedTurns.
 		^ self ].
-	currentIndex := boardSquares indexOf: (playersPositions at: aPlayer).
-	newIndex := currentIndex + diceRoll.
 
-	[ newIndex > boardSquares size ] whileTrue: [
-		aPlayer incrementLap.
-		newIndex := newIndex - boardSquares size ].
+	self move: aPlayer toRelativePosition: diceRoll.
 
-	newCell := boardSquares at: newIndex.
-
-	ocupantes := playersPositions keys select: [ :jugador |
-		             (playersPositions at: jugador) = newCell and: [
-			             jugador ~= aPlayer ] ].
-
-	playersPositions at: aPlayer put: newCell.
+	newCell := playersPositions at: aPlayer.
+	newCell applyEffectTo: aPlayer on: self.
+	playersInCell := self playersInSameSquareAs: aPlayer.
 
 
-	(ocupantes isNotEmpty and: newCell class = Normal)
-		ifTrue: [ self battleBetween: aPlayer and: ocupantes first ]
-		ifFalse: [ newCell applyEffectFor: aPlayer with: self ]
+	playersInCell size > 1 ifTrue: [
+    self battleBetween: playersInCell
+].
+
+]
+
+{ #category : 'behavior' }
+Board >> playersInSameSquareAs: aPlayer [
+    ^ playersPositions keys select: [:otherPlayer |
+        (playersPositions at: otherPlayer) = (playersPositions at: aPlayer)
+    ].
+
 ]
 
 { #category : 'test methods' }

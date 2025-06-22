@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : 'behavior' }
-HyperJump >> applyEffectFor: aPlayer with: aBoard [
+HyperJump >> applyEffectTo: aPlayer on: aBoard [
  
    | currentIndex newIndex newCell |
     currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).

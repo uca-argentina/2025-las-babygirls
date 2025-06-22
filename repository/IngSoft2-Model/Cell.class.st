@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'behavior' }
-Cell >> applyEffectFor: aPlayer with: aBoard [
+Cell >> applyEffectTo: aPlayer on: aBoard [
 	self subclassResponsibility.
 
 ]
