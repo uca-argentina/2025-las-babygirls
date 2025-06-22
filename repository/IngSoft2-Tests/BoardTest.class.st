@@ -29,71 +29,75 @@ BoardTest >> testBoardHasCorrectSize [
     self assert: (board squares) size equals: 50
 ]
 
-{ #category : 'tests' }
+{ #category : 'asserting' }
 BoardTest >> testDistributionFor10000Squares [
 
-	| board counts numberOfSquares expectedRanges builder aDie numberOfPlayers |
-	numberOfSquares := 10000.
-	numberOfPlayers := 1.
-	aDie := MockedDie withSides: 6.
+    | board counts numberOfSquares expectedRanges builder aDie numberOfPlayers effectCountSum |
 
-	builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
-	board := builder buildNormalBoard.
+    numberOfSquares := 10000.
+    numberOfPlayers := 1.
+    aDie := MockedDie withSides: 6.
 
-	"Toma los valores reales de cada tipo"
-	counts := Dictionary new.
-	counts
-		at: #Normal
-		put: (board squares count: [ :s | s class = Normal ]).
-	counts
-		at: #BlackHole
-		put: (board squares count: [ :s | s class = BlackHole ]).
-	counts
-		at: #HyperSpaceJump
-		put: (board squares count: [ :s | s class = HyperSpaceJump ]).
-	counts
-		at: #MoonWalk
-		put: (board squares count: [ :s | s class = MoonWalk ]).
-	counts
-		at: #HyperJump
-		put: (board squares count: [ :s | s class = HyperJump ]).
-	counts
-		at: #AtomicBomb
-		put: (board squares count: [ :s | s class = AtomicBomb ]).
+    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+    board := builder buildNormalBoard.
 
+    counts := Dictionary new.
+    counts
+        at: #BlackHole
+        put: (board squares count: [:s | s isKindOf: BlackHole]).
+    counts
+        at: #HyperSpaceJump
+        put: (board squares count: [:s | s isKindOf: HyperSpaceJump]).
+    counts
+        at: #MoonWalk
+        put: (board squares count: [:s | s isKindOf: MoonWalk]).
+    counts
+        at: #HyperJump
+        put: (board squares count: [:s | s isKindOf: HyperJump]).
+    counts
+        at: #AtomicBomb
+        put: (board squares count: [:s | s isKindOf: AtomicBomb]).
 
-	"Ahora pone un error del 10% para el valor esperado de cada tipo de celda"
-	expectedRanges := Dictionary new.
-	expectedRanges at: #Normal put: {
-			(numberOfSquares * 0.40 * 0.90).
-			(numberOfSquares * 0.40 * 1.10) }.
-	expectedRanges at: #BlackHole put: {
-			(numberOfSquares * 0.20 * 0.90).
-			(numberOfSquares * 0.20 * 1.10) }.
-	expectedRanges at: #HyperSpaceJump put: {
-			(numberOfSquares * 0.20 * 0.90).
-			(numberOfSquares * 0.20 * 1.10) }.
-	expectedRanges at: #MoonWalk put: {
-			(numberOfSquares * 0.10 * 0.90).
-			(numberOfSquares * 0.10 * 1.10) }.
-	expectedRanges at: #HyperJump put: {
-			(numberOfSquares * 0.08 * 0.90).
-			(numberOfSquares * 0.08 * 1.10) }.
-	expectedRanges at: #AtomicBomb put: {
-			(numberOfSquares * 0.02 * 0.90).
-			(numberOfSquares * 0.02 * 1.10) }.
+    "Calculamos normales como resto"
+    effectCountSum := counts values sum.
+    counts at: #Normal put: numberOfSquares - effectCountSum.
 
-	expectedRanges keysAndValuesDo: [ :effect :range |
-		| count message lower upper |
-		count := counts at: effect.
-		lower := range first.
-		upper := range second.
-		message := 'Count for ' , effect printString , ' was '
-		           , count printString , ', expected between '
-		           , lower printString , ' and ' , upper printString.
-		self
-			assert: (count between: lower asInteger and: upper asInteger)
-			description: message ]
+    "Ahora pone un error del 10% para el valor esperado de cada tipo de celda"
+    expectedRanges := Dictionary new.
+    expectedRanges at: #Normal put: {
+        (numberOfSquares * 0.40 * 0.90).
+        (numberOfSquares * 0.40 * 1.10)
+    }.
+    expectedRanges at: #BlackHole put: {
+        (numberOfSquares * 0.20 * 0.90).
+        (numberOfSquares * 0.20 * 1.10)
+    }.
+    expectedRanges at: #HyperSpaceJump put: {
+        (numberOfSquares * 0.20 * 0.90).
+        (numberOfSquares * 0.20 * 1.10)
+    }.
+    expectedRanges at: #MoonWalk put: {
+        (numberOfSquares * 0.10 * 0.90).
+        (numberOfSquares * 0.10 * 1.10)
+    }.
+    expectedRanges at: #HyperJump put: {
+        (numberOfSquares * 0.08 * 0.90).
+        (numberOfSquares * 0.08 * 1.10)
+    }.
+    expectedRanges at: #AtomicBomb put: {
+        (numberOfSquares * 0.02 * 0.90).
+        (numberOfSquares * 0.02 * 1.10)
+    }.
+
+    expectedRanges keysAndValuesDo: [:effect :range |
+        | count message lower upper |
+        count := counts at: effect.
+        lower := range first.
+        upper := range second.
+        message := 'Count for ', effect printString, ' was ', count printString, ', expected between ', lower printString, ' and ', upper printString.
+        self assert: (count between: lower asInteger and: upper asInteger) description: message.
+    ].
+
 ]
 
 { #category : 'tests' }
