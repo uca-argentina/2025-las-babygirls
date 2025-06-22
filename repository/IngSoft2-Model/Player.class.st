@@ -1,5 +1,5 @@
 "
-Represents a player
+Represents a player.
 "
 Class {
 	#name : 'Player',
