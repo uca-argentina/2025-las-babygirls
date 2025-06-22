@@ -92,6 +92,11 @@ Board >> move: aPlayer toRelativePosition: aNumberOfSteps [
         aPlayer incrementLap.
         newIndex := newIndex - boardSquares size
     ].
+[ newIndex < 1 ] whileTrue: [
+    aPlayer decrementLap.
+    newIndex := newIndex + boardSquares size
+].
+
 
     newCell := boardSquares at: newIndex.
     playersPositions at: aPlayer put: newCell.

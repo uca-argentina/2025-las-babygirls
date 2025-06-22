@@ -3,10 +3,8 @@ Una casilla que retrocede un jugador 4 casilleros.
 "
 Class {
 	#name : 'BlackHole',
-	#superclass : 'Cell',
+	#superclass : 'Normal',
 	#instVars : [
-		'oneEnd',
-		'otherEnd',
 		'distance'
 	],
 	#category : 'IngSoft2-Model',
@@ -15,18 +13,8 @@ Class {
 
 { #category : 'behavior' }
 BlackHole >> applyEffectTo: aPlayer on: aBoard [
-   | currentIndex newIndex newCell |
-	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
-	newIndex := currentIndex + distance.
-		[ newIndex < 1 ] whileTrue: [
-		aPlayer decrementLap.
-		newIndex := newIndex + aBoard squares size ].
+    aBoard move: aPlayer toRelativePosition: distance.
 
-	
-	newCell:=  aBoard squares at: newIndex.
-	aBoard playersPositions at: aPlayer put: newCell.
-	
-	self fightIn: aBoard with: aPlayer in: newCell
 				
 				
 ]

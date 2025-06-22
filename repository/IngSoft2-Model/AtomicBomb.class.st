@@ -5,7 +5,7 @@ Resta 1 escudo a todas las naves
 "
 Class {
 	#name : 'AtomicBomb',
-	#superclass : 'Cell',
+	#superclass : 'Normal',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }

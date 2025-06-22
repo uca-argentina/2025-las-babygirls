@@ -8,7 +8,7 @@ tiene distribuida la distancia total de forma equitativa.
 "
 Class {
 	#name : 'HyperJump',
-	#superclass : 'Cell',
+	#superclass : 'Normal',
 	#instVars : [
 		'parsecPerCell',
 		'index',
@@ -20,19 +20,10 @@ Class {
 
 { #category : 'behavior' }
 HyperJump >> applyEffectTo: aPlayer on: aBoard [
- 
-   | currentIndex newIndex newCell |
-    currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
-    newIndex := currentIndex + (parsecPerCell *(parsecCollection at:index )).
+    | distance |
+    distance := parsecPerCell * (parsecCollection at: index).
     self incrementIndex.
-        [ newIndex > aBoard squares size ] whileTrue: [
-        aPlayer incrementLap.
-        newIndex := newIndex - aBoard squares size ].
-
-
-    newCell:=  aBoard squares at: newIndex.
-    aBoard playersPositions at: aPlayer put: newCell.
-    self fightIn: aBoard with: aPlayer in: newCell.
+    aBoard move: aPlayer toRelativePosition: distance.
 
 ]
 
