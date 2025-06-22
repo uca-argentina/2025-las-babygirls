@@ -4,7 +4,7 @@ Pierde 1 escudo
 "
 Class {
 	#name : 'HyperSpaceJump',
-	#superclass : 'Cell',
+	#superclass : 'Normal',
 	#instVars : [
 		'distance'
 	],
@@ -13,19 +13,10 @@ Class {
 }
 
 { #category : 'behavior' }
-HyperSpaceJump >> applyEffectFor: aPlayer with: aBoard [
-   | currentIndex newIndex newCell |
-	aPlayer loseShield .
-	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: aPlayer).
-	newIndex := currentIndex + distance.
-		[ newIndex > aBoard squares size ] whileTrue: [
-		aPlayer incrementLap.
-		newIndex := newIndex - aBoard squares size ].
+HyperSpaceJump >> applyEffectTo: aPlayer on: aBoard [
+    aPlayer loseShield.
+    aBoard move: aPlayer toRelativePosition: distance.
 
-	
-	newCell:=  aBoard squares at: newIndex.
-	aBoard playersPositions at: aPlayer put: newCell.
-	self fightIn: aBoard with: aPlayer in: newCell
 ]
 
 { #category : 'initialization' }

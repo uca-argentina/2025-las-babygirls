@@ -6,7 +6,7 @@ casilleros con distinto N en el mismo tablero.
 "
 Class {
 	#name : 'MoonWalk',
-	#superclass : 'Cell',
+	#superclass : 'Normal',
 	#instVars : [
 		'distance'
 	],
@@ -15,23 +15,14 @@ Class {
 }
 
 { #category : 'behavior' }
-MoonWalk >> applyEffectFor: aPlayer with: aBoard [
+MoonWalk >> applyEffectTo: aPlayer on: aBoard [
+    | otherPlayers |
+    otherPlayers := aBoard playersPositions keys reject: [:each | each = aPlayer ].
 
-    aBoard playersPositions keysDo: [ :otherPlayer |
-    otherPlayer = aPlayer ifFalse: [
-    	| currentIndex newIndex newCell |
-    	currentIndex := aBoard squares indexOf: (aBoard playersPositions at: otherPlayer).
-		newIndex := currentIndex + distance.
-				[newIndex < 1 ] whileTrue: [
-				otherPlayer decrementLap.
-				newIndex := newIndex + aBoard squares size ].
-       newCell := aBoard squares at: newIndex.
-       aBoard playersPositions at: otherPlayer put: newCell.
+    otherPlayers do: [:otherPlayer |
+        aBoard move: otherPlayer toRelativePosition: distance.
+    ].
 
-		
-        ]
-].
-	self fightIn: aBoard with: aPlayer in: self.		
 ]
 
 { #category : 'initialization' }

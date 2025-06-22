@@ -1,14 +1,15 @@
 "
-Casilla donde se puede combatir
+Una casilla sin efecto.
 "
 Class {
 	#name : 'Normal',
-	#superclass : 'Cell',
+	#superclass : 'Object',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'behavior' }
-Normal >> applyEffectFor: aPlayer with: aBoard [
+Normal >> applyEffectTo: aPlayer on: aBoard [
+	
 
 ]
