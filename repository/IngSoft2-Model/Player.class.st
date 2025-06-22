@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'shields',
 		'laps',
-		'remainingSkippedTurns'
+		'remainingSkippedTurns',
+		'cards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,8 +27,9 @@ Player >> decrementSkippedTurns [
 ]
 
 { #category : 'behavior' }
-Player >> editShield: value [
-	shields := value
+Player >> grabCard: aCard [
+	cards add: aCard .
+	^ self .
 ]
 
 { #category : 'behavior' }
@@ -41,7 +43,14 @@ Player >> initialize [
 	shields := 3 .
 	laps := 0.
 	remainingSkippedTurns := 0.
+	cards := OrderedCollection new .
 	
+]
+
+{ #category : 'initialization' }
+Player >> initializeCards [
+	cards := OrderedCollection new .
+	^self
 ]
 
 { #category : 'behavior' }

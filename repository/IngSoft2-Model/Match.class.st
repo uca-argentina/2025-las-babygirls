@@ -56,6 +56,12 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     aWinner := false.
     theDice := aDice.
     players := somePlayers.
+	 players do: [:player |
+    	player initializeCards.
+    	1 to: 2 do: [:i |
+       	 player grabCard: ((Card subclasses) atRandom) new.
+    	].
+	].
     theBoard := aBoard.
     nextTurn := players first.
     ^ self
