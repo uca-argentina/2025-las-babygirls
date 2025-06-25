@@ -20,6 +20,13 @@ Croupier >> activateCard: aCard [
 ]
 
 { #category : 'behavior' }
+Croupier >> activateCard: aCard to: aPlayer [
+    activeCards add: (aCard with: aPlayer).
+	 cardsPlayed add: aCard.
+
+]
+
+{ #category : 'behavior' }
 Croupier >> changeTotalRollTo: aPlayer [
     | accelerationCount speedCount |
     accelerationCount := activeCards count: [:card | 

@@ -28,6 +28,12 @@ Match >> activateCard: aCard [
 	croupier activateCard: aCard.
 ]
 
+{ #category : 'behavior' }
+Match >> activateCard: selectedCard to: aPlayer [
+
+	croupier activateCard: selectedCard to: aPlayer.
+]
+
 { #category : 'initialization' }
 Match >> board [
 
@@ -74,7 +80,7 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
 Match >> playRound [
 
 	players do: [ :aPlayer |
-		(aWinner) ifFalse: [ self playTurn: aPlayer ] ]
+		(theWinner == false) ifTrue: [ self playTurn: aPlayer ] ]
 ]
 
 { #category : 'behavior' }
