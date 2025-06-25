@@ -72,6 +72,23 @@ CardTest >> testCannotPlayCancellationWhenNoPermanentsActive [
 ]
 
 { #category : 'tests' }
+CardTest >> testNoResidueAfterInstantCards [
+    | ctx p perm1 perm2 cancel repeat |
+    ctx    := (Croupier new) initialize.
+    p      := (Player new) initialize.
+    perm1  := (Speed      new owner: p).
+    perm2  := (Acceleration new owner: p).
+    ctx activateCard: perm1 to: p.
+    ctx activateCard: perm2 to: p.
+    cancel := (Cancellation new owner: p).
+    ctx activateCard: cancel to: perm1.
+    repeat := (Repeat new owner: p).
+    ctx activateCard: repeat to: perm2.
+    self assert: (ctx activeCards size) equals: 0.
+    self assert: (ctx cardsPlayed size) equals: 4.
+]
+
+{ #category : 'tests' }
 CardTest >> testRepeatCanTargetDifferentPlayer [
     | ctx p1 p2 speed repeat |
     ctx := (Croupier new) initialize.
