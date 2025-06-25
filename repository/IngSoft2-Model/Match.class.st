@@ -10,8 +10,8 @@ Class {
 		'theDice',
 		'theWinner',
 		'nextTurn',
-		'playersPosition',
-		'aWinner'
+		'aWinner',
+		'croupier'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,6 +21,12 @@ Class {
 Match class >> withPlayers: somePlayers board: aBoard dice: aDice [
 
 ^self new initializeWithPlayers: somePlayers board: aBoard dice: aDice.
+]
+
+{ #category : 'behavior' }
+Match >> activateCard: aCard [ 
+
+	croupier activateCard: aCard.
 ]
 
 { #category : 'initialization' }
@@ -58,6 +64,8 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     players := somePlayers.
     theBoard := aBoard.
     nextTurn := players first.
+	 croupier := Croupier new.
+	 croupier giveInitialCardsTo: players .
     ^ self
 
 ]
@@ -75,6 +83,7 @@ Match >> playTurn: aPlayer [
     aPlayer == nextTurn ifFalse: [ ^ self ].
 
     diceRoll := self rollTheDice.
+	 diceRoll :=  croupier applyAccelerationsTo: diceRoll.
 	theBoard playTurnWith: aPlayer and: diceRoll.
 
     self changeNextTurnPlayer.
@@ -87,9 +96,20 @@ Match >> player: aNumber [
 	^ players at: aNumber
 ]
 
+{ #category : 'behavior' }
+Match >> player: aPlayerIndex useCard: cardIndex [
+    | player |
+    player := self player: aPlayerIndex.
+    (player = nextTurn)
+        ifFalse: [ self error: 'It is not your turn to play a card.' ].
+    player useCard: cardIndex with: self.
+
+
+]
+
 { #category : 'test methods' }
-Match >> playerCards: nnumberOfPlayer [ 
-	^(self player: 1) cards.
+Match >> playerCards: numberOfPlayer [ 
+	^(self player: numberOfPlayer) cards.
 ]
 
 { #category : 'test methods' }

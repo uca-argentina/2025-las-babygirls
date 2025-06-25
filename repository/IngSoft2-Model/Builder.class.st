@@ -45,7 +45,7 @@ Builder >> buildMockedBoard [
     playerPositions := self assignPlayersToFirstSquare: sortedSquares.
 
     board := Board new.
-    board initializeWithSquares: sortedSquares players: playerPositions size: numberOfSquares.
+    board initializeWithSquares: sortedSquares players: playerPositions size: numberOfSquares lapsToWin: 3.
     ^ board
 
 ]
@@ -151,7 +151,6 @@ Builder >> initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDic
     1 to: aNumberOfPlayers do: [:i |
         players add: Player new initialize
     ].
-    random := Random new.
 ]
 
 { #category : 'behavior' }

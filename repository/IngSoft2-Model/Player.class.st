@@ -19,25 +19,19 @@ Player >> cards [
 	^ cards
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> decrementLap [
 
 laps := laps - 1.
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> decrementSkippedTurns [
 
 	remainingSkippedTurns:= remainingSkippedTurns - 1
 ]
 
-{ #category : 'behavior' }
-Player >> grabCard: aCard [
-	cards add: aCard .
-	^ self .
-]
-
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> incrementLap [
 
 laps := laps +1.
@@ -51,13 +45,10 @@ Player >> initialize [
 	
 	cards := OrderedCollection new .
 	
-	2 timesRepeat: [
-		cards add: Card new
-	].
 
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> isSkippingTurn [
 
 ^(remainingSkippedTurns > 0)
@@ -68,7 +59,7 @@ Player >> laps [
 	^ laps
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> loseShield [
 
 	shields := shields - 1.
@@ -77,7 +68,14 @@ Player >> loseShield [
 	shields := 3
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior - cards' }
+Player >> receiveCard: aCard [
+    
+    cards add: aCard.
+
+]
+
+{ #category : 'behavior race' }
 Player >> recoverShields [
 
 shields := 3.
@@ -92,4 +90,18 @@ Player >> remainingSkippedTurns [
 { #category : 'accessing' }
 Player >> shield [
 	^shields.
+]
+
+{ #category : 'behavior - cards' }
+Player >> useCard: aCardIndex with: aMatch [
+    | selectedCard |
+
+    (aCardIndex isInteger and: [ aCardIndex > 0 and: [ aCardIndex <= cards size ] ]) ifFalse: [
+        Error signal: 'Invalid card index: ', aCardIndex printString
+    ].
+
+    selectedCard := cards at: aCardIndex.
+    aMatch activateCard: selectedCard.
+    cards removeAt: aCardIndex.
+
 ]

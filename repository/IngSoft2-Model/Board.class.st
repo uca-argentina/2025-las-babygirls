@@ -25,7 +25,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> applyLossConsequencesTo: aPlayer [
     aPlayer loseShield.
     self sendToStart: aPlayer.
@@ -34,7 +34,7 @@ Board >> applyLossConsequencesTo: aPlayer [
 	
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> battleBetween: playersCollection [
     | currentCombatants diceRolls winners die maxRoll |
 
@@ -76,20 +76,13 @@ Board >> firstCell [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSize [
-    boardSquares := aSquareCollection.
-    playersPositions := aPlayerDict.
-	 turnsToWin := 3.
-]
-
-{ #category : 'initialization' }
 Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSize lapsToWin: lapsToWin [
     boardSquares := aSquareCollection.
     playersPositions := aPlayerDict.
 	 turnsToWin := lapsToWin.
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> move: aPlayer toRelativePosition: aNumberOfSteps [
     | currentIndex newIndex newCell |
     
@@ -117,7 +110,7 @@ Board >> numberOfSquares [
 	^ numberOfSquares
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> playTurnWith: aPlayer and: diceRoll [
 
 	| newCell playersInCell |
@@ -139,7 +132,7 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> playersInSameSquareAs: aPlayer [
     ^ playersPositions keys select: [:otherPlayer |
         (playersPositions at: otherPlayer) = (playersPositions at: aPlayer)
@@ -159,7 +152,7 @@ Board >> positionOfPlayer: aPlayer [
 	^result 
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> sendToStart: aPlayer [
 	playersPositions at: aPlayer put: boardSquares first.
 ]
@@ -169,7 +162,7 @@ Board >> squares [
 	^ boardSquares .
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Board >> wins: turns [
     ^ (turns = turnsToWin )
         or: [ turns > turnsToWin ].
