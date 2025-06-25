@@ -23,12 +23,6 @@ Match class >> withPlayers: somePlayers board: aBoard dice: aDice [
 ]
 
 { #category : 'behavior' }
-Match >> activateCard: aCard [ 
-
-	croupier activateCard: aCard.
-]
-
-{ #category : 'behavior' }
 Match >> activateCard: selectedCard to: aPlayer [
 
 	croupier activateCard: selectedCard to: aPlayer.
@@ -101,17 +95,6 @@ Match >> playTurn: aPlayer [
 Match >> player: aNumber [
 
 	^ players at: aNumber
-]
-
-{ #category : 'behavior' }
-Match >> player: aPlayerIndex useCard: cardIndex [
-    | player |
-    player := self player: aPlayerIndex.
-    (player = nextTurn)
-        ifFalse: [ self error: 'It is not your turn to play a card.' ].
-    player useCard: cardIndex with: self.
-
-
 ]
 
 { #category : 'behavior' }

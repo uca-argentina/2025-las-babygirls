@@ -13,13 +13,6 @@ Class {
 }
 
 { #category : 'behavior' }
-Croupier >> activateCard: aCard [
-    activeCards add: aCard.
-	 cardsPlayed add: aCard.
-
-]
-
-{ #category : 'behavior' }
 Croupier >> activateCard: aCard to: aPlayer [
     activeCards add: (aCard with: aPlayer).
 	 cardsPlayed add: aCard.
@@ -43,8 +36,8 @@ Croupier >> changeTotalRollTo: aPlayer [
 { #category : 'behavior' }
 Croupier >> drawCard [
     | options |
-    options := { Acceleration. }.
-    ^ (options atRandom) new
+    options := { Acceleration. }. "FALTA SPEED"
+    ^ (options atRandom)
 
 ]
 

@@ -102,20 +102,6 @@ Player >> shield [
 ]
 
 { #category : 'behavior - cards' }
-Player >> useCard: aCardIndex with: aMatch [
-    | selectedCard |
-
-    (aCardIndex isInteger and: [ aCardIndex > 0 and: [ aCardIndex <= cards size ] ]) ifFalse: [
-        Error signal: 'Invalid card index: ', aCardIndex printString
-    ].
-
-    selectedCard := cards at: aCardIndex.
-    aMatch activateCard: selectedCard.
-    cards removeAt: aCardIndex.
-
-]
-
-{ #category : 'behavior - cards' }
 Player >> useCard: aCardIndex with: aMatch toPlayer: aPlayer [
     | selectedCard |
 

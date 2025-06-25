@@ -155,7 +155,7 @@ CardTest >> testWhenPlayerUseAccelerateItMovesOneSquareMore [
 		           dice: dice
 		           laps: 3.
 	aMatch := builder createMockedMatch.
-	aMatch player: 1 useCard: 1.
+	aMatch player: 1 useCard: 1 toPlayer: 1.
 	aMatch playRound.
 
 	self assert: (aMatch positionOfPlayer: 1) equals: 2002
