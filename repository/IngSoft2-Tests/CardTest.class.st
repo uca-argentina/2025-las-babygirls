@@ -72,6 +72,43 @@ CardTest >> testCannotPlayCancellationWhenNoPermanentsActive [
 ]
 
 { #category : 'tests' }
+CardTest >> testRepeatCanTargetDifferentPlayer [
+    | ctx p1 p2 speed repeat |
+    ctx := (Croupier new) initialize.
+    p1  := (Player new) initialize.
+    p2  := (Player new) initialize.
+    speed := (Speed new owner: p1).
+    ctx activateCard: speed to: p1.
+    self assert: (p1 totalRollBonus) equals: 1.
+    self assert: (p2 totalRollBonus) equals: 0.
+    repeat := (Repeat new owner: p1).
+    ctx activateCard: repeat to: p2.
+    self assert: (p2 totalRollBonus) equals: 1.
+]
+
+{ #category : 'tests' }
+CardTest >> testRepeatCannotWhenNoPreviousEffect [
+    | ctx player repeat |
+    ctx    := (Croupier new) initialize.
+    player := (Player new) initialize.
+    repeat := (Repeat new owner: player).
+    self should: [ ctx activateCard: repeat to: player ] raise: Error.
+]
+
+{ #category : 'tests' }
+CardTest >> testRepeatReappliesLastPermanentEffectOnSameTarget [
+    | ctx player speed repeat |
+    ctx    := (Croupier new) initialize.
+    player := (Player new) initialize.
+    speed  := (Speed new owner: player).
+    ctx activateCard: speed to: player.
+    self assert: (player totalRollBonus) equals: 1.
+    repeat := (Repeat new owner: player).
+    ctx activateCard: repeat to: player.
+    self assert: (player totalRollBonus) equals: 2.
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenAPlayerUsesSpeedOnlyAffectsHim [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |

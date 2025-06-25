@@ -14,5 +14,5 @@ Class {
 { #category : 'accessing' }
 Speed >> applyEffectOn: aPlayer in: context [
     
-     ^ self
+    aPlayer addRollBonus: 1.
 ]
