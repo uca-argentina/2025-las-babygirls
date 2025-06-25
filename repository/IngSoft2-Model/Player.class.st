@@ -14,6 +14,15 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'behavior - cards' }
+Player >> card: aNumberOfCard [
+    | selectedCard |
+    
+    selectedCard := cards at: aNumberOfCard.
+
+    ^selectedCard.
+]
+
 { #category : 'accessing' }
 Player >> cards [
 	^ cards
@@ -102,6 +111,20 @@ Player >> useCard: aCardIndex with: aMatch [
 
     selectedCard := cards at: aCardIndex.
     aMatch activateCard: selectedCard.
+    cards removeAt: aCardIndex.
+
+]
+
+{ #category : 'behavior - cards' }
+Player >> useCard: aCardIndex with: aMatch toPlayer: aPlayer [
+    | selectedCard |
+
+    (aCardIndex isInteger and: [ aCardIndex > 0 and: [ aCardIndex <= cards size ] ]) ifFalse: [
+        Error signal: 'Invalid card index: ', aCardIndex printString
+    ].
+
+    selectedCard := cards at: aCardIndex.
+    aMatch activateCard: selectedCard to: aPlayer.
     cards removeAt: aCardIndex.
 
 ]

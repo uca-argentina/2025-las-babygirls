@@ -10,7 +10,6 @@ Class {
 		'theDice',
 		'theWinner',
 		'nextTurn',
-		'aWinner',
 		'croupier'
 	],
 	#category : 'IngSoft2-Model',
@@ -50,6 +49,8 @@ Match >> changeNextTurnPlayer [
 { #category : 'behavior' }
 Match >> checkIfWins: aPlayer [
 
+	 | aWinner |
+	aWinner := false.
 	(theBoard wins: (aPlayer laps)) ifTrue: [
 		theWinner := aPlayer.
 		aWinner := true ].
@@ -59,7 +60,6 @@ Match >> checkIfWins: aPlayer [
 { #category : 'initialization' }
 Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     theWinner := false.
-    aWinner := false.
     theDice := aDice.
     players := somePlayers.
     theBoard := aBoard.
@@ -79,11 +79,12 @@ Match >> playRound [
 
 { #category : 'behavior' }
 Match >> playTurn: aPlayer [
-    | diceRoll |
+    | diceRoll extraMovement |
     aPlayer == nextTurn ifFalse: [ ^ self ].
 
     diceRoll := self rollTheDice.
-	 diceRoll :=  croupier applyAccelerationsTo: diceRoll.
+	 extraMovement := croupier changeTotalRollTo: aPlayer .
+	 diceRoll := diceRoll + extraMovement.
 	theBoard playTurnWith: aPlayer and: diceRoll.
 
     self changeNextTurnPlayer.
@@ -103,6 +104,20 @@ Match >> player: aPlayerIndex useCard: cardIndex [
     (player = nextTurn)
         ifFalse: [ self error: 'It is not your turn to play a card.' ].
     player useCard: cardIndex with: self.
+
+
+]
+
+{ #category : 'behavior' }
+Match >> player: aPlayerIndex useCard: cardIndex toPlayer: targetPlayerIndex [
+    | player targetPlayer cardToUse|
+
+    player := self player: aPlayerIndex.
+	 cardToUse := player card: cardIndex.
+    targetPlayer := self player: targetPlayerIndex.
+    (player = nextTurn)
+        ifFalse: [ self error: 'It is not your turn to play a card.' ].
+    self activateCard: cardToUse to: targetPlayer.
 
 
 ]

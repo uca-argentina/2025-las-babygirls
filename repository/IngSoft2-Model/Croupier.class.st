@@ -20,10 +20,14 @@ Croupier >> activateCard: aCard [
 ]
 
 { #category : 'behavior' }
-Croupier >> applyAccelerationsTo: aRoll [
-    | accelerationCount |
-    accelerationCount := activeCards count: [:card | card isKindOf: Acceleration].
-    ^ aRoll + accelerationCount
+Croupier >> changeTotalRollTo: aPlayer [
+    | accelerationCount speedCount |
+    accelerationCount := activeCards count: [:card | 
+        card isKindOf: Acceleration].
+    speedCount := activeCards count: [:card | 
+        (card isKindOf: Speed) and:  card player == aPlayer ].
+    ^ accelerationCount + speedCount 
+
 
 
 
