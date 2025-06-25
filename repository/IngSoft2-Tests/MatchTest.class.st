@@ -17,7 +17,7 @@ MatchTest >> testCheckIfPlayerDoATurnDoesntWin [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -35,7 +35,7 @@ MatchTest >> testCheckIfWins [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -53,7 +53,7 @@ MatchTest >> testPlayerTurn [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -74,10 +74,7 @@ MatchTest >> testPodium [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 
-	builder := Builder
-		           with: aNumberOfSquares
-		           players: aNumberOfPlayers
-		           dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
@@ -99,7 +96,7 @@ MatchTest >> testWhenNobodyHasWonItShowsNoWinner [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 	self assert: aMatch winner equals: (false)

@@ -26,7 +26,7 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -47,7 +47,7 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -68,7 +68,7 @@ CellTest >> testPlayerFallsIntoHyperJumpItPositionIncrements [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	firstPosition := aMatch positionOfPlayer: 1.
 	aMatch playTurn: (aMatch player:1).
@@ -90,7 +90,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
@@ -112,7 +112,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 	dice := OrderedCollection with: aDie.
 	
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
@@ -134,7 +134,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 	dice := OrderedCollection with: aDie.
 	
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player: 1).
 
@@ -156,7 +156,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 	dice := OrderedCollection with: aDie.
 	
 		
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 
@@ -177,7 +177,7 @@ CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 

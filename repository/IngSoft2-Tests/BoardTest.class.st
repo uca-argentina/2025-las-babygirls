@@ -18,13 +18,13 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 
 { #category : 'tests' }
 BoardTest >> testBoardHasCorrectSize [
-    | board numberOfPlayers numberOfSquares builder aDie |
+    | board builder aNumberOfSquares aNumberOfPlayers dice |
 	
-	numberOfSquares := 50.
-	numberOfPlayers := 3.
-	aDie := MockedDie withSides: 6.
+	aNumberOfSquares := 50.
+	aNumberOfPlayers := 3.
+	dice := MockedDie withSides: 6.
 	
-    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+   builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3. 
 	board := builder buildNormalBoard.
     self assert: (board squares) size equals: 50
 ]
@@ -37,10 +37,7 @@ BoardTest >> testDistributionFor10000Squares [
 	numberOfPlayers := 1.
 	aDie := MockedDie withSides: 6.
 
-	builder := Builder
-		           with: numberOfSquares
-		           players: numberOfPlayers
-		           dice: aDie.
+	builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie laps: 3.
 	board := builder buildNormalBoard.
 
 	counts := Dictionary new.
@@ -115,8 +112,8 @@ BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 	aNumberOfSquares := -1.
 	aDie := MockedDie withSides: 6.
 	
-    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
-	 
+    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie laps: 3.
+
 	self
 		should: [aBoard := builder buildNormalBoard ]
 		raise: Error

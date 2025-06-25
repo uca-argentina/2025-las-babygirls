@@ -82,6 +82,13 @@ Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSi
 	 turnsToWin := 3.
 ]
 
+{ #category : 'initialization' }
+Board >> initializeWithSquares: aSquareCollection players: aPlayerDict size: aSize lapsToWin: lapsToWin [
+    boardSquares := aSquareCollection.
+    playersPositions := aPlayerDict.
+	 turnsToWin := lapsToWin.
+]
+
 { #category : 'behavior' }
 Board >> move: aPlayer toRelativePosition: aNumberOfSteps [
     | currentIndex newIndex newCell |

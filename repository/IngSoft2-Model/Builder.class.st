@@ -8,16 +8,17 @@ Class {
 		'numberOfSquares',
 		'players',
 		'random',
-		'dice'
+		'dice',
+		'laps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'initialization' }
-Builder class >> with: aNumberOfSquares players: aNumberOfPlayers dice: aDice [
+Builder class >> with: aNumberOfSquares players: aNumberOfPlayers dice: aDice  laps: numberOfLapsToWin [
     ^ self new
-        initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDice
+        initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDice laps: numberOfLapsToWin
 
 ]
 
@@ -62,7 +63,7 @@ Builder >> buildNormalBoard [
     playerPositions := self assignPlayersToFirstSquare: shuffledSquares.
 
     board := Board new.
-    board initializeWithSquares: shuffledSquares players: playerPositions size: numberOfSquares.
+    board initializeWithSquares: shuffledSquares players: playerPositions size: numberOfSquares lapsToWin: laps.
     ^ board
 
 ]
@@ -141,32 +142,16 @@ Builder >> generateOrderedSquares [
 ]
 
 { #category : 'initialization' }
-Builder >> initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDice [
+Builder >> initializeWith: aNumberOfSquares players: aNumberOfPlayers dice: aDice laps: numberOfLapsToWin [
 	
 	 dice := aDice.
+	 laps := numberOfLapsToWin.
     numberOfSquares := aNumberOfSquares.
     players := OrderedCollection new.
     1 to: aNumberOfPlayers do: [:i |
         players add: Player new initialize
     ].
     random := Random new.
-]
-
-{ #category : 'behavior' }
-Builder >> pickRandomEffectFrom: effectProbabilities [
-    | total cumulative randomValue |
-    
-    total := effectProbabilities sum: [:pair | pair value].
-    cumulative := 0.
-    randomValue := random next * total.
-
-    effectProbabilities do: [:pair |
-        cumulative := cumulative + pair value.
-        randomValue < cumulative ifTrue: [^ pair key value].
-    ].
-
-    ^ effectProbabilities last key value
-
 ]
 
 { #category : 'behavior' }
