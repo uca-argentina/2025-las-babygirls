@@ -20,7 +20,7 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=789.
+	aNumberOfSides :=689.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -41,7 +41,7 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=789.
+	aNumberOfSides :=689.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -84,7 +84,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=729.
+	aNumberOfSides :=549.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
@@ -95,7 +95,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 	aMatch playRound.
 
 	
-	self assert: (aMatch positionOfPlayer: 1) equals: 734.
+	self assert: (aMatch positionOfPlayer: 1) equals: 554.
 	
  
 ]
@@ -105,7 +105,7 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=729.
+	aNumberOfSides := 549.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.

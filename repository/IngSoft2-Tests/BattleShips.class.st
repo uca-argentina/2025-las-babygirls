@@ -55,7 +55,7 @@ BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares playerShield playerTurnsToLose |
 	aNumberOfPlayers := 1.
-	aNumberOfSides := 789.
+	aNumberOfSides := 690.
 	aNumberOfSquares := 1000.
 
 	aDie := MockedDie withSides: aNumberOfSides.
