@@ -20,7 +20,23 @@ CardTest >> testWhenMatchStartsEveryPlayerHasTwoCards [
 	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
 	aMatch := builder createMockedMatch.
 
-
-    "Verifico internamente que cada jugador tiene 2 cartas"
     self assert: (aMatch playerCards: 1) size equals: 2.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenPlayerLandOnCardSquareGrabsACard [
+
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
+	aNumberOfPlayers := 2.
+	aNumberOfSides :=7049.
+	aNumberOfSquares := 10000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
+	aMatch playRound .
+	
+	self assert: (aMatch playerCards: 1) size equals: 3.
 ]
