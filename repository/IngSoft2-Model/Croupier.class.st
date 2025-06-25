@@ -8,7 +8,8 @@ Class {
 		'cardsPlayed',
 		'activeCards',
 		'lastEffect',
-		'lastEffectTarget'
+		'lastEffectTarget',
+		'lastCardPlayed'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -34,6 +35,7 @@ Croupier >> activateCard: aCard to: aPlayer [
 
   
     cardsPlayed add: aCard.
+	 lastCardPlayed := aCard.
 
     (aCard isKindOf: PermanentCards)
         ifTrue: [ activeCards add: aCard ].
@@ -70,7 +72,7 @@ Croupier >> changeTotalRollTo: aPlayer [
     accelerationCount := activeCards count: [:card | 
         card isKindOf: Acceleration].
     speedCount := activeCards count: [:card | 
-        (card isKindOf: Speed) and:  card player == aPlayer ].
+        (card isKindOf: Speed) and:  card owner == aPlayer ].
     ^ accelerationCount + speedCount 
 
 
@@ -106,6 +108,12 @@ Croupier >> initialize [
 	activeCards := OrderedCollection new.
 	
 	
+]
+
+{ #category : 'behavior' }
+Croupier >> lastCardPlayed [
+	 ^lastCardPlayed 
+  
 ]
 
 { #category : 'behavior' }

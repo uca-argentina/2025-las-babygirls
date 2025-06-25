@@ -11,3 +11,14 @@ Class {
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'accessing' }
+Redo >> applyEffectOn: newTarget in: context [
+
+    | cardToRedo |
+    cardToRedo := context lastCardPlayed.
+    cardToRedo ifNil: [
+        ^ self error: 'No hay carta previa para rehacer'
+    ].
+    cardToRedo applyEffectOn: newTarget in: context.
+]

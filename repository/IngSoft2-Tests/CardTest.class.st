@@ -27,6 +27,17 @@ CardTest >> test [
 ]
 
 { #category : 'tests' }
+CardTest >> testAccelerationCardAddsOneForAll [
+    | ctx p1 p2 |
+    ctx := (Croupier new) initialize.
+    p1  := (Player new) initialize.
+    p2  := (Player new) initialize.
+    ctx activateCard: (Acceleration new owner: p1) to: p1.
+    self assert: (ctx changeTotalRollTo: p1) equals: 1.
+    self assert: (ctx changeTotalRollTo: p2) equals: 1.
+]
+
+{ #category : 'tests' }
 CardTest >> testCancellationOnNonexistentPermanentRaisesError [
     | ctx player strayPerm cancel |
     ctx       := (Croupier new) initialize.
@@ -72,6 +83,17 @@ CardTest >> testCannotPlayCancellationWhenNoPermanentsActive [
 ]
 
 { #category : 'tests' }
+CardTest >> testMultipleSpeedCardsStack [
+    | ctx player |
+    ctx    := (Croupier new) initialize.
+    player := (Player   new) initialize.
+    ctx activateCard: (Speed new owner: player) to: player.
+    ctx activateCard: (Speed new owner: player) to: player.
+    self assert: (player totalRollBonus) equals: 2.
+
+]
+
+{ #category : 'tests' }
 CardTest >> testNoResidueAfterInstantCards [
     | ctx p perm1 perm2 cancel repeat |
     ctx    := (Croupier new) initialize.
@@ -86,6 +108,42 @@ CardTest >> testNoResidueAfterInstantCards [
     ctx activateCard: repeat to: perm2.
     self assert: (ctx activeCards size) equals: 0.
     self assert: (ctx cardsPlayed size) equals: 4.
+]
+
+{ #category : 'tests' }
+CardTest >> testRedoCanTargetDifferentPlayer [
+    | ctx p1 p2 speed redo |
+    ctx   := (Croupier new) initialize.
+    p1    := (Player   new) initialize.
+    p2    := (Player   new) initialize.
+    speed := (Speed new owner: p1).
+    ctx activateCard: speed to: p1.
+    self assert: (p1 totalRollBonus) equals: 1.
+    redo  := (Redo new owner: p1).
+    ctx activateCard: redo to: p2.
+    self assert: (p2 totalRollBonus) equals: 1.
+]
+
+{ #category : 'tests' }
+CardTest >> testRedoCannotWhenNoPreviousCard [
+    | ctx p redo |
+    ctx  := (Croupier new) initialize.
+    p    := (Player   new) initialize.
+    redo := (Redo new owner: p).
+    self should: [ ctx activateCard: redo to: p ] raise: Error.
+]
+
+{ #category : 'tests' }
+CardTest >> testRedoRepeatsLastSpeedEffectOnSameTarget [
+    | ctx p speed redo |
+    ctx   := (Croupier new) initialize.
+    p     := (Player   new) initialize.
+    speed := (Speed new owner: p).
+    ctx activateCard: speed to: p.
+    self assert: (p totalRollBonus) equals: 1.
+    redo  := (Redo  new owner: p).
+    ctx activateCard: redo to: p.
+    self assert: (p totalRollBonus = 2).
 ]
 
 { #category : 'tests' }
@@ -123,6 +181,16 @@ CardTest >> testRepeatReappliesLastPermanentEffectOnSameTarget [
     repeat := (Repeat new owner: player).
     ctx activateCard: repeat to: player.
     self assert: (player totalRollBonus) equals: 2.
+]
+
+{ #category : 'tests' }
+CardTest >> testSpeedCardApplyEffectIncreasesRollBonus [
+    | ctx player |
+    ctx    := (Croupier new) initialize.
+    player := (Player   new) initialize.
+    ctx activateCard: (Speed new owner: player) to: player.
+    self assert: (player totalRollBonus) equals: 1.
+
 ]
 
 { #category : 'tests' }
