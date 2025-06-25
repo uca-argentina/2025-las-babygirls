@@ -100,7 +100,9 @@ Builder >> effectFactoryFor: effectSymbol [
         #MoonWalk -> [ MoonWalk new initializeWith: (1 to: 10) atRandom ].
         #HyperJump -> [ HyperJump new initialize ].
         #AtomicBomb -> [ AtomicBomb new initialize ].
-    }) at: effectSymbol ifAbsent: [ self error: 'Unknown square type: ', effectSymbol printString ].
+        #CardSquare -> [ CardSquare new initialize ].
+    }) at: effectSymbol
+      ifAbsent: [ self error: 'Unknown square type: ', effectSymbol printString ].
 
 ]
 
@@ -109,12 +111,13 @@ Builder >> generateOrderedSquares [
     | effectProbabilities effectCounts remainingSquares sortedSquares |
 
     effectProbabilities := Dictionary newFrom: {
-        #Normal -> 0.40.
+        #Normal -> 0.30.
         #BlackHole -> 0.20.
         #HyperSpaceJump -> 0.20.
         #MoonWalk -> 0.10.
         #HyperJump -> 0.08.
         #AtomicBomb -> 0.02.
+        #CardSquare -> 0.10.
     }.
 
     effectCounts := Dictionary new.
