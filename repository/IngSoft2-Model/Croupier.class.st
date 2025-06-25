@@ -13,10 +13,35 @@ Class {
 }
 
 { #category : 'behavior' }
+Croupier class >> cardTypes [
+  "Devuelve un Array con las seis clases de carta."
+  ^ {
+    Speed.
+    Mercenary.
+    Acceleration.
+    Cancellation.
+    Redo.
+    Repeat.
+  }.
+]
+
+{ #category : 'behavior' }
 Croupier >> activateCard: aCard to: aPlayer [
     activeCards add: (aCard with: aPlayer).
 	 cardsPlayed add: aCard.
 
+]
+
+{ #category : 'behavior' }
+Croupier >> cardTypes [
+  ^ #(
+    SpeedCard
+    MercenaryCard
+    AccelerationCard
+    CancellationCard
+    RedoCard
+    RepeatCard
+  ).
 ]
 
 { #category : 'behavior' }
@@ -34,10 +59,14 @@ Croupier >> changeTotalRollTo: aPlayer [
 ]
 
 { #category : 'behavior' }
+Croupier >> dealCardTo: aPlayer [
+  aPlayer receiveCard: self drawCard.
+
+]
+
+{ #category : 'behavior' }
 Croupier >> drawCard [
-    | options |
-    options := { Acceleration. }. "FALTA SPEED"
-    ^ (options atRandom)
+  ^ (self class cardTypes atRandom) new.
 
 ]
 
