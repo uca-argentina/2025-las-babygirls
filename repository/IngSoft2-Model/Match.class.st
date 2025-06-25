@@ -10,8 +10,7 @@ Class {
 		'theDice',
 		'theWinner',
 		'nextTurn',
-		'playersPosition',
-		'aWinner'
+		'croupier'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,6 +20,12 @@ Class {
 Match class >> withPlayers: somePlayers board: aBoard dice: aDice [
 
 ^self new initializeWithPlayers: somePlayers board: aBoard dice: aDice.
+]
+
+{ #category : 'behavior' }
+Match >> activateCard: selectedCard to: aPlayer [
+
+	croupier activateCard: selectedCard to: aPlayer.
 ]
 
 { #category : 'initialization' }
@@ -44,6 +49,8 @@ Match >> changeNextTurnPlayer [
 { #category : 'behavior' }
 Match >> checkIfWins: aPlayer [
 
+	 | aWinner |
+	aWinner := false.
 	(theBoard wins: (aPlayer laps)) ifTrue: [
 		theWinner := aPlayer.
 		aWinner := true ].
@@ -53,17 +60,12 @@ Match >> checkIfWins: aPlayer [
 { #category : 'initialization' }
 Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     theWinner := false.
-    aWinner := false.
     theDice := aDice.
     players := somePlayers.
-	 players do: [:player |
-    	player initializeCards.
-    	1 to: 2 do: [:i |
-       	 player grabCard: ((Card subclasses) atRandom) new.
-    	].
-	].
     theBoard := aBoard.
     nextTurn := players first.
+	 croupier := Croupier new.
+	 croupier giveInitialCardsTo: players .
     ^ self
 
 ]
@@ -72,15 +74,17 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
 Match >> playRound [
 
 	players do: [ :aPlayer |
-		(aWinner) ifFalse: [ self playTurn: aPlayer ] ]
+		(theWinner == false) ifTrue: [ self playTurn: aPlayer ] ]
 ]
 
 { #category : 'behavior' }
 Match >> playTurn: aPlayer [
-    | diceRoll |
+    | diceRoll extraMovement |
     aPlayer == nextTurn ifFalse: [ ^ self ].
 
     diceRoll := self rollTheDice.
+	 extraMovement := croupier changeTotalRollTo: aPlayer .
+	 diceRoll := diceRoll + extraMovement.
 	theBoard playTurnWith: aPlayer and: diceRoll.
 
     self changeNextTurnPlayer.
@@ -91,6 +95,25 @@ Match >> playTurn: aPlayer [
 Match >> player: aNumber [
 
 	^ players at: aNumber
+]
+
+{ #category : 'behavior' }
+Match >> player: aPlayerIndex useCard: cardIndex toPlayer: targetPlayerIndex [
+    | player targetPlayer cardToUse|
+
+    player := self player: aPlayerIndex.
+	 cardToUse := player card: cardIndex.
+    targetPlayer := self player: targetPlayerIndex.
+    (player = nextTurn)
+        ifFalse: [ self error: 'It is not your turn to play a card.' ].
+    self activateCard: cardToUse to: targetPlayer.
+
+
+]
+
+{ #category : 'test methods' }
+Match >> playerCards: numberOfPlayer [ 
+	^(self player: numberOfPlayer) cards.
 ]
 
 { #category : 'test methods' }

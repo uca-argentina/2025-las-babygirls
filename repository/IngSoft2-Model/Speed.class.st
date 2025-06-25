@@ -1,14 +1,18 @@
 "
-Speed card type.
+VELOCIDAD (SPEED)
+● Carta Permanente
+● Incrementa en 1 la tirada total de una nave a elección.
+● Afecta la tirada total, no cada dado individual
 "
 Class {
 	#name : 'Speed',
-	#superclass : 'Card',
+	#superclass : 'PermanentCards',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
-Speed >> initialize [ 
-	^ self .
+{ #category : 'accessing' }
+Speed >> applyEffectOn: aPlayer in: context [
+    
+    aPlayer addRollBonus: 1.
 ]

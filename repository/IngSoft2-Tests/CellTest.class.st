@@ -20,13 +20,13 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersLose1Shield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=789.
+	aNumberOfSides :=689.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -41,13 +41,13 @@ CellTest >> testPlayerFallsIntoAtomicBombThenAllThePlayersReturnToFirstCell [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 2.
-	aNumberOfSides :=789.
+	aNumberOfSides :=689.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 
@@ -68,7 +68,7 @@ CellTest >> testPlayerFallsIntoHyperJumpItPositionIncrements [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	firstPosition := aMatch positionOfPlayer: 1.
 	aMatch playTurn: (aMatch player:1).
@@ -84,18 +84,18 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenAdvance4Cells [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=729.
+	aNumberOfSides :=549.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
 	
-	self assert: (aMatch positionOfPlayer: 1) equals: 734.
+	self assert: (aMatch positionOfPlayer: 1) equals: 554.
 	
  
 ]
@@ -105,14 +105,14 @@ CellTest >> testPlayerFallsIntoHyperSpaceJumpThenLoseOneShield [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |
 	aNumberOfPlayers := 1.
-	aNumberOfSides :=729.
+	aNumberOfSides := 549.
 	aNumberOfSquares := 1000.
 	
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound.
 
@@ -134,7 +134,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenOtherPlayerReturnNCells [
 	dice := OrderedCollection with: aDie.
 	
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player: 1).
 
@@ -156,7 +156,7 @@ CellTest >> testPlayerFallsIntoMoonWalkCellThenPlayerDoesntMove [
 	dice := OrderedCollection with: aDie.
 	
 		
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 
@@ -177,7 +177,7 @@ CellTest >> testPlayerFallsIntoNormalCellThenNothingsHappen [
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playTurn: (aMatch player:1).
 

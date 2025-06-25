@@ -18,13 +18,13 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 
 { #category : 'tests' }
 BoardTest >> testBoardHasCorrectSize [
-    | board numberOfPlayers numberOfSquares builder aDie |
+    | board builder aNumberOfSquares aNumberOfPlayers dice |
 	
-	numberOfSquares := 50.
-	numberOfPlayers := 3.
-	aDie := MockedDie withSides: 6.
+	aNumberOfSquares := 50.
+	aNumberOfPlayers := 3.
+	dice := MockedDie withSides: 6.
 	
-    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
+   builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3. 
 	board := builder buildNormalBoard.
     self assert: (board squares) size equals: 50
 ]
@@ -32,72 +32,74 @@ BoardTest >> testBoardHasCorrectSize [
 { #category : 'asserting' }
 BoardTest >> testDistributionFor10000Squares [
 
-    | board counts numberOfSquares expectedRanges builder aDie numberOfPlayers effectCountSum |
+	| board counts numberOfSquares expectedRanges builder aDie numberOfPlayers effectCountSum |
+	numberOfSquares := 10000.
+	numberOfPlayers := 1.
+	aDie := MockedDie withSides: 6.
 
-    numberOfSquares := 10000.
-    numberOfPlayers := 1.
-    aDie := MockedDie withSides: 6.
+	builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie laps: 3.
+	board := builder buildNormalBoard.
 
-    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
-    board := builder buildNormalBoard.
+	counts := Dictionary new.
+	counts
+		at: #BlackHole
+		put: (board squares count: [ :s | s isKindOf: BlackHole ]).
+	counts
+		at: #HyperSpaceJump
+		put: (board squares count: [ :s | s isKindOf: HyperSpaceJump ]).
+	counts
+		at: #MoonWalk
+		put: (board squares count: [ :s | s isKindOf: MoonWalk ]).
+	counts
+		at: #HyperJump
+		put: (board squares count: [ :s | s isKindOf: HyperJump ]).
+	counts
+		at: #AtomicBomb
+		put: (board squares count: [ :s | s isKindOf: AtomicBomb ]).
+	counts
+		at: #CardSquare
+		put: (board squares count: [ :s | s isKindOf: CardSquare ]).
 
-    counts := Dictionary new.
-    counts
-        at: #BlackHole
-        put: (board squares count: [:s | s isKindOf: BlackHole]).
-    counts
-        at: #HyperSpaceJump
-        put: (board squares count: [:s | s isKindOf: HyperSpaceJump]).
-    counts
-        at: #MoonWalk
-        put: (board squares count: [:s | s isKindOf: MoonWalk]).
-    counts
-        at: #HyperJump
-        put: (board squares count: [:s | s isKindOf: HyperJump]).
-    counts
-        at: #AtomicBomb
-        put: (board squares count: [:s | s isKindOf: AtomicBomb]).
+	"Calculamos normales como resto"
+	effectCountSum := counts values sum.
+	counts at: #Normal put: numberOfSquares - effectCountSum.
 
-    "Calculamos normales como resto"
-    effectCountSum := counts values sum.
-    counts at: #Normal put: numberOfSquares - effectCountSum.
+	"Ahora pone un error del 10% para el valor esperado de cada tipo de celda"
+	expectedRanges := Dictionary new.
+	expectedRanges at: #Normal put: {
+			(numberOfSquares * 0.30 * 0.90).
+			(numberOfSquares * 0.30 * 1.10) }.
 
-    "Ahora pone un error del 10% para el valor esperado de cada tipo de celda"
-    expectedRanges := Dictionary new.
-    expectedRanges at: #Normal put: {
-        (numberOfSquares * 0.40 * 0.90).
-        (numberOfSquares * 0.40 * 1.10)
-    }.
-    expectedRanges at: #BlackHole put: {
-        (numberOfSquares * 0.20 * 0.90).
-        (numberOfSquares * 0.20 * 1.10)
-    }.
-    expectedRanges at: #HyperSpaceJump put: {
-        (numberOfSquares * 0.20 * 0.90).
-        (numberOfSquares * 0.20 * 1.10)
-    }.
-    expectedRanges at: #MoonWalk put: {
-        (numberOfSquares * 0.10 * 0.90).
-        (numberOfSquares * 0.10 * 1.10)
-    }.
-    expectedRanges at: #HyperJump put: {
-        (numberOfSquares * 0.08 * 0.90).
-        (numberOfSquares * 0.08 * 1.10)
-    }.
-    expectedRanges at: #AtomicBomb put: {
-        (numberOfSquares * 0.02 * 0.90).
-        (numberOfSquares * 0.02 * 1.10)
-    }.
+	expectedRanges at: #BlackHole put: {
+			(numberOfSquares * 0.20 * 0.90).
+			(numberOfSquares * 0.20 * 1.10) }.
+	expectedRanges at: #HyperSpaceJump put: {
+			(numberOfSquares * 0.20 * 0.90).
+			(numberOfSquares * 0.20 * 1.10) }.
+	expectedRanges at: #MoonWalk put: {
+			(numberOfSquares * 0.10 * 0.90).
+			(numberOfSquares * 0.10 * 1.10) }.
+	expectedRanges at: #HyperJump put: {
+			(numberOfSquares * 0.08 * 0.90).
+			(numberOfSquares * 0.08 * 1.10) }.
+	expectedRanges at: #AtomicBomb put: {
+			(numberOfSquares * 0.02 * 0.90).
+			(numberOfSquares * 0.02 * 1.10) }.
+	expectedRanges at: #CardSquare put: {
+			(numberOfSquares * 0.10 * 0.90).
+			(numberOfSquares * 0.10 * 1.10) }.
 
-    expectedRanges keysAndValuesDo: [:effect :range |
-        | count message lower upper |
-        count := counts at: effect.
-        lower := range first.
-        upper := range second.
-        message := 'Count for ', effect printString, ' was ', count printString, ', expected between ', lower printString, ' and ', upper printString.
-        self assert: (count between: lower asInteger and: upper asInteger) description: message.
-    ].
-
+	expectedRanges keysAndValuesDo: [ :effect :range |
+		| count message lower upper |
+		count := counts at: effect.
+		lower := range first.
+		upper := range second.
+		message := 'Count for ' , effect printString , ' was '
+		           , count printString , ', expected between '
+		           , lower printString , ' and ' , upper printString.
+		self
+			assert: (count between: lower asInteger and: upper asInteger)
+			description: message ]
 ]
 
 { #category : 'tests' }
@@ -110,8 +112,8 @@ BoardTest >> testWhenTheSquaresAreLessThan10Fails [
 	aNumberOfSquares := -1.
 	aDie := MockedDie withSides: 6.
 	
-    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie.
-	 
+    builder := Builder with: numberOfSquares players: numberOfPlayers dice: aDie laps: 3.
+
 	self
 		should: [aBoard := builder buildNormalBoard ]
 		raise: Error

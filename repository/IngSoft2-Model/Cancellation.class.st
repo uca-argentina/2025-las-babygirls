@@ -6,17 +6,16 @@ Carta Permanente
 ● Afecta la tirada total, no cada dado individual
 "
 Class {
-	#name : 'Repeat',
+	#name : 'Cancellation',
 	#superclass : 'InstantCards',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'accessing' }
-Repeat >> applyEffectOn: newTarget in: context [
-    
-    | eff |
-    eff := context lastEffect.
-    eff ifNil: [ ^ self error: 'No hay efecto previo para repetir' ].
-    eff value: newTarget.
+Cancellation >> applyEffectOn: aPermanentCard in: context [
+    | removed |
+    removed := context activeCards remove: aPermanentCard ifAbsent: [ nil ].
+    removed ifNil: [ ^ self error: 'No hay carta permanente activa para cancelar' ].
+
 ]

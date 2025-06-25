@@ -8,31 +8,47 @@ Class {
 		'shields',
 		'laps',
 		'remainingSkippedTurns',
-		'cards'
+		'cards',
+		'rollBonus'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'behavior' }
+{ #category : 'initialization' }
+Player >> addRollBonus: n [
+    rollBonus := rollBonus + n.
+	
+
+]
+
+{ #category : 'behavior - cards' }
+Player >> card: aNumberOfCard [
+    | selectedCard |
+    
+    selectedCard := cards at: aNumberOfCard.
+
+    ^selectedCard.
+]
+
+{ #category : 'accessing' }
+Player >> cards [
+	^ cards
+]
+
+{ #category : 'behavior race' }
 Player >> decrementLap [
 
 laps := laps - 1.
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> decrementSkippedTurns [
 
 	remainingSkippedTurns:= remainingSkippedTurns - 1
 ]
 
-{ #category : 'behavior' }
-Player >> grabCard: aCard [
-	cards add: aCard .
-	^ self .
-]
-
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> incrementLap [
 
 laps := laps +1.
@@ -43,17 +59,14 @@ Player >> initialize [
 	shields := 3 .
 	laps := 0.
 	remainingSkippedTurns := 0.
+	rollBonus := 0.
+	
 	cards := OrderedCollection new .
 	
+
 ]
 
-{ #category : 'initialization' }
-Player >> initializeCards [
-	cards := OrderedCollection new .
-	^self
-]
-
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> isSkippingTurn [
 
 ^(remainingSkippedTurns > 0)
@@ -64,7 +77,7 @@ Player >> laps [
 	^ laps
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior race' }
 Player >> loseShield [
 
 	shields := shields - 1.
@@ -73,7 +86,14 @@ Player >> loseShield [
 	shields := 3
 ]
 
-{ #category : 'behavior' }
+{ #category : 'behavior - cards' }
+Player >> receiveCard: aCard [
+    
+    cards add: aCard.
+
+]
+
+{ #category : 'behavior race' }
 Player >> recoverShields [
 
 shields := 3.
@@ -88,4 +108,25 @@ Player >> remainingSkippedTurns [
 { #category : 'accessing' }
 Player >> shield [
 	^shields.
+]
+
+{ #category : 'initialization' }
+Player >> totalRollBonus [
+    ^ rollBonus.
+	
+
+]
+
+{ #category : 'behavior - cards' }
+Player >> useCard: aCardIndex with: aMatch toPlayer: aPlayer [
+    | selectedCard |
+
+    (aCardIndex isInteger and: [ aCardIndex > 0 and: [ aCardIndex <= cards size ] ]) ifFalse: [
+        Error signal: 'Invalid card index: ', aCardIndex printString
+    ].
+
+    selectedCard := cards at: aCardIndex.
+    aMatch activateCard: selectedCard to: aPlayer.
+    cards removeAt: aCardIndex.
+
 ]

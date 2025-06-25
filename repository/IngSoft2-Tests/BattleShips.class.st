@@ -15,7 +15,7 @@ BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserLoseOneShield 
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 	
@@ -39,7 +39,7 @@ BattleShips >> testWhen2ShipsAreInANormalCellThenBattleAndTheLoserReturnToTheFir
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 	player1Position := aMatch positionOfPlayer: 1.
@@ -55,16 +55,13 @@ BattleShips >> testWhenAPlayerLoseAllShieldsItDoesntMove [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares playerShield playerTurnsToLose |
 	aNumberOfPlayers := 1.
-	aNumberOfSides := 789.
+	aNumberOfSides := 690.
 	aNumberOfSquares := 1000.
 
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 
-	builder := Builder
-		           with: aNumberOfSquares
-		           players: aNumberOfPlayers
-		           dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	
 	aMatch playRound.
@@ -94,7 +91,7 @@ BattleShips >> testWhenPlayerInBlackHoleIsSentToACellWithOtherPlayerThenTheyBatt
 	aDie := MockedDie withSides: aNumberOfSides.
 	dice := OrderedCollection with: aDie.
 	
-	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
 	aMatch := builder createMockedMatch.
 	aMatch playRound .
 	

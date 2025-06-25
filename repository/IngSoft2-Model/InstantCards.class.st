@@ -6,17 +6,13 @@ Carta Permanente
 ● Afecta la tirada total, no cada dado individual
 "
 Class {
-	#name : 'Repeat',
-	#superclass : 'InstantCards',
+	#name : 'InstantCards',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'accessing' }
-Repeat >> applyEffectOn: newTarget in: context [
-    
-    | eff |
-    eff := context lastEffect.
-    eff ifNil: [ ^ self error: 'No hay efecto previo para repetir' ].
-    eff value: newTarget.
+InstantCards >> applyEffectOn: target in: context [
+    self subclassResponsibility.
 ]
