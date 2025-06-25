@@ -5,7 +5,8 @@ Class {
 	#name : 'Card',
 	#superclass : 'Object',
 	#instVars : [
-		'player'
+		'player',
+		'owner'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -17,10 +18,25 @@ Card class >> with: aPlayer [
 ^self new initializeWith: aPlayer.
 ]
 
+{ #category : 'accessing' }
+Card >> applyEffectOn: target in: context [
+    self subclassResponsibility.
+]
+
 { #category : 'initialization' }
 Card >> initializeWith: aPlayer [ 
 
 player := aPlayer.
+]
+
+{ #category : 'accessing' }
+Card >> owner [
+	 ^owner.
+]
+
+{ #category : 'accessing' }
+Card >> owner: aPlayer [
+	owner:= aPlayer 
 ]
 
 { #category : 'accessing' }

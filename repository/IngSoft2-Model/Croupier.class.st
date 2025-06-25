@@ -6,7 +6,9 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'cardsPlayed',
-		'activeCards'
+		'activeCards',
+		'lastEffect',
+		'lastEffectTarget'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -27,21 +29,39 @@ Croupier class >> cardTypes [
 
 { #category : 'behavior' }
 Croupier >> activateCard: aCard to: aPlayer [
-    activeCards add: (aCard with: aPlayer).
-	 cardsPlayed add: aCard.
+
+    aCard applyEffectOn: aPlayer in: self.
+
+  
+    cardsPlayed add: aCard.
+
+    (aCard isKindOf: PermanentCards)
+        ifTrue: [ activeCards add: aCard ].
+
+    lastEffect := [:newTarget |
+        aCard applyEffectOn: newTarget in: self
+    ].
+
+  
+    lastEffectTarget := aPlayer.
 
 ]
 
 { #category : 'behavior' }
-Croupier >> cardTypes [
-  ^ #(
-    SpeedCard
-    MercenaryCard
-    AccelerationCard
-    CancellationCard
-    RedoCard
-    RepeatCard
-  ).
+Croupier >> activateCards [
+	^activeCards.
+
+]
+
+{ #category : 'behavior' }
+Croupier >> activeCards [
+	^activeCards.
+
+]
+
+{ #category : 'behavior' }
+Croupier >> cardsPlayed [
+	  ^cardsPlayed.
 ]
 
 { #category : 'behavior' }
@@ -81,7 +101,20 @@ Croupier >> giveInitialCardsTo: players [
 
 { #category : 'initialization' }
 Croupier >> initialize [ 
-
+	super initialize.
 	cardsPlayed := OrderedCollection new.
 	activeCards := OrderedCollection new.
+	
+	
+]
+
+{ #category : 'behavior' }
+Croupier >> lastEffect [	
+	^lastEffect.
+]
+
+{ #category : 'behavior' }
+Croupier >> lastEffectTarget [
+ 	^lastEffectTarget 
+  
 ]

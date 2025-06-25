@@ -6,7 +6,13 @@ VELOCIDAD (SPEED)
 "
 Class {
 	#name : 'Speed',
-	#superclass : 'Card',
+	#superclass : 'PermanentCards',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'accessing' }
+Speed >> applyEffectOn: aPlayer in: context [
+    
+     ^ self
+]

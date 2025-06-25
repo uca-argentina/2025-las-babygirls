@@ -27,6 +27,51 @@ CardTest >> test [
 ]
 
 { #category : 'tests' }
+CardTest >> testCancellationOnNonexistentPermanentRaisesError [
+    | ctx player strayPerm cancel |
+    ctx       := (Croupier new) initialize.
+    player    := (Player   new) initialize.
+    strayPerm := (Speed new owner: player).
+    cancel    := (Cancellation new owner: player).
+    self should: [ ctx activateCard: cancel to: strayPerm ] raise: Error.
+]
+
+{ #category : 'tests' }
+CardTest >> testCancellationRemovesOnlyTheChosenPermanent [
+    | ctx player perm1 perm2 cancel |
+    
+    ctx    := (Croupier new) initialize.
+    player := (Player   new) initialize.
+
+   
+    perm1  := (Speed      new owner: player).
+    perm2  := (Acceleration new owner: player).
+    ctx activateCard: perm1 to: player.
+    ctx activateCard: perm2 to: player.
+    self assert: (ctx activeCards size = 2)
+        description: 'Deben haber 2 permanentes antes de cancelar'.
+
+    
+    cancel := (Cancellation new owner: player).
+    ctx activateCard: cancel to: perm1.
+
+    self assert: ((ctx activeCards includes: perm1) not).
+
+    self assert: (ctx activeCards includes: perm2).
+
+    self assert: (ctx activeCards size) equals: 1.
+]
+
+{ #category : 'tests' }
+CardTest >> testCannotPlayCancellationWhenNoPermanentsActive [
+    | ctx player cancel |
+    ctx    := (Croupier new) initialize.
+    player := (Player   new) initialize.
+    cancel := (Cancellation new owner: player).
+    self should: [ ctx activateCard: cancel to: player ] raise: Error.
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenAPlayerUsesSpeedOnlyAffectsHim [
 
 	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares |

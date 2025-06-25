@@ -7,7 +7,7 @@ Carta Permanente
 "
 Class {
 	#name : 'Mercenary',
-	#superclass : 'Card',
+	#superclass : 'PermanentCards',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
