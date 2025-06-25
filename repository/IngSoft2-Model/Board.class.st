@@ -3,12 +3,13 @@ Where the game is played.
 Celdas ESPERADAS para un mocked board de 1000 celdas:
 | Tipo de celda      | Cantidad | Rango de índices (1-based) |
 | ------------------ | -------- | -------------------------- |
-| **HyperJump**      | 80       | 1 – 80                     |
-| **MoonWalk**       | 100      | 81 – 180                   |
-| **Normal**         | 400      | 181 – 580                  |
-| **HyperSpaceJump** | 200      | 581 – 780                  |
-| **AtomicBomb**     | 20       | 781 – 800                  |
-| **BlackHole**      | 200      | 801 – 1000                 |
+| **HyperJump**      | 800      | 1 – 800                    |
+| **MoonWalk**       | 1000     | 801 – 1800                 |
+| **Normal**         | 3000     | 1801 – 4800                |
+| **HyperSpaceJump** | 2000     | 4801 – 6800                |
+| **AtomicBomb**     | 200      | 6801 – 7000                |
+| **CardSquare**     | 1000     | 70001 – 8000               |
+| **BlackHole**      | 2000     | 8001 – 1000                |
 
 "
 Class {
