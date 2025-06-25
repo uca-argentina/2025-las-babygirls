@@ -7,24 +7,20 @@ Class {
 
 { #category : 'tests' }
 CardTest >> testWhenMatchStartsEveryPlayerHasTwoCards [
-    | match players board dice |
-    "Preparo dos jugadores"
-    players := OrderedCollection with: (Player new) with: (Player new).
 
-    "Creo tablero y dado"
-    board := Board new.
-    dice  := Die  new.
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares  |
+	aNumberOfPlayers := 1.
+	aNumberOfSides :=109.
+	aNumberOfSquares := 1000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+		
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice.
+	aMatch := builder createMockedMatch.
 
-    "Inicializo la partida (reparte 2 cartas a cada jugador)"
-    match := Match new
-                initializeWithPlayers: players
-                            board: board
-                             dice: dice.
 
     "Verifico internamente que cada jugador tiene 2 cartas"
-    players do: [ :player |
-        | cardColl |
-        cardColl := (player instVarNamed: 'cards').        "⟵ ojo con los paréntesis"
-        self assert: (cardColl size) equals: 2.
-    ].
+    self assert: (aMatch playerCards: 1) size equals: 2.
 ]

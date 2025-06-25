@@ -14,6 +14,11 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'accessing' }
+Player >> cards [
+	^ cards
+]
+
 { #category : 'behavior' }
 Player >> decrementLap [
 
@@ -43,14 +48,13 @@ Player >> initialize [
 	shields := 3 .
 	laps := 0.
 	remainingSkippedTurns := 0.
+	
 	cards := OrderedCollection new .
 	
-]
+	2 timesRepeat: [
+		cards add: Card new
+	].
 
-{ #category : 'initialization' }
-Player >> initializeCards [
-	cards := OrderedCollection new .
-	^self
 ]
 
 { #category : 'behavior' }

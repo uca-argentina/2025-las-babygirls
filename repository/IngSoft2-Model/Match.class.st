@@ -56,12 +56,6 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     aWinner := false.
     theDice := aDice.
     players := somePlayers.
-	 players do: [:player |
-    	player initializeCards.
-    	1 to: 2 do: [:i |
-       	 player grabCard: ((Card subclasses) atRandom) new.
-    	].
-	].
     theBoard := aBoard.
     nextTurn := players first.
     ^ self
@@ -91,6 +85,11 @@ Match >> playTurn: aPlayer [
 Match >> player: aNumber [
 
 	^ players at: aNumber
+]
+
+{ #category : 'test methods' }
+Match >> playerCards: nnumberOfPlayer [ 
+	^(self player: 1) cards.
 ]
 
 { #category : 'test methods' }

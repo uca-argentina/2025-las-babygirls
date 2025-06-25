@@ -10,5 +10,4 @@ Class {
 
 { #category : 'initialization' }
 Card >> initialize [ 
-	^ self subclassResponsibility .
 ]
