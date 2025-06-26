@@ -75,7 +75,7 @@ Croupier >> checkRedo: aCard [
 
 { #category : 'behavior' }
 Croupier >> drawCard [
-  ^ (self class cardTypes atRandom) new.
+  ^ {Acceleration . Repeat . Speed. Cancellation . Redo . Mercenary } atRandom new.
 
 ]
 

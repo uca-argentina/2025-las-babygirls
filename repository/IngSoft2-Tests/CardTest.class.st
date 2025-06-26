@@ -111,7 +111,7 @@ CardTest >> testRedoCannotWhenNoPreviousCardPlayed [
 
 { #category : 'tests' }
 CardTest >> testRepeatCanTargetDifferentPlayer [
-    | croupier player1 speed repeat aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
+    | player1 speed aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
 	aNumberOfPlayers := 3.
 	aNumberOfSides := 1999.
 	aNumberOfSquares := 10000.
@@ -127,16 +127,14 @@ CardTest >> testRepeatCanTargetDifferentPlayer [
 	aMatch := builder createMockedMatch.
 	
 	
-    croupier := (Croupier new) initialize.
     player1  := aMatch player: 1.
     player3  := aMatch player: 3.
     speed := Speed.
 	 player1 receiveCard: speed.
     aMatch player: 1 useCard: 3 toPlayer: 1.
 
-    repeat := Redo.
-	 player1 receiveCard: repeat.
-	 player1 receiveCard: repeat.
+	 player1 receiveCard: Redo.
+	 player1 receiveCard: Redo.
     aMatch player: 1 useCard: 3 toPlayer: 3.
     aMatch player: 1 useCard: 3 toPlayer: 3.
  	 aMatch playRound.

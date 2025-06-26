@@ -16,4 +16,5 @@ CroupierTest >> testDrawCardIsACard [
     | card |
     card := Croupier new drawCard.
     self assert: (card isKindOf: Card).
+
 ]
