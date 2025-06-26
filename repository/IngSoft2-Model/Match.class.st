@@ -88,7 +88,8 @@ Match >> playTurn: aPlayer [
 	 extraMovement := croupier changeTotalRollTo: aPlayer .
 	 diceRoll := diceRoll + extraMovement.
 	 lastCell := theBoard playTurnWith: aPlayer and: diceRoll.
-	 (lastCell class ~= Normal) ifTrue: [ "Añadido: Se guarda si la clase no es Normal"
+	 (lastCell class ~= Normal) ifTrue: [ 
+		
 		lastAppliedEffectCell := lastCell
 	 ].
 

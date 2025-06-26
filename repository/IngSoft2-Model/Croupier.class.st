@@ -29,10 +29,10 @@ Croupier class >> cardTypes [
 Croupier >> activateCard: aCard to: aPlayerOrCard [
 	| newCard |
 	newCard := self checkRedo: aCard.
-	cardsPlayed add: aCard.
-	((aPlayerOrCard isKindOf: Player) and: (aCard class superclass = PermanentCards class))
+	cardsPlayed add: newCard.
+	((aPlayerOrCard isKindOf: Player) and: (newCard class superclass = PermanentCards class))
 		ifTrue: [
-			activeCards add: (aCard with: aPlayerOrCard)
+			activeCards add: (newCard with: aPlayerOrCard)
 		]
 		ifFalse: [
 			(aPlayerOrCard isKindOf: Player) ifFalse: [
@@ -68,16 +68,13 @@ Croupier >> changeTotalRollTo: aPlayer [
 
 { #category : 'behavior' }
 Croupier >> checkRedo: aCard [
-    ^ (aCard isKindOf: Redo)
+
+    (aCard = Redo)
         ifTrue: [
             cardsPlayed isEmpty ifTrue: [ self error: 'There is no card to redo.' ].
 
-            "REGLA CORRECTA: Busca hacia atrás la última carta jugada que NO sea de tipo Redo"
-            cardsPlayed reversed detect: [ :eachCard | (eachCard isKindOf: Redo) not ] ifNone: [
-                self error: 'Could not find a non-redo card to copy.'
-            ]
-        ]
-        ifFalse: [ aCard ]
+            ^cardsPlayed first]
+        ifFalse: [ ^aCard ]
 ]
 
 { #category : 'behavior' }

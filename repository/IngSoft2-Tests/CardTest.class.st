@@ -101,15 +101,49 @@ CardTest >> testNoResidueAfterInstantCards [
 ]
 
 { #category : 'tests' }
-CardTest >> testRedoCannotWhenNoPreviousCardPlayed [ [
+CardTest >> testRedoCannotWhenNoPreviousCardPlayed [ 
     | ctx player |
     ctx    := (Croupier new) initialize.
     player := (Player new) initialize.
     player receiveCard: Redo.
     self should: [ ctx activateCard: Redo to: player ] raise: Error withMessageText: 'There is no card to redo.'.
+
+
+
 ]
 
+{ #category : 'tests' }
+CardTest >> testReedoCanTargetDifferentPlayer [
+    | croupier player1 speed redo aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
+	aNumberOfPlayers := 3.
+	aNumberOfSides := 1999.
+	aNumberOfSquares := 10000.
 
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+
+	builder := Builder
+		           with: aNumberOfSquares
+		           players: aNumberOfPlayers
+		           dice: dice
+		           laps: 3.
+	aMatch := builder createMockedMatch.
+	
+	
+    croupier := (Croupier new) initialize.
+    player1  := aMatch player: 1.
+    player3  := aMatch player: 3.
+    speed := Speed.
+	 player1 receiveCard: speed.
+    aMatch player: 1 useCard: 3 toPlayer: 1.
+
+    redo := Redo.
+	 player1 receiveCard: redo.
+	 player1 receiveCard: redo.
+    aMatch player: 1 useCard: 3 toPlayer: 3.
+    aMatch player: 1 useCard: 3 toPlayer: 3.
+ 	 aMatch playRound.
+	self assert: (aMatch positionOfPlayer:3)  equals: 2002
 ]
 
 { #category : 'tests' }
