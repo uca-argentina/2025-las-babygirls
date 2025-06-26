@@ -106,7 +106,7 @@ Match >> player: aPlayerIndex useCard: cardIndex toPlayer: targetPlayerIndex [
     targetPlayer := self player: targetPlayerIndex.
     (player = nextTurn)
         ifFalse: [ self error: 'It is not your turn to play a card.' ].
-    self activateCard: cardToUse to: targetPlayer.
+    croupier activateCard: cardToUse to: targetPlayer.
 
 
 ]

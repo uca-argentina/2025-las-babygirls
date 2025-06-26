@@ -8,19 +8,11 @@ Class {
 		'shields',
 		'laps',
 		'remainingSkippedTurns',
-		'cards',
-		'rollBonus'
+		'cards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
-
-{ #category : 'initialization' }
-Player >> addRollBonus: n [
-    rollBonus := rollBonus + n.
-	
-
-]
 
 { #category : 'behavior - cards' }
 Player >> card: aNumberOfCard [
@@ -59,7 +51,6 @@ Player >> initialize [
 	shields := 3 .
 	laps := 0.
 	remainingSkippedTurns := 0.
-	rollBonus := 0.
 	
 	cards := OrderedCollection new .
 	
@@ -108,13 +99,6 @@ Player >> remainingSkippedTurns [
 { #category : 'accessing' }
 Player >> shield [
 	^shields.
-]
-
-{ #category : 'initialization' }
-Player >> totalRollBonus [
-    ^ rollBonus.
-	
-
 ]
 
 { #category : 'behavior - cards' }

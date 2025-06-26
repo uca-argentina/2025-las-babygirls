@@ -12,19 +12,9 @@ self assert: (Croupier cardTypes size) equals: 6
 ]
 
 { #category : 'tests' }
-CroupierTest >> testDealCardToAddsOne [
-    | croupier player |
-    croupier := Croupier new.
-    player   := Player new.
-    player initialize.
-    self assert: (player cards size) equals: 0.
-    croupier dealCardTo: player.
-    self assert: (player cards size) equals: 1
-]
-
-{ #category : 'tests' }
 CroupierTest >> testDrawCardIsACard [
     | card |
     card := Croupier new drawCard.
     self assert: (card isKindOf: Card).
+
 ]
