@@ -27,14 +27,18 @@ Croupier class >> cardTypes [
 
 { #category : 'behavior' }
 Croupier >> activateCard: aCard to: aPlayerOrCard [
-
 	| newCard |
 	newCard := self checkRedo: aCard.
-	cardsPlayed add: aCard.
-	
-	((aPlayerOrCard isKindOf: Player) and: (aCard class superclass = PermanentCards class)) ifTrue: [
-				activeCards add: (aCard with: aPlayerOrCard) ] 
-		ifFalse: [self removeCard: aPlayerOrCard ]
+	cardsPlayed add: newCard.
+	((aPlayerOrCard isKindOf: Player) and: (newCard class superclass = PermanentCards class))
+		ifTrue: [
+			activeCards add: (newCard with: aPlayerOrCard)
+		]
+		ifFalse: [
+			(aPlayerOrCard isKindOf: Player) ifFalse: [
+				self removeCard: aPlayerOrCard
+			]
+		]
 ]
 
 { #category : 'behavior' }
@@ -63,14 +67,14 @@ Croupier >> changeTotalRollTo: aPlayer [
 ]
 
 { #category : 'behavior' }
-Croupier >> checkRedo: aCard [ 
-    ^ (aCard = Redo or: [ aCard isKindOf: Redo ])
-        ifTrue: [ 
-            cardsPlayed isEmpty
-                ifTrue: [ self error: 'There is no card to redo.' ].
-            cardsPlayed first ]
-        ifFalse: [ aCard ]
+Croupier >> checkRedo: aCard [
 
+    (aCard = Redo)
+        ifTrue: [
+            cardsPlayed isEmpty ifTrue: [ self error: 'There is no card to redo.' ].
+
+            ^cardsPlayed first]
+        ifFalse: [ ^aCard ]
 ]
 
 { #category : 'behavior' }

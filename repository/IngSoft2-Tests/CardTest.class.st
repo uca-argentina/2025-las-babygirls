@@ -101,17 +101,20 @@ CardTest >> testNoResidueAfterInstantCards [
 ]
 
 { #category : 'tests' }
-CardTest >> testRedoCannotWhenNoPreviousCardPlayed [
+CardTest >> testRedoCannotWhenNoPreviousCardPlayed [ 
     | ctx player |
     ctx    := (Croupier new) initialize.
     player := (Player new) initialize.
     player receiveCard: Redo.
     self should: [ ctx activateCard: Redo to: player ] raise: Error withMessageText: 'There is no card to redo.'.
+
+
+
 ]
 
 { #category : 'tests' }
-CardTest >> testRepeatCanTargetDifferentPlayer [
-    | player1 speed aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
+CardTest >> testReedoCanTargetDifferentPlayer [
+    | croupier player1 speed redo aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
 	aNumberOfPlayers := 3.
 	aNumberOfSides := 1999.
 	aNumberOfSquares := 10000.
@@ -127,18 +130,105 @@ CardTest >> testRepeatCanTargetDifferentPlayer [
 	aMatch := builder createMockedMatch.
 	
 	
+    croupier := (Croupier new) initialize.
     player1  := aMatch player: 1.
     player3  := aMatch player: 3.
     speed := Speed.
 	 player1 receiveCard: speed.
     aMatch player: 1 useCard: 3 toPlayer: 1.
 
-	 player1 receiveCard: Redo.
-	 player1 receiveCard: Redo.
+    redo := Redo.
+	 player1 receiveCard: redo.
+	 player1 receiveCard: redo.
     aMatch player: 1 useCard: 3 toPlayer: 3.
     aMatch player: 1 useCard: 3 toPlayer: 3.
  	 aMatch playRound.
 	self assert: (aMatch positionOfPlayer:3)  equals: 2002
+]
+
+{ #category : 'tests' }
+CardTest >> testRepeatCardAppliesLastCellEffectToTargetPlayer [
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player1 player2 initialPosition |
+	aNumberOfPlayers := 2.
+	aNumberOfSides := 549. 
+	aNumberOfSquares := 1000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
+	aMatch := builder createMockedMatch.
+	
+	player1 := aMatch player: 1.
+	player2 := aMatch player: 2.
+
+	
+	aMatch playTurn: player1.
+	self assert: (aMatch positionOfPlayer: 1) equals: 554.
+	
+	
+	initialPosition := aMatch positionOfPlayer: 2.
+	player2 receiveCard: Repeat new. 
+	aMatch player: 2 useCard: 3 toPlayer: 2. 
+	
+	
+	self assert: (aMatch positionOfPlayer: 2) equals: (initialPosition + 4).
+]
+
+{ #category : 'tests' }
+CardTest >> testRepeatCardHasNoEffectAtStartOfGame [
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player1 initialPosition |
+	aNumberOfPlayers := 1.
+	aNumberOfSides := 100.
+	aNumberOfSquares := 1000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
+	aMatch := builder createMockedMatch.
+	
+	player1 := aMatch player: 1.
+	initialPosition := aMatch positionOfPlayer: 1.
+	
+	"El jugador 1 intenta usar Repeat antes de que nadie haya jugado un turno"
+	player1 receiveCard: Repeat new.
+	self assert: (aMatch playerCards: 1) size equals: 3.
+	
+	"Usa la carta Repeat"
+	aMatch player: 1 useCard: 3 toPlayer: 1.
+	
+	"La posición no debería cambiar, pero la carta sí se consume"
+	self assert: (aMatch positionOfPlayer: 1) equals: initialPosition.
+	self assert: (aMatch playerCards: 1) size equals: 2.
+]
+
+{ #category : 'tests' }
+CardTest >> testRepeatCardHasNoEffectIfLastEffectWasNormalCell [
+	| aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player1 player2 initialPosition |
+	aNumberOfPlayers := 2.
+	aNumberOfSides := 130. "Para caer en una celda Normal"
+	aNumberOfSquares := 1000.
+	
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
+	
+	builder := Builder with: aNumberOfSquares players: aNumberOfPlayers dice: dice laps: 3.
+	aMatch := builder createMockedMatch.
+	
+	player1 := aMatch player: 1.
+	player2 := aMatch player: 2.
+
+	"Jugador 1 juega y cae en una celda Normal (131)"
+	aMatch playTurn: player1.
+	self assert: (aMatch positionOfPlayer: 1) equals: 131.
+
+	initialPosition := aMatch positionOfPlayer: 2.
+	player2 receiveCard: Repeat new.
+	aMatch player: 2 useCard: 3 toPlayer: 2.
+	
+	"La posición del jugador 2 no debería cambiar"
+	self assert: (aMatch positionOfPlayer: 2) equals: initialPosition.
 ]
 
 { #category : 'tests' }
