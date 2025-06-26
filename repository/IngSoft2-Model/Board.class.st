@@ -129,7 +129,7 @@ Board >> playTurnWith: aPlayer and: diceRoll [
 	playersInCell size > 1 ifTrue: [
     self battleBetween: playersInCell
 ].
-
+^ newCell
 ]
 
 { #category : 'behavior race' }

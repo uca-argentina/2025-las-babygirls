@@ -10,7 +10,8 @@ Class {
 		'theDice',
 		'theWinner',
 		'nextTurn',
-		'croupier'
+		'croupier',
+		'lastAppliedEffectCell'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -64,6 +65,7 @@ Match >> initializeWithPlayers: somePlayers board: aBoard dice: aDice [
     players := somePlayers.
     theBoard := aBoard.
     nextTurn := players first.
+	 lastAppliedEffectCell := nil.
 	 croupier := Croupier new.
 	 croupier giveInitialCardsTo: players .
     ^ self
@@ -79,13 +81,16 @@ Match >> playRound [
 
 { #category : 'behavior' }
 Match >> playTurn: aPlayer [
-    | diceRoll extraMovement |
+    | diceRoll extraMovement lastCell |
     aPlayer == nextTurn ifFalse: [ ^ self ].
 
     diceRoll := self rollTheDice.
 	 extraMovement := croupier changeTotalRollTo: aPlayer .
 	 diceRoll := diceRoll + extraMovement.
-	theBoard playTurnWith: aPlayer and: diceRoll.
+	 lastCell := theBoard playTurnWith: aPlayer and: diceRoll.
+	 (lastCell class ~= Normal) ifTrue: [ "Añadido: Se guarda si la clase no es Normal"
+		lastAppliedEffectCell := lastCell
+	 ].
 
     self changeNextTurnPlayer.
     self checkIfWins: aPlayer.
@@ -99,16 +104,27 @@ Match >> player: aNumber [
 
 { #category : 'behavior' }
 Match >> player: aPlayerIndex useCard: cardIndex toPlayer: targetPlayerIndex [
-    | player targetPlayer cardToUse|
-
+   | player targetPlayer cardToUse |
     player := self player: aPlayerIndex.
-	 cardToUse := player card: cardIndex.
     targetPlayer := self player: targetPlayerIndex.
     (player = nextTurn)
         ifFalse: [ self error: 'It is not your turn to play a card.' ].
-    croupier activateCard: cardToUse to: targetPlayer.
+	 (cardIndex isInteger and: [ cardIndex > 0 and: [ cardIndex <= player cards size ] ])   ifFalse: [
+        Error signal: 'Invalid card index: ', cardIndex printString
+    ].
+    cardToUse := player card: cardIndex.
 
-
+    (cardToUse isKindOf: Repeat)
+        ifTrue: [
+            lastAppliedEffectCell ifNotNil: [
+                lastAppliedEffectCell applyEffectTo: targetPlayer on: theBoard.
+            ].
+        ]
+        ifFalse: [
+            croupier activateCard: cardToUse to: targetPlayer.
+        ].
+    
+    player cards removeAt: cardIndex. "Se mueve para que el jugador siempre pierda la carta"
 ]
 
 { #category : 'test methods' }
