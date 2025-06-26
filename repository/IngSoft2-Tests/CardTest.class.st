@@ -5,6 +5,15 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+CardTest >> should: aBlock raise: anErrorClass withMessageText: aMessage [
+    self
+        should: aBlock
+        raise: anErrorClass
+        withExceptionDo: [ :e | self assert: e messageText equals: aMessage ].
+
+]
+
 { #category : 'tests' }
 CardTest >> test [
 
@@ -27,48 +36,43 @@ CardTest >> test [
 ]
 
 { #category : 'tests' }
-CardTest >> testCancellationOnNonexistentPermanentRaisesError [
-    | ctx player strayPerm cancel |
-    ctx       := (Croupier new) initialize.
-    player    := (Player   new) initialize.
-    strayPerm := (Speed new owner: player).
-    cancel    := (Cancellation new owner: player).
-    self should: [ ctx activateCard: cancel to: strayPerm ] raise: Error.
-]
-
-{ #category : 'tests' }
 CardTest >> testCancellationRemovesOnlyTheChosenPermanent [
-    | ctx player perm1 perm2 cancel |
-    
-    ctx    := (Croupier new) initialize.
-    player := (Player   new) initialize.
 
-   
-    perm1  := (Speed      new owner: player).
-    perm2  := (Acceleration new owner: player).
-    ctx activateCard: perm1 to: player.
-    ctx activateCard: perm2 to: player.
-    self assert: (ctx activeCards size = 2)
-        description: 'Deben haber 2 permanentes antes de cancelar'.
+	| croupier player perm1 perm2 cancel |
+	croupier := Croupier new initialize.
+	player := Player new initialize.
 
-    
-    cancel := (Cancellation new owner: player).
-    ctx activateCard: cancel to: perm1.
 
-    self assert: ((ctx activeCards includes: perm1) not).
+	perm1 := Speed.
+	player receiveCard: perm1.
+	perm2 := Acceleration.
+	player receiveCard: perm2.
+	croupier activateCard: Speed to: player.
+	croupier activateCard: Acceleration to: player.
+	self
+		assert: croupier activeCards size = 2
+		description: 'Deben haber 2 permanentes antes de cancelar'.
 
-    self assert: (ctx activeCards includes: perm2).
 
-    self assert: (ctx activeCards size) equals: 1.
+	cancel := player receiveCard: Cancellation.
+	croupier activateCard: Cancellation to: 1.
+	self deny: croupier activeCards first class equals: perm1.
+	self assert: croupier activeCards first class equals: perm2.
+
+	self assert: croupier activeCards size equals: 1
 ]
 
 { #category : 'tests' }
 CardTest >> testCannotPlayCancellationWhenNoPermanentsActive [
-    | ctx player cancel |
-    ctx    := (Croupier new) initialize.
-    player := (Player   new) initialize.
-    cancel := (Cancellation new owner: player).
-    self should: [ ctx activateCard: cancel to: player ] raise: Error.
+
+	| ctx player |
+	ctx := Croupier new initialize.
+	player := Player new initialize.
+	player receiveCard: Cancellation.
+	self
+		should: [ ctx activateCard: Cancellation to: 1 ]
+		raise: Error
+		withMessageText: 'There is no card at that index.'.
 ]
 
 { #category : 'tests' }
@@ -76,53 +80,67 @@ CardTest >> testNoResidueAfterInstantCards [
     | ctx p perm1 perm2 cancel repeat |
     ctx    := (Croupier new) initialize.
     p      := (Player new) initialize.
-    perm1  := (Speed      new owner: p).
-    perm2  := (Acceleration new owner: p).
+
+    perm1  := Speed.
+	 p receiveCard: Speed.
+    perm2  := Acceleration.
+	 p receiveCard: Acceleration.
     ctx activateCard: perm1 to: p.
     ctx activateCard: perm2 to: p.
-    cancel := (Cancellation new owner: p).
-    ctx activateCard: cancel to: perm1.
-    repeat := (Repeat new owner: p).
-    ctx activateCard: repeat to: perm2.
+
+    cancel  := Cancellation.
+	 p receiveCard: Cancellation.
+    ctx activateCard: cancel to: 1.
+
+    repeat  := Redo.
+	 p receiveCard: Redo.
+    ctx activateCard: Redo to: 1.
+
     self assert: (ctx activeCards size) equals: 0.
     self assert: (ctx cardsPlayed size) equals: 4.
 ]
 
 { #category : 'tests' }
+CardTest >> testRedoCannotWhenNoPreviousCardPlayed [
+    | ctx player |
+    ctx    := (Croupier new) initialize.
+    player := (Player new) initialize.
+    player receiveCard: Redo.
+    self should: [ ctx activateCard: Redo to: player ] raise: Error withMessageText: 'There is no card to redo.'.
+]
+
+{ #category : 'tests' }
 CardTest >> testRepeatCanTargetDifferentPlayer [
-    | ctx p1 p2 speed repeat |
-    ctx := (Croupier new) initialize.
-    p1  := (Player new) initialize.
-    p2  := (Player new) initialize.
-    speed := (Speed new owner: p1).
-    ctx activateCard: speed to: p1.
-    self assert: (p1 totalRollBonus) equals: 1.
-    self assert: (p2 totalRollBonus) equals: 0.
-    repeat := (Repeat new owner: p1).
-    ctx activateCard: repeat to: p2.
-    self assert: (p2 totalRollBonus) equals: 1.
-]
+    | croupier player1 speed repeat aMatch aNumberOfPlayers aNumberOfSides dice aDie builder aNumberOfSquares player3 |
+	aNumberOfPlayers := 3.
+	aNumberOfSides := 1999.
+	aNumberOfSquares := 10000.
 
-{ #category : 'tests' }
-CardTest >> testRepeatCannotWhenNoPreviousEffect [
-    | ctx player repeat |
-    ctx    := (Croupier new) initialize.
-    player := (Player new) initialize.
-    repeat := (Repeat new owner: player).
-    self should: [ ctx activateCard: repeat to: player ] raise: Error.
-]
+	aDie := MockedDie withSides: aNumberOfSides.
+	dice := OrderedCollection with: aDie.
 
-{ #category : 'tests' }
-CardTest >> testRepeatReappliesLastPermanentEffectOnSameTarget [
-    | ctx player speed repeat |
-    ctx    := (Croupier new) initialize.
-    player := (Player new) initialize.
-    speed  := (Speed new owner: player).
-    ctx activateCard: speed to: player.
-    self assert: (player totalRollBonus) equals: 1.
-    repeat := (Repeat new owner: player).
-    ctx activateCard: repeat to: player.
-    self assert: (player totalRollBonus) equals: 2.
+	builder := Builder
+		           with: aNumberOfSquares
+		           players: aNumberOfPlayers
+		           dice: dice
+		           laps: 3.
+	aMatch := builder createMockedMatch.
+	
+	
+    croupier := (Croupier new) initialize.
+    player1  := aMatch player: 1.
+    player3  := aMatch player: 3.
+    speed := Speed.
+	 player1 receiveCard: speed.
+    aMatch player: 1 useCard: 3 toPlayer: 1.
+
+    repeat := Redo.
+	 player1 receiveCard: repeat.
+	 player1 receiveCard: repeat.
+    aMatch player: 1 useCard: 3 toPlayer: 3.
+    aMatch player: 1 useCard: 3 toPlayer: 3.
+ 	 aMatch playRound.
+	self assert: (aMatch positionOfPlayer:3)  equals: 2002
 ]
 
 { #category : 'tests' }

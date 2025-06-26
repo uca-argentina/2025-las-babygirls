@@ -7,7 +7,7 @@ Carta Permanente
 "
 Class {
 	#name : 'Redo',
-	#superclass : 'Card',
+	#superclass : 'InstantCards',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }

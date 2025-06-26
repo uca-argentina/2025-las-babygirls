@@ -7,16 +7,7 @@ Carta Permanente
 "
 Class {
 	#name : 'Repeat',
-	#superclass : 'InstantCards',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
-
-{ #category : 'accessing' }
-Repeat >> applyEffectOn: newTarget in: context [
-    
-    | eff |
-    eff := context lastEffect.
-    eff ifNil: [ ^ self error: 'No hay efecto previo para repetir' ].
-    eff value: newTarget.
-]

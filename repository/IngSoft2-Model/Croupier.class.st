@@ -22,35 +22,21 @@ Croupier class >> cardTypes [
     Mercenary.
     Acceleration.
     Cancellation.
-    Redo.
     Repeat.
+    Redo.
   }.
 ]
 
 { #category : 'behavior' }
-Croupier >> activateCard: aCard to: aPlayer [
+Croupier >> activateCard: aCard to: aPlayerOrCard [
 
-    aCard applyEffectOn: aPlayer in: self.
-
-  
-    cardsPlayed add: aCard.
-
-    (aCard isKindOf: PermanentCards)
-        ifTrue: [ activeCards add: aCard ].
-
-    lastEffect := [:newTarget |
-        aCard applyEffectOn: newTarget in: self
-    ].
-
-  
-    lastEffectTarget := aPlayer.
-
-]
-
-{ #category : 'behavior' }
-Croupier >> activateCards [
-	^activeCards.
-
+	| newCard |
+	newCard := self checkRedo: aCard.
+	cardsPlayed add: aCard.
+	
+	((aPlayerOrCard isKindOf: Player) and: (aCard class superclass = PermanentCards class)) ifTrue: [
+				activeCards add: (aCard with: aPlayerOrCard) ] 
+		ifFalse: [self removeCard: aPlayerOrCard ]
 ]
 
 { #category : 'behavior' }
@@ -79,8 +65,13 @@ Croupier >> changeTotalRollTo: aPlayer [
 ]
 
 { #category : 'behavior' }
-Croupier >> dealCardTo: aPlayer [
-  aPlayer receiveCard: self drawCard.
+Croupier >> checkRedo: aCard [ 
+    ^ (aCard = Redo or: [ aCard isKindOf: Redo ])
+        ifTrue: [ 
+            cardsPlayed isEmpty
+                ifTrue: [ self error: 'There is no card to redo.' ].
+            cardsPlayed first ]
+        ifFalse: [ aCard ]
 
 ]
 
@@ -109,12 +100,17 @@ Croupier >> initialize [
 ]
 
 { #category : 'behavior' }
-Croupier >> lastEffect [	
-	^lastEffect.
-]
+Croupier >> removeCard: aCardIndex [
+		
+	(aCardIndex < 1) ifTrue: [
+		self error: 'Card index must be positive.'
+	].
 
-{ #category : 'behavior' }
-Croupier >> lastEffectTarget [
- 	^lastEffectTarget 
-  
+
+	(aCardIndex > activeCards size) ifTrue: [
+		self error: 'There is no card at that index.'
+	].
+
+	^ activeCards removeAt: aCardIndex
+
 ]
